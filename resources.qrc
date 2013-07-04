@@ -1,9 +1,17 @@
 <RCC>
     <qresource prefix="/plugins/fossildigtools" >
         <file>icon.png</file>
+        <file>icons/add.png</file>
         <file>icons/arrange-lower.png</file>
         <file>icons/arrange-raise.png</file>
         <file>icons/arrange-to-bottom.png</file>
         <file>icons/arrange-to-top.png</file>
+        <file>icons/edit.png</file>
+        <file>icons/goto.png</file>
+        <file>icons/grid.png</file>
+        <file>icons/grid-major.png</file>
+        <file>icons/grid-minor.png</file>
+        <file>icons/origin.png</file>
+        <file>icons/remove.png</file>
     </qresource>
 </RCC>

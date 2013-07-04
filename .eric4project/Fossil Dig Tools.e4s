@@ -2,12 +2,14 @@
 <!DOCTYPE Session SYSTEM "Session-4.4.dtd">
 <!-- eric4 session file for project Fossil Dig Tools -->
 <!-- This file was generated automatically, do not edit. -->
-<!-- Saved: 2013-07-02, 18:06:04 -->
+<!-- Saved: 2013-07-04, 00:03:37 -->
 <Session version="4.4">
   <Filenames>
-    <Filename cline="9" cindex="0" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/resources.qrc</Filename>
+    <Filename cline="95" cindex="37" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/fossildigtoolswidget.py</Filename>
+    <Filename cline="4" cindex="43" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/resources.qrc</Filename>
+    <Filename cline="62" cindex="30" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/fossildigtools.py</Filename>
   </Filenames>
-  <ActiveWindow cline="9" cindex="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/resources.qrc</ActiveWindow>
+  <ActiveWindow cline="95" cindex="37">/Users/larrys/QGIS/PluginProjects/fossildigtools/fossildigtoolswidget.py</ActiveWindow>
   <Breakpoints>
     <Breakpoint>
       <BpFilename>/Users/larrys/.qgis//python/plugins/HelloWorld/HelloWorld.py</BpFilename>

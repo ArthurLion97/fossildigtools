@@ -33,7 +33,7 @@ import os.path
 class FossilDigTools:
 
     def __init__(self, iface):
-        # Save reference to the QGIS interface
+        # save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
@@ -48,34 +48,41 @@ class FossilDigTools:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-        # Create the dialog (after translation) and keep reference
-        self.toolwidget = FossilDigToolsWidget()
-
     def initGui(self):
-        # Create action that will start plugin configuration
+        # create action that will start plugin configuration
         self.action = QAction(
             QIcon(":/plugins/fossildigtools/icon.png"),
             u"Fossil Dig Tools", self.iface.mainWindow())
         # connect the action to the run method
         self.action.triggered.connect(self.run)
 
-        # Add toolbar button and menu item
+        # add toolbar button and menu item
         self.iface.addToolBarIcon(self.action)
         self.iface.addPluginToMenu(u"&Fossil Dig Tools", self.action)
 
+        # load custom settings
+        self.settings = QSettings("bhigr", "fossildigtools")
+
+        # add dock widget
+        self.dockWidget = QDockWidget(u"Fossil Dig Tools", self.iface.mainWindow())
+        self.toolswidget = FossilDigToolsWidget(self.dockWidget, self.iface, self.settings)
+        self.dockWidget.setWidget(self.toolswidget)
+        self.dockWidget.layout().setContentsMargins(0, 0, 0, 0)
+        self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.dockWidget)
+
     def unload(self):
-        # Remove the plugin menu item and icon
+        # remove the plugin menu item and icon
         self.iface.removePluginMenu(u"&Fossil Dig Tools", self.action)
         self.iface.removeToolBarIcon(self.action)
 
+        self.settings.setValue("currentTab", self.toolswidget.ui.tabWidget.currentIndex())
+        self.dockWidget.setParent(None)  # remove parent for garbage collection
+        del self.dockWidget
+
     # run method that performs all the real work
     def run(self):
-        # show the dialog
-        self.toolwidget.show()
-        # Run the dialog event loop
-#         result = self.toolwidget.exec_()
-#         # See if OK was pressed
-#         if result == 1:
-#             # do something useful (delete the line containing pass and
-#             # substitute with your code)
-#             pass
+        # toggle the dock
+        self.toggleDockWidget()
+
+    def toggleDockWidget(self):
+        self.dockWidget.setVisible(not self.dockWidget.isVisible())
