@@ -2,14 +2,15 @@
 <!DOCTYPE Session SYSTEM "Session-4.4.dtd">
 <!-- eric4 session file for project Fossil Dig Tools -->
 <!-- This file was generated automatically, do not edit. -->
-<!-- Saved: 2013-07-09, 18:29:22 -->
+<!-- Saved: 2013-07-13, 23:24:38 -->
 <Session version="4.4">
   <Filenames>
-    <Filename cline="28" cindex="53" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/fossildigtoolswidget.py</Filename>
-    <Filename cline="4" cindex="43" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/resources.qrc</Filename>
-    <Filename cline="62" cindex="30" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/fossildigtools.py</Filename>
+    <Filename cline="16" cindex="27" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/resources.qrc</Filename>
+    <Filename cline="70" cindex="72" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/fossildigtools.py</Filename>
+    <Filename cline="168" cindex="31" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/fdt_mainwidget.py</Filename>
+    <Filename cline="67" cindex="24" folds="" zoom="0">/Users/larrys/QGIS/PluginProjects/fossildigtools/fdt_settingsdlg.py</Filename>
   </Filenames>
-  <ActiveWindow cline="28" cindex="53">/Users/larrys/QGIS/PluginProjects/fossildigtools/fossildigtoolswidget.py</ActiveWindow>
+  <ActiveWindow cline="67" cindex="24">/Users/larrys/QGIS/PluginProjects/fossildigtools/fdt_settingsdlg.py</ActiveWindow>
   <Breakpoints>
     <Breakpoint>
       <BpFilename>/Users/larrys/.qgis//python/plugins/HelloWorld/HelloWorld.py</BpFilename>
