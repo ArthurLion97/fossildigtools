@@ -1,17 +1,21 @@
 <RCC>
     <qresource prefix="/plugins/fossildigtools" >
         <file>icon.png</file>
-        <file>icons/add.png</file>
-        <file>icons/arrange-lower.png</file>
-        <file>icons/arrange-raise.png</file>
-        <file>icons/arrange-to-bottom.png</file>
-        <file>icons/arrange-to-top.png</file>
-        <file>icons/edit.png</file>
-        <file>icons/goto.png</file>
-        <file>icons/grid.png</file>
-        <file>icons/grid-major.png</file>
-        <file>icons/grid-minor.png</file>
-        <file>icons/origin.png</file>
-        <file>icons/remove.png</file>
+        <file>icons/add.svg</file>
+        <file>icons/arrange-lower.svg</file>
+        <file>icons/arrange-raise.svg</file>
+        <file>icons/arrange-to-bottom.svg</file>
+        <file>icons/arrange-to-top.svg</file>
+        <file>icons/bone.svg</file>
+        <file>icons/directional.svg</file>
+        <file>icons/edit.svg</file>
+        <file>icons/goto.svg</file>
+        <file>icons/grid.svg</file>
+        <file>icons/grid-major.svg</file>
+        <file>icons/grid-minor.svg</file>
+        <file>icons/origin.svg</file>
+        <file>icons/pinplot.svg</file>
+        <file>icons/remove.svg</file>
+        <file>icons/settings.svg</file>
     </qresource>
 </RCC>

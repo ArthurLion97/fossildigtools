@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0"
+	 id="svg5692" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" inkscape:export-ydpi="90" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:export-xdpi="90" inkscape:export-filename="/mnt/home1/robert/svn/graphics/trunk/toolbar-icons/24x24/road-fast.png" sodipodi:docname="edit.svg" inkscape:version="0.47 r22583"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px"
+	 viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g id="g4839" transform="matrix(0.8660254,0.4999999,-0.4999999,0.8660254,7.3411415,4.432455)" enable-background="new    ">
+	
+		<path id="path4701" sodipodi:nodetypes="cccc" fill="#505050" stroke="#505050" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" d="
+		M4.096,11.1l6,0l-3.125,6.991L4.096,11.1L4.096,11.1z"/>
+	
+		<path id="path4699" sodipodi:nodetypes="ccccc" fill="#FCE94F" stroke="#8B7617" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" d="
+		M4.096-5.9L10.097-5.9l0,17l-6,0L4.096-5.9"/>
+	
+		<path id="path2893" sodipodi:nodetypes="cc" opacity="0.5" fill="none" stroke="#FCFFFF" stroke-width="2" stroke-linejoin="round" enable-background="new    " d="
+		M6.597-4.9l0,15"/>
+	
+		<path id="path2895" sodipodi:nodetypes="cc" opacity="0.25" fill-opacity="0.5882" stroke="#000000" stroke-width="2" stroke-linejoin="round" enable-background="new    " d="
+		M8.596-4.9l0,15"/>
+	
+		<path id="path4759" opacity="0.5" fill="#FCE94F" stroke="#8B7617" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" enable-background="new    " d="
+		M8.096-4.9l0,16"/>
+	
+		<path id="path4746" sodipodi:nodetypes="cccc" fill="#969696" stroke="#969696" stroke-width="0.5" stroke-linecap="square" stroke-linejoin="round" d="
+		M7.464,16.301l1.997-4.944l-1.997,0L7.464,16.301z"/>
+	
+		<path id="path4781" opacity="0.5" fill="#FCE94F" stroke="#8B7617" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" enable-background="new    " d="
+		M5.596-4.899l0,16"/>
+	
+		<rect id="rect4748" x="3.866" y="-7.015" fill="#E6E6E6" stroke="#969696" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" width="6.462" height="2.179"/>
+	
+		<path id="path4529" sodipodi:nodetypes="cccc" fill="#E6E6E6" stroke="#E6E6E6" stroke-width="0.5" stroke-linecap="square" stroke-linejoin="round" d="
+		M6.729,16.459l-1.997-5.102l1.997,0L6.729,16.459z"/>
+</g>
+</svg>

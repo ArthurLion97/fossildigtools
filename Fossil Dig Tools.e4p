@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project Fossil Dig Tools -->
-<!-- Saved: 2013-07-04, 00:03:37 -->
+<!-- Saved: 2013-07-13, 23:17:45 -->
 <!-- Copyright (C) 2013 ,  -->
 <Project version="4.6">
   <Language></Language>
@@ -12,16 +12,21 @@
   <Author></Author>
   <Email></Email>
   <Sources>
-    <Source>fossildigtoolswidget.py</Source>
     <Source>__init__.py</Source>
     <Source>fossildigtools.py</Source>
     <Source>help/source/conf.py</Source>
     <Source>plugin_upload.py</Source>
     <Source>resources_rc.py</Source>
-    <Source>Ui_fossildigtoolswidget.py</Source>
+    <Source>fdt_mainwidget.py</Source>
+    <Source>Ui_fdt_mainwidget.py</Source>
+    <Source>Ui_fdt_pinwidget.py</Source>
+    <Source>fdt_settingsdlg.py</Source>
+    <Source>Ui_fdt_settingsdlg.py</Source>
   </Sources>
   <Forms>
-    <Form>fossildigtoolswidget.ui</Form>
+    <Form>fdt_pinwidget.ui</Form>
+    <Form>fdt_mainwidget.ui</Form>
+    <Form>fdt_settingsdlg.ui</Form>
   </Forms>
   <Translations>
   </Translations>

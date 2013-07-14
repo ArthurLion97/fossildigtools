@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g>
+	
+		<rect x="12" y="2" fill="none" stroke="#939598" stroke-width="0.75" stroke-linecap="square" stroke-miterlimit="10" width="10" height="10"/>
+	
+		<rect x="2" y="12" fill="none" stroke="#939598" stroke-width="0.75" stroke-linecap="square" stroke-miterlimit="10" width="10" height="10"/>
+	
+		<rect x="12" y="12" fill="none" stroke="#939598" stroke-width="0.75" stroke-linecap="square" stroke-miterlimit="10" width="10" height="10"/>
+	
+		<rect x="2" y="2" fill="none" stroke="#939598" stroke-width="0.75" stroke-linecap="square" stroke-miterlimit="10" width="10" height="10"/>
+</g>
+<g display="none">
+	<g display="inline">
+		<path fill="#231F20" d="M22,2v10H12V2H22 M22.75,1.25H22H12h-0.75V2v10v0.75H12h10h0.75V12V2V1.25L22.75,1.25z"/>
+	</g>
+	<g display="inline">
+		<path fill="#231F20" d="M12,12v10H2V12H12 M12.75,11.25H12H2H1.25V12v10v0.75H2h10h0.75V22V12V11.25L12.75,11.25z"/>
+	</g>
+	<g display="inline">
+		<path fill="#231F20" d="M22,12v10H12V12H22 M22.75,11.25H22H12h-0.75V12v10v0.75H12h10h0.75V22V12V11.25L22.75,11.25z"/>
+	</g>
+	<g display="inline">
+		<path fill="#231F20" d="M12,2v10H2V2H12 M12.75,1.25H12H2H1.25V2v10v0.75H2h10h0.75V12V2V1.25L12.75,1.25z"/>
+	</g>
+</g>
+<rect x="2" y="2" fill="none" stroke="#231F20" stroke-width="1.5" stroke-miterlimit="10" width="10" height="10"/>
+<rect x="2" y="2" display="none" fill="none" stroke="#231F20" stroke-width="1.5" stroke-miterlimit="10" width="20" height="20"/>
+</svg>

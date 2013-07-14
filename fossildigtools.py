@@ -26,7 +26,7 @@ from qgis.core import *
 # Initialize Qt resources from file resources.py
 import resources_rc
 # Import the code for the dialog
-from fossildigtoolswidget import FossilDigToolsWidget
+from fdt_mainwidget import FdtMainWidget
 import os.path
 
 
@@ -65,7 +65,7 @@ class FossilDigTools:
 
         # add dock widget
         self.dockWidget = QDockWidget(u"Fossil Dig Tools", self.iface.mainWindow())
-        self.toolswidget = FossilDigToolsWidget(self.dockWidget, self.iface, self.settings)
+        self.toolswidget = FdtMainWidget(self.dockWidget, self.iface, self.settings)
         self.dockWidget.setWidget(self.toolswidget)
         self.dockWidget.layout().setContentsMargins(0, 0, 0, 0)
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.dockWidget)

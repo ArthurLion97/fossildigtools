@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DigToolsWidget</class>
- <widget class="QWidget" name="DigToolsWidget">
+ <class>MainWidget</class>
+ <widget class="QWidget" name="MainWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,66 +14,89 @@
    <string>Fossil Dig Tools</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>6</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
+   <property name="margin">
     <number>0</number>
    </property>
    <item>
-    <widget class="QScrollArea" name="scrollArea">
+    <widget class="QFrame" name="toolBarFrame">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
+     <property name="lineWidth">
+      <number>0</number>
      </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>473</width>
-        <height>622</height>
-       </rect>
+     <layout class="QGridLayout" name="toolBarFrameLayout">
+      <property name="margin">
+       <number>0</number>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="margin">
-        <number>6</number>
-       </property>
-       <item>
-        <widget class="QTabWidget" name="tabWidget">
-         <property name="styleSheet">
-          <string notr="true">QTabWidget::pane {
+      <property name="spacing">
+       <number>0</number>
+      </property>
+     </layout>
+     <zorder>verticalSpacer_2</zorder>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="styleSheet">
+      <string notr="true">QTabWidget::pane {
   border-top: 1px inset #C2C7CB;
   position: absolute;
   top: -0.5em;
   padding-top: 6px;}</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="documentMode">
+      <bool>false</bool>
+     </property>
+     <widget class="QWidget" name="gridsTab">
+      <attribute name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/plugins/fossildigtools/icons/grid.svg</normaloff>:/plugins/fossildigtools/icons/grid.svg</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Grids</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
          </property>
-         <property name="currentIndex">
-          <number>0</number>
+         <property name="widgetResizable">
+          <bool>true</bool>
          </property>
-         <property name="documentMode">
-          <bool>false</bool>
-         </property>
-         <widget class="QWidget" name="gridsTab">
-          <attribute name="title">
-           <string>Grids</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>473</width>
+            <height>595</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
            <property name="margin">
             <number>6</number>
            </property>
            <item>
             <widget class="QgsCollapsibleGroupBox" name="originsGrpBx">
              <property name="title">
-              <string>Origin(s)</string>
+              <string>Location pins</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <property name="margin">
@@ -84,8 +107,177 @@
                 <property name="verticalSpacing">
                  <number>6</number>
                 </property>
+                <item row="5" column="2">
+                 <widget class="QFrame" name="directEditFrame">
+                  <layout class="QVBoxLayout" name="verticalLayout_7">
+                   <property name="margin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QToolButton" name="directPinEditBtn">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Edit directional pin</string>
+                     </property>
+                     <property name="text">
+                      <string>...</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="resources.qrc">
+                       <normaloff>:/plugins/fossildigtools/icons/edit.svg</normaloff>:/plugins/fossildigtools/icons/edit.svg</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="directPinRemoveBtn">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Remove directional pin</string>
+                     </property>
+                     <property name="text">
+                      <string>...</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="resources.qrc">
+                       <normaloff>:/plugins/fossildigtools/icons/remove.svg</normaloff>:/plugins/fossildigtools/icons/remove.svg</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="directPinGoToBtn">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Go to directional pin</string>
+                     </property>
+                     <property name="text">
+                      <string>...</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="resources.qrc">
+                       <normaloff>:/plugins/fossildigtools/icons/goto.svg</normaloff>:/plugins/fossildigtools/icons/goto.svg</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="verticalSpacer_2">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item row="1" column="2">
+                 <widget class="QToolButton" name="originPinAddBtn">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Add origin pin</string>
+                  </property>
+                  <property name="text">
+                   <string>...</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources.qrc">
+                    <normaloff>:/plugins/fossildigtools/icons/add.svg</normaloff>:/plugins/fossildigtools/icons/add.svg</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="2">
+                 <widget class="QToolButton" name="directPinAddBtn">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Add directional pin</string>
+                  </property>
+                  <property name="text">
+                   <string>...</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources.qrc">
+                    <normaloff>:/plugins/fossildigtools/icons/add.svg</normaloff>:/plugins/fossildigtools/icons/add.svg</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLabel" name="directPinLabel">
+                  <property name="text">
+                   <string>Directional pins</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="directPinIconLabel">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap resource="resources.qrc">:/plugins/fossildigtools/icons/directional.svg</pixmap>
+                  </property>
+                 </widget>
+                </item>
                 <item row="0" column="0">
-                 <widget class="QLabel" name="label_8">
+                 <widget class="QLabel" name="originPinIconLabel">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                     <horstretch>0</horstretch>
@@ -96,12 +288,19 @@
                    <string/>
                   </property>
                   <property name="pixmap">
-                   <pixmap resource="resources.qrc">:/plugins/fossildigtools/icons/origin.png</pixmap>
+                   <pixmap resource="resources.qrc">:/plugins/fossildigtools/icons/origin.svg</pixmap>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1">
-                 <widget class="QComboBox" name="comboBox_6">
+                <item row="0" column="1" colspan="2">
+                 <widget class="QLabel" name="originPinLabel">
+                  <property name="text">
+                   <string>Origin pins</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0" colspan="2">
+                 <widget class="QComboBox" name="originPinCmbBx">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -110,49 +309,32 @@
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="2">
-                 <widget class="QToolButton" name="toolButton_11">
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>...</string>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="resources.qrc">
-                    <normaloff>:/plugins/fossildigtools/icons/add.png</normaloff>:/plugins/fossildigtools/icons/add.png</iconset>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>20</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="checkable">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
+                <item row="4" column="0" rowspan="2" colspan="2">
+                 <widget class="QListView" name="directPinView"/>
                 </item>
-                <item row="1" column="1">
-                 <widget class="QFrame" name="horizontalFrame">
+                <item row="2" column="1">
+                 <widget class="QFrame" name="originEditFrame">
                   <layout class="QHBoxLayout" name="horizontalLayout">
+                   <property name="margin">
+                    <number>0</number>
+                   </property>
                    <item>
-                    <widget class="QToolButton" name="toolButton_14">
+                    <widget class="QToolButton" name="originPinEditBtn">
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
                        <height>24</height>
                       </size>
                      </property>
+                     <property name="toolTip">
+                      <string>Edit origin pin</string>
+                     </property>
                      <property name="text">
                       <string>...</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resources.qrc">
-                       <normaloff>:/plugins/fossildigtools/icons/edit.png</normaloff>:/plugins/fossildigtools/icons/edit.png</iconset>
+                       <normaloff>:/plugins/fossildigtools/icons/edit.svg</normaloff>:/plugins/fossildigtools/icons/edit.svg</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
@@ -163,19 +345,22 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QToolButton" name="toolButton_13">
+                    <widget class="QToolButton" name="originPinRemoveBtn">
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
                        <height>24</height>
                       </size>
                      </property>
+                     <property name="toolTip">
+                      <string>Remove origin pin</string>
+                     </property>
                      <property name="text">
                       <string>...</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resources.qrc">
-                       <normaloff>:/plugins/fossildigtools/icons/remove.png</normaloff>:/plugins/fossildigtools/icons/remove.png</iconset>
+                       <normaloff>:/plugins/fossildigtools/icons/remove.svg</normaloff>:/plugins/fossildigtools/icons/remove.svg</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
@@ -186,19 +371,22 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QToolButton" name="toolButton_15">
+                    <widget class="QToolButton" name="originPinGoToBtn">
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
                        <height>24</height>
                       </size>
                      </property>
+                     <property name="toolTip">
+                      <string>Go to origin pin</string>
+                     </property>
                      <property name="text">
                       <string>...</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resources.qrc">
-                       <normaloff>:/plugins/fossildigtools/icons/goto.png</normaloff>:/plugins/fossildigtools/icons/goto.png</iconset>
+                       <normaloff>:/plugins/fossildigtools/icons/goto.svg</normaloff>:/plugins/fossildigtools/icons/goto.svg</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
@@ -231,10 +419,10 @@
                  <number>0</number>
                 </property>
                 <item row="0" column="1">
-                 <widget class="QComboBox" name="comboBox_8"/>
+                 <widget class="QComboBox" name="gridsCmbBx"/>
                 </item>
                 <item row="0" column="0">
-                 <widget class="QLabel" name="label_7">
+                 <widget class="QLabel" name="gridsIconLabel">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                     <horstretch>0</horstretch>
@@ -245,24 +433,27 @@
                    <string/>
                   </property>
                   <property name="pixmap">
-                   <pixmap resource="resources.qrc">:/plugins/fossildigtools/icons/grid.png</pixmap>
+                   <pixmap resource="resources.qrc">:/plugins/fossildigtools/icons/grid.svg</pixmap>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="3">
-                 <widget class="QToolButton" name="toolButton_12">
+                 <widget class="QToolButton" name="gridsGoToBtn">
                   <property name="maximumSize">
                    <size>
                     <width>16777215</width>
                     <height>24</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Go to grid</string>
+                  </property>
                   <property name="text">
                    <string>...</string>
                   </property>
                   <property name="icon">
                    <iconset resource="resources.qrc">
-                    <normaloff>:/plugins/fossildigtools/icons/goto.png</normaloff>:/plugins/fossildigtools/icons/goto.png</iconset>
+                    <normaloff>:/plugins/fossildigtools/icons/goto.svg</normaloff>:/plugins/fossildigtools/icons/goto.svg</iconset>
                   </property>
                   <property name="iconSize">
                    <size>
@@ -273,19 +464,22 @@
                  </widget>
                 </item>
                 <item row="0" column="2">
-                 <widget class="QToolButton" name="toolButton_9">
+                 <widget class="QToolButton" name="gridsRemoveBtn">
                   <property name="maximumSize">
                    <size>
                     <width>16777215</width>
                     <height>24</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Remove grid</string>
+                  </property>
                   <property name="text">
                    <string>-</string>
                   </property>
                   <property name="icon">
                    <iconset resource="resources.qrc">
-                    <normaloff>:/plugins/fossildigtools/icons/remove.png</normaloff>:/plugins/fossildigtools/icons/remove.png</iconset>
+                    <normaloff>:/plugins/fossildigtools/icons/remove.svg</normaloff>:/plugins/fossildigtools/icons/remove.svg</iconset>
                   </property>
                   <property name="iconSize">
                    <size>
@@ -316,7 +510,7 @@
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>48</width>
+                     <width>40</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -341,7 +535,7 @@
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>48</width>
+                     <width>40</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -366,7 +560,7 @@
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>48</width>
+                     <width>40</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -391,7 +585,7 @@
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>48</width>
+                     <width>40</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -416,7 +610,7 @@
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>48</width>
+                     <width>40</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -448,12 +642,15 @@
                   </spacer>
                  </item>
                  <item row="2" column="5">
-                  <widget class="QToolButton" name="toolButton_10">
+                  <widget class="QToolButton" name="gridsAddBtn">
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
                      <height>24</height>
                     </size>
+                   </property>
+                   <property name="toolTip">
+                    <string>Add grid(s)</string>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">color: rgb(1, 156, 17);</string>
@@ -463,7 +660,7 @@
                    </property>
                    <property name="icon">
                     <iconset resource="resources.qrc">
-                     <normaloff>:/plugins/fossildigtools/icons/add.png</normaloff>:/plugins/fossildigtools/icons/add.png</iconset>
+                     <normaloff>:/plugins/fossildigtools/icons/add.svg</normaloff>:/plugins/fossildigtools/icons/add.svg</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -474,12 +671,12 @@
                   </widget>
                  </item>
                  <item row="2" column="2">
-                  <widget class="QLabel" name="addGridLabel">
+                  <widget class="QLabel" name="addGridIconLabel">
                    <property name="text">
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap resource="resources.qrc">:/plugins/fossildigtools/icons/origin.png</pixmap>
+                    <pixmap resource="resources.qrc">:/plugins/fossildigtools/icons/origin.svg</pixmap>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -496,7 +693,7 @@
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>48</width>
+                     <width>40</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -521,7 +718,7 @@
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>48</width>
+                     <width>40</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -562,7 +759,7 @@
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>48</width>
+                     <width>40</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -584,7 +781,7 @@
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QLabel" name="label">
+                     <widget class="QLabel" name="addGridLabel">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                         <horstretch>0</horstretch>
@@ -592,7 +789,7 @@
                        </sizepolicy>
                       </property>
                       <property name="text">
-                       <string>Add grids around </string>
+                       <string>Add around </string>
                       </property>
                      </widget>
                     </item>
@@ -635,104 +832,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QgsCollapsibleGroupBox" name="squaresGrpBx">
-             <property name="title">
-              <string>Squares</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <property name="margin">
-               <number>6</number>
-              </property>
-              <item>
-               <layout class="QGridLayout" name="gridLayout_6">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_4">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="pixmap">
-                   <pixmap resource="resources.qrc">:/plugins/fossildigtools/icons/grid-major.png</pixmap>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QComboBox" name="comboBox_3">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <item>
-                   <property name="text">
-                    <string>in</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>cm</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QSpinBox" name="spinBox"/>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QGridLayout" name="gridLayout_7">
-                <item row="0" column="2">
-                 <widget class="QComboBox" name="comboBox_5">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <item>
-                   <property name="text">
-                    <string>in</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>cm</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_6">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="pixmap">
-                   <pixmap resource="resources.qrc">:/plugins/fossildigtools/icons/grid-minor.png</pixmap>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QSpinBox" name="spinBox_5"/>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
             <spacer name="verticalSpacer_3">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -740,18 +839,56 @@
              <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
-               <height>40</height>
+               <height>0</height>
               </size>
              </property>
             </spacer>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="featuresTab">
-          <attribute name="title">
-           <string>Features</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="featuresTab">
+      <attribute name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/plugins/fossildigtools/icons/bone.svg</normaloff>:/plugins/fossildigtools/icons/bone.svg</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Features</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QScrollArea" name="scrollArea_2">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>473</width>
+            <height>595</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
            <property name="margin">
             <number>6</number>
            </property>
@@ -766,12 +903,15 @@
               </property>
               <item row="0" column="0">
                <widget class="QToolButton" name="arrangeRaiseBtn">
+                <property name="toolTip">
+                 <string>Move up</string>
+                </property>
                 <property name="text">
                  <string>...</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/fossildigtools/icons/arrange-raise.png</normaloff>:/plugins/fossildigtools/icons/arrange-raise.png</iconset>
+                  <normaloff>:/plugins/fossildigtools/icons/arrange-raise.svg</normaloff>:/plugins/fossildigtools/icons/arrange-raise.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -783,12 +923,15 @@
               </item>
               <item row="0" column="1">
                <widget class="QToolButton" name="arrangeLowerBtn">
+                <property name="toolTip">
+                 <string>Move down</string>
+                </property>
                 <property name="text">
                  <string>...</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/fossildigtools/icons/arrange-lower.png</normaloff>:/plugins/fossildigtools/icons/arrange-lower.png</iconset>
+                  <normaloff>:/plugins/fossildigtools/icons/arrange-lower.svg</normaloff>:/plugins/fossildigtools/icons/arrange-lower.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -800,12 +943,15 @@
               </item>
               <item row="0" column="2">
                <widget class="QToolButton" name="arrangeToTopBtn">
+                <property name="toolTip">
+                 <string>Move to top</string>
+                </property>
                 <property name="text">
                  <string>...</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/fossildigtools/icons/arrange-to-top.png</normaloff>:/plugins/fossildigtools/icons/arrange-to-top.png</iconset>
+                  <normaloff>:/plugins/fossildigtools/icons/arrange-to-top.svg</normaloff>:/plugins/fossildigtools/icons/arrange-to-top.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -817,12 +963,15 @@
               </item>
               <item row="0" column="3">
                <widget class="QToolButton" name="arrangeToBottomBtn">
+                <property name="toolTip">
+                 <string>Move to bottom</string>
+                </property>
                 <property name="text">
                  <string>...</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/fossildigtools/icons/arrange-to-bottom.png</normaloff>:/plugins/fossildigtools/icons/arrange-to-bottom.png</iconset>
+                  <normaloff>:/plugins/fossildigtools/icons/arrange-to-bottom.svg</normaloff>:/plugins/fossildigtools/icons/arrange-to-bottom.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -845,7 +994,7 @@
                <number>6</number>
               </property>
               <item row="0" column="0">
-               <widget class="QPushButton" name="openFormBtn">
+               <widget class="QPushButton" name="attributesOpenFormBtn">
                 <property name="text">
                  <string>Open attribute form</string>
                 </property>
@@ -862,7 +1011,7 @@
              <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
-               <height>0</height>
+               <height>445</height>
               </size>
              </property>
             </spacer>
@@ -890,11 +1039,11 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="addGridRadioGrp"/>
   <buttongroup name="addGridBtnGrp">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="addGridRadioGrp"/>
  </buttongroups>
 </ui>
