@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file '/Users/larrys/QGIS/PluginProjects/fossildigtools/fdt_mainwidget.ui'
 #
-# Created: Sun Jul 14 14:26:54 2013
-#      by: PyQt4 UI code generator 4.10.1
+# Created: Mon Jul 15 07:23:05 2013
+#      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
 

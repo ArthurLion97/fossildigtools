@@ -7,6 +7,8 @@
         <file>icons/arrange-to-bottom.svg</file>
         <file>icons/arrange-to-top.svg</file>
         <file>icons/bone.svg</file>
+        <file>icons/capturepin-directional.svg</file>
+        <file>icons/capturepin-origin.svg</file>
         <file>icons/directional.svg</file>
         <file>icons/edit.svg</file>
         <file>icons/goto.svg</file>

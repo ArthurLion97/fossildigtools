@@ -36,51 +36,118 @@ class FdtSettingsDialog(QDialog):
         self.iface = iface
         self.settings = settings
         self.qgsettings = QSettings()
+        self.proj = QgsProject.instance()
 
         # set up the user interface from Designer.
         self.ui = Ui_SettingsDialog()
         self.ui.setupUi(self)
 
-        self.ui.buttonBox.clicked[QAbstractButton].connect(self.dialogAction)
+        self.lyrCmbxs = [self.ui.pinsCmbBx, self.ui.gridsCmbBx, self.ui.featuresCmbBx]
+        self.ui.pinsCmbBx.currentIndexChanged[int].connect(self.validate_pins_combobox)
+        self.ui.gridsCmbBx.currentIndexChanged[int].connect(self.validate_grids_combobox)
+        self.ui.featuresCmbBx.currentIndexChanged[int].connect(self.validate_features_combobox)
 
-        self.initValues()
+        self.populate_comboboxes()
 
-        self.ui.gridsMajorSpnBx.valueChanged[int].connect(self.checkGridSquares)
-        self.ui.gridsMinorSpnBx.valueChanged[int].connect(self.checkGridSquares)
-        self.checkGridSquares()
+        self.ui.gridsMajorSpnBx.valueChanged[int].connect(self.check_grid_squares)
+        self.ui.gridsMinorSpnBx.valueChanged[int].connect(self.check_grid_squares)
 
-    def initValues(self):
-        self.ui.gridsUnitCmdBx.setCurrentIndex(self.settings.value("gridSquaresUnit", 0, type=int))
-        self.ui.gridsMajorSpnBx.setValue(self.settings.value("gridSquaresMajor", 0, type=int))
-        self.ui.gridsMinorSpnBx.setValue(self.settings.value("gridSquaresMinor", 0, type=int))
+        self.init_values()
 
-    def saveValues(self):
-        self.settings.setValue("gridSquaresUnit", self.ui.gridsUnitCmdBx.currentIndex())
-        self.settings.setValue("gridSquaresMajor", self.ui.gridsMajorSpnBx.value())
-        self.settings.setValue("gridSquaresMinor", self.ui.gridsMinorSpnBx.value())
+        self.check_layer_comboboxes()
+        self.check_grid_squares()
 
-    def checkGridSquares(self):
-        gridCheck = self.parent.squaresCheck(self.ui.gridsMajorSpnBx.value(),
-                                             self.ui.gridsMinorSpnBx.value())
+        self.ui.buttonBox.clicked[QAbstractButton].connect(self.dialog_action)
+
+        self.restoreGeometry(self.settings.value("/settingsDialog/geometry",
+                                                 QByteArray(),
+                                                 type=QByteArray))
+
+    def save_geometry(self):
+        self.settings.setValue("/settingsDialog/geometry", self.saveGeometry())
+
+    def closeEvent(self, e):
+        self.save_geometry()
+        QDialog.closeEvent(self, e)
+
+    def populate_comboboxes(self):
+        lyrsdict = self.parent.spatialite_layers_dict()
+        for cmbx in self.lyrCmbxs:
+            cmbx.clear()
+            cmbx.addItem("", "invalid")
+            for lyrid, lyr in lyrsdict.iteritems():
+               cmbx.addItem(lyr.name(), lyrid)
+
+    def init_values(self):
+        # load values from project
+        self.ui.pinsCmbBx.setCurrentIndex(self.ui.pinsCmbBx.findData(self.parent.pin_layer_id()))
+        self.ui.gridsCmbBx.setCurrentIndex(self.ui.gridsCmbBx.findData(self.parent.grids_layer_id()))
+        self.ui.featuresCmbBx.setCurrentIndex(self.ui.featuresCmbBx.findData(self.parent.features_layer_id()))
+
+        self.ui.gridsUnitCmdBx.setCurrentIndex(self.proj.readNumEntry("fdt", "gridSquaresUnit", 0)[0])
+        self.ui.gridsMajorSpnBx.setValue(self.proj.readNumEntry("fdt", "gridSquaresMajor", 0)[0])
+        self.ui.gridsMinorSpnBx.setValue(self.proj.readNumEntry("fdt", "gridSquaresMinor", 0)[0])
+
+    def save_values(self):
+        # store values in project
+        self.proj.writeEntry("fdt", "pinsLayerId", self.ui.pinsCmbBx.itemData(self.ui.pinsCmbBx.currentIndex()))
+        self.proj.writeEntry("fdt", "gridsLayerId", self.ui.gridsCmbBx.itemData(self.ui.gridsCmbBx.currentIndex()))
+        self.proj.writeEntry("fdt", "featuresLayerId", self.ui.featuresCmbBx.itemData(self.ui.featuresCmbBx.currentIndex()))
+
+        self.proj.writeEntry("fdt", "gridSquaresUnit", self.ui.gridsUnitCmdBx.currentIndex())
+        self.proj.writeEntry("fdt", "gridSquaresMajor", self.ui.gridsMajorSpnBx.value())
+        self.proj.writeEntry("fdt", "gridSquaresMinor", self.ui.gridsMinorSpnBx.value())
+
+    def combobox_stylesheet(self, valid):
+        return "" if valid else "QLabel {color: rgb(225, 0, 0);}"
+
+    def validate_pins_combobox(self):
+        lyrId = self.ui.pinsCmbBx.itemData(self.ui.pinsCmbBx.currentIndex())
+        check = self.parent.valid_pin_layer(lyrId)
+        self.ui.pinsLabel.setStyleSheet(self.combobox_stylesheet(check))
+        return check
+
+    def validate_grids_combobox(self):
+        lyrId = self.ui.gridsCmbBx.itemData(self.ui.gridsCmbBx.currentIndex())
+        check = (self.parent.valid_grid_layer(lyrId))
+        self.ui.gridsLabel.setStyleSheet(self.combobox_stylesheet(check))
+        return check
+
+    def validate_features_combobox(self):
+        lyrId = self.ui.featuresCmbBx.itemData(self.ui.featuresCmbBx.currentIndex())
+        check = (self.parent.valid_feature_layer(lyrId))
+        self.ui.featuresLabel.setStyleSheet(self.combobox_stylesheet(check))
+        return check
+
+    def check_layer_comboboxes(self):
+        return (self.validate_pins_combobox() and
+                self.validate_grids_combobox() and
+                self.validate_features_combobox())
+
+    def check_grid_squares(self):
+        gridCheck = self.parent.valid_squares(self.ui.gridsMajorSpnBx.value(),
+                                              self.ui.gridsMinorSpnBx.value())
         ss = "" if gridCheck else "QSpinBox {background-color: rgb(255, 210, 208);}"
         self.ui.gridsMajorSpnBx.setStyleSheet(ss)
         self.ui.gridsMinorSpnBx.setStyleSheet(ss)
         return gridCheck
 
-    def checkValues(self):
-        if not self.checkGridSquares():
-            return False
-        return True
+    def check_values(self):
+        return (self.check_grid_squares() and
+                self.check_layer_comboboxes())
+
+
 
     @pyqtSlot(QAbstractButton)
-    def dialogAction(self, btn):
+    def dialog_action(self, btn):
         if btn == self.ui.buttonBox.button(QDialogButtonBox.Ok):
-            if self.checkValues():
-                self.saveValues()
+            if self.check_values():
+                self.save_values()
                 self.accept()
         elif btn == self.ui.buttonBox.button(QDialogButtonBox.Reset):
-            self.initValues()
+            self.init_values()
         else:
+            self.save_geometry()
             self.reject()
 
 

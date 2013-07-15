@@ -28,6 +28,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from Ui_fdt_mainwidget import Ui_MainWidget
 from fdt_settingsdlg import FdtSettingsDialog
+from fdt_pindlg import FdtPinDialog
 
 
 class FdtMainWidget(QWidget):
@@ -37,6 +38,8 @@ class FdtMainWidget(QWidget):
         self.msgbar = self.iface.messageBar()
         self.settings = settings
         self.qgsettings = QSettings()
+        self.proj = QgsProject.instance()
+        self.splayers = {}
 
         # set up the user interface from Designer.
         self.ui = Ui_MainWidget()
@@ -53,7 +56,7 @@ class FdtMainWidget(QWidget):
         self.tb.setIconSize(QSize(20, 20))
         self.ui.toolBarFrameLayout.addWidget(self.tb)
 
-        self.setupToolbar()
+        self.setup_toolbar()
 
         # set collapsible groupboxes settings property
         for gpbx in self.findChildren(QgsCollapsibleGroupBox):
@@ -68,9 +71,18 @@ class FdtMainWidget(QWidget):
         if not (curtab + 1) > self.ui.tabWidget.count():
             self.ui.tabWidget.setCurrentIndex(curtab)
 
-        self.checkPluginReady()
+        self.check_plugin_ready()
 
-    def setupToolbar(self):
+        #reference to the canvas
+        self.canvas = self.iface.mapCanvas()
+
+        #point tool
+        self.pointTool = QgsMapToolEmitPoint(self.canvas)
+
+        QgsMapLayerRegistry.instance().layersAdded.connect(self.check_plugin_ready)
+        QgsMapLayerRegistry.instance().layersWillBeRemoved.connect(self.check_plugin_ready)
+
+    def setup_toolbar(self):
         self.pinPlotAct = QAction(
             QIcon(":/plugins/fossildigtools/icons/pinplot.svg"),
             '', self)
@@ -86,22 +98,120 @@ class FdtMainWidget(QWidget):
             QIcon(":/plugins/fossildigtools/icons/settings.svg"),
             '', self)
         self.settingsAct.setToolTip(self.tr('Settings'))
-        self.settingsAct.triggered.connect(self.openSettingsDialog)
+        self.settingsAct.triggered.connect(self.open_settings_dlg)
         self.tb.addAction(self.settingsAct)
 
-    def valid_bone_layer(self):
+    def spatialite_layers_dict(self):
+        lyrdict = {}
+        lyrMap = QgsMapLayerRegistry.instance().mapLayers()
+        for lyrid, layer in lyrMap.iteritems():
+            if (layer.type() == QgsMapLayer.VectorLayer and
+                layer.dataProvider().storageType().lower().find("spatialite") > -1):
+                lyrdict[lyrid] = layer
+        return lyrdict
+
+    def get_layer(self, id):
+        return QgsMapLayerRegistry.instance().mapLayer(id)
+
+    def pin_layer_id(self):
+        return self.proj.readEntry("fdt", "pinsLayerId", "")[0]
+
+    def grids_layer_id(self):
+        return self.proj.readEntry("fdt", "gridsLayerId", "")[0]
+
+    def features_layer_id(self):
+        return self.proj.readEntry("fdt", "featuresLayerId", "")[0]
+
+    def valid_layer_attributes(self, lyr, attrs):
+        flds = lyr.pendingFields()
+        for attr in attrs:
+            if flds.indexFromName(attr) == -1:
+                return False
+        return True
+
+    def valid_pin_layer(self, id=None):
+        if id == "invalid":
+            return False
+        lyrId = id if id else self.pin_layer_id()
+        if lyrId == "" or lyrId not in self.splayers:
+            return False
+        lyr = self.get_layer(lyrId)
+        if lyr.geometryType() != QGis.Point:
+            return False
+        attrs = ['kind', 'name', 'date', 'setter', 'description', 'origin']
+        return self.valid_layer_attributes(lyr, attrs)
+
+    def valid_grid_layer(self, id=""):
+        return True
+
+#        lyrId = self.grids_layer_id()
+#        if lyrId == "" or lyrId not in self.splayers:
+#            return False
+#        attrs = ['name']
+#        return self.valid_layer_attributes(lyrId, attrs)
+
+    def valid_feature_layer(self, id=""):
+        return True
+
+#        lyrId = self.features_layer_id()
+#        if lyrId == "" or lyrId not in self.splayers:
+#            return False
+#        attrs = ['name']
+#        return self.valid_layer_attributes(lyrId, attrs)
+
+    def layers_added(self, ids):
+        pass
+
+    def layers_removed(self, ids):
+        pass
+
+    def check_linked_layers(self):
+        return (self.valid_pin_layer() and
+                self.valid_grid_layer() and
+                self.valid_feature_layer())
+
+    def valid_squares(self, major, minor):
+        if (major == 0 or
+            minor == 0 or
+            major < minor or
+            major%minor != 0):
+            return False
+        return True
+
+    def check_grid_squares(self):
+        majSq = self.proj.readNumEntry("fdt", "gridSquaresMajor", 0)[0]
+        minSq = self.proj.readNumEntry("fdt", "gridSquaresMinor", 0)[0]
+        return self.valid_squares(majSq, minSq)
+
+    def check_plugin_ready(self):
+        self.splayers = self.spatialite_layers_dict()
+
+        spLyrs = "Spatialite layers\n"
+        for lyrid, lyr in self.splayers.iteritems():
+            spLyrs += "  Name: {0}\n  Id: {1}\n\n".format(lyr.name(), lyrid)
+        QgsMessageLog.logMessage(spLyrs, self.tr("Fdt"), QgsMessageLog.INFO)
+
+        checks = (self.check_grid_squares() and
+                  self.check_linked_layers())
+
+        self.ui.tabWidget.setEnabled(checks)
+        for act in self.tb.actions():
+            if act != self.settingsAct:
+                act.setEnabled(checks)
+
+    def active_feature_layer(self):
         avl = self.iface.activeLayer()
         if not avl:
            self.msg_bar(self.tr("No active layer"), QgsMessageBar.INFO)
            return False
-        if avl.name() != u'Bones_view':
-           self.msg_bar(self.tr("Active layer not 'Bones_view'"), QgsMessageBar.INFO)
+        if avl.id() != self.features_layer_id():
+           self.msg_bar(self.tr("Features layer not active"), QgsMessageBar.INFO)
            return False
         return True
 
     def selected_features(self):
         ids = []
-        if not self.valid_bone_layer():
+        if not self.active_feature_layer():
             return ids
         fids = self.iface.activeLayer().selectedFeatures()
         if not fids:
@@ -127,25 +237,15 @@ class FdtMainWidget(QWidget):
             self.ui.addGridWBtn.setEnabled(False)
             self.ui.addGridEBtn.setEnabled(False)
 
-    def squaresCheck(self, major, minor):
-        if (major == 0 or
-            minor == 0 or
-            major < minor or
-            major%minor != 0):
-            return False
-        return True
+    def open_settings_dlg(self):
+        settingsDlg = FdtSettingsDialog(self, self.iface, self.settings)
+        settingsDlg.exec_()
+        self.check_plugin_ready()
 
-    def checkGridSquares(self):
-        majSq = self.settings.value("gridSquaresMajor", 0, type=int)
-        minSq = self.settings.value("gridSquaresMinor", 0, type=int)
-        return self.squaresCheck(majSq, minSq)
-
-    def checkPluginReady(self):
-        checks = (self.checkGridSquares())
-        self.ui.tabWidget.setEnabled(checks)
-        for act in self.tb.actions():
-            if act != self.settingsAct:
-                act.setEnabled(checks)
+    @pyqtSlot()
+    def on_originPinAddBtn_clicked(self):
+        addPinDlg = FdtPinDialog(self, self.iface, 'origin')
+        addPinDlg.show()
 
     @pyqtSlot()
     def on_attributesOpenFormBtn_clicked(self):
@@ -162,11 +262,6 @@ class FdtMainWidget(QWidget):
             self.ui.addGridIconLabel.setPixmap(QPixmap(":/plugins/fossildigtools/icons/origin.svg"))
             origin = True
         self.set_grid_btns(origin)
-
-    def openSettingsDialog(self):
-        settingsDlg = FdtSettingsDialog(self, self.iface, self.settings)
-        settingsDlg.exec_()
-        self.checkPluginReady()
 
 
 if __name__ == "__main__":
