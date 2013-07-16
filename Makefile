@@ -1,13 +1,13 @@
 #/***************************************************************************
 # FossilDigTools
-# 
+#
 # Interface and tools to help illustrate fossil digs
 #                             -------------------
 #        begin                : 2013-07-02
 #        copyright            : (C) 2013 by Larry Shaffer / BHIGR
 #        email                : larrys@bhigr.com
 # ***************************************************************************/
-# 
+#
 #/***************************************************************************
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
@@ -20,12 +20,12 @@
 # CONFIGURATION
 PLUGIN_UPLOAD = $(CURDIR)/plugin_upload.py
 
-# Makefile for a PyQGIS plugin 
+# Makefile for a PyQGIS plugin
 
 # translation
 SOURCES = fossildigtools.py ui_fossildigtools.py __init__.py fossildigtoolsdialog.py
 #TRANSLATIONS = i18n/fossildigtools_en.ts
-TRANSLATIONS = 
+TRANSLATIONS =
 
 # global
 
@@ -35,7 +35,7 @@ PY_FILES = fossildigtools.py fossildigtoolsdialog.py __init__.py
 
 EXTRAS = icon.png metadata.txt
 
-UI_FILES = ui_fossildigtools.py
+UI_FILES = Ui_fdt_mainwidget.py Ui_fdt_pindlg.py Ui_fdt_settingsdlg.py
 
 RESOURCE_FILES = resources_rc.py
 
@@ -48,8 +48,8 @@ compile: $(UI_FILES) $(RESOURCE_FILES)
 %_rc.py : %.qrc
 	pyrcc4 -o $*_rc.py  $<
 
-%.py : %.ui
-	pyuic4 -o $@ $<
+Ui_%.py : %.ui
+	pyuic4 -o Ui_$*.py $<
 
 %.qm : %.ts
 	lrelease $<
@@ -78,12 +78,12 @@ derase:
 
 # The zip target deploys the plugin and creates a zip file with the deployed
 # content. You can then upload the zip file on http://plugins.qgis.org
-zip: deploy dclean 
+zip: deploy dclean
 	rm -f $(PLUGINNAME).zip
 	cd $(HOME)/.qgis/python/plugins; zip -9r $(CURDIR)/$(PLUGINNAME).zip $(PLUGINNAME)
 
-# Create a zip package of the plugin named $(PLUGINNAME).zip. 
-# This requires use of git (your plugin development directory must be a 
+# Create a zip package of the plugin named $(PLUGINNAME).zip.
+# This requires use of git (your plugin development directory must be a
 # git repository).
 # To use, pass a valid commit or tag as follows:
 #   make package VERSION=Version_0.3.2
@@ -113,5 +113,5 @@ clean:
 	rm $(UI_FILES) $(RESOURCE_FILES)
 
 # build documentation with sphinx
-doc: 
+doc:
 	cd help; make html

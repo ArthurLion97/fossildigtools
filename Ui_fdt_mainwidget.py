@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/Users/larrys/QGIS/PluginProjects/fossildigtools/fdt_mainwidget.ui'
+# Form implementation generated from reading ui file 'fdt_mainwidget.ui'
 #
-# Created: Mon Jul 15 07:23:05 2013
+# Created: Mon Jul 15 16:42:22 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -486,13 +486,3 @@ class Ui_MainWidget(object):
 
 from qgis.gui import QgsCollapsibleGroupBox
 import resources_rc
-
-if __name__ == "__main__":
-    import sys
-    app = QtGui.QApplication(sys.argv)
-    MainWidget = QtGui.QWidget()
-    ui = Ui_MainWidget()
-    ui.setupUi(MainWidget)
-    MainWidget.show()
-    sys.exit(app.exec_())
-

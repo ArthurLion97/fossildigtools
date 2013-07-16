@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/Users/larrys/QGIS/PluginProjects/fossildigtools/fdt_pindlg.ui'
+# Form implementation generated from reading ui file 'fdt_pindlg.ui'
 #
-# Created: Mon Jul 15 07:23:06 2013
+# Created: Mon Jul 15 16:24:34 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -179,13 +179,3 @@ class Ui_PinDialog(object):
         self.label_2.setText(_translate("PinDialog", "Note: map projection and coordinates must be in UTM (meters)", None))
 
 import resources_rc
-
-if __name__ == "__main__":
-    import sys
-    app = QtGui.QApplication(sys.argv)
-    PinDialog = QtGui.QDialog()
-    ui = Ui_PinDialog()
-    ui.setupUi(PinDialog)
-    PinDialog.show()
-    sys.exit(app.exec_())
-

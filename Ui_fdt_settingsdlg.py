@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/Users/larrys/QGIS/PluginProjects/fossildigtools/fdt_settingsdlg.ui'
+# Form implementation generated from reading ui file 'fdt_settingsdlg.ui'
 #
-# Created: Mon Jul 15 07:23:06 2013
+# Created: Mon Jul 15 16:24:47 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -25,6 +25,10 @@ except AttributeError:
 
 class Ui_SettingsDialog(object):
     def setupUi(self, SettingsDialog):
+        """
+
+        :param SettingsDialog:
+        """
         SettingsDialog.setObjectName(_fromUtf8("SettingsDialog"))
         SettingsDialog.resize(320, 429)
         SettingsDialog.setMinimumSize(QtCore.QSize(320, 320))
@@ -166,13 +170,3 @@ class Ui_SettingsDialog(object):
 
 from qgis.gui import QgsCollapsibleGroupBox
 import resources_rc
-
-if __name__ == "__main__":
-    import sys
-    app = QtGui.QApplication(sys.argv)
-    SettingsDialog = QtGui.QDialog()
-    ui = Ui_SettingsDialog()
-    ui.setupUi(SettingsDialog)
-    SettingsDialog.show()
-    sys.exit(app.exec_())
-

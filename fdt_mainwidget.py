@@ -71,16 +71,21 @@ class FdtMainWidget(QWidget):
         if not (curtab + 1) > self.ui.tabWidget.count():
             self.ui.tabWidget.setCurrentIndex(curtab)
 
-        self.check_plugin_ready()
-
-        #reference to the canvas
+        # reference to the canvas
         self.canvas = self.iface.mapCanvas()
 
-        #point tool
+        # point tool
         self.pointTool = QgsMapToolEmitPoint(self.canvas)
 
-        QgsMapLayerRegistry.instance().layersAdded.connect(self.check_plugin_ready)
-        QgsMapLayerRegistry.instance().layersWillBeRemoved.connect(self.check_plugin_ready)
+        self.init_spatialite_layers()
+        self.check_plugin_ready()
+
+        # track projects and layer changes
+        self.iface.projectRead.connect(self.check_plugin_ready)
+        self.iface.newProjectCreated.connect(self.clear_plugin)
+
+        QgsMapLayerRegistry.instance().layersAdded["QList<QgsMapLayer *>"].connect(self.layers_added)
+        QgsMapLayerRegistry.instance().layersWillBeRemoved["QStringList"].connect(self.layers_to_be_removed)
 
     def setup_toolbar(self):
         self.pinPlotAct = QAction(
@@ -90,9 +95,9 @@ class FdtMainWidget(QWidget):
         self.tb.addAction(self.pinPlotAct)
 
 
-        spacer = QWidget(self);
-        spacer.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Preferred);
-        self.tb.addWidget(spacer);
+        spacer = QWidget(self)
+        spacer.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Preferred)
+        self.tb.addWidget(spacer)
 
         self.settingsAct = QAction(
             QIcon(":/plugins/fossildigtools/icons/settings.svg"),
@@ -101,17 +106,23 @@ class FdtMainWidget(QWidget):
         self.settingsAct.triggered.connect(self.open_settings_dlg)
         self.tb.addAction(self.settingsAct)
 
+    def is_spatialite_layer(self, layer):
+        return (layer.type() == QgsMapLayer.VectorLayer and
+                layer.storageType().lower().find("spatialite") > -1)
+
     def spatialite_layers_dict(self):
         lyrdict = {}
         lyrMap = QgsMapLayerRegistry.instance().mapLayers()
         for lyrid, layer in lyrMap.iteritems():
-            if (layer.type() == QgsMapLayer.VectorLayer and
-                layer.dataProvider().storageType().lower().find("spatialite") > -1):
+            if self.is_spatialite_layer(layer):
                 lyrdict[lyrid] = layer
         return lyrdict
 
-    def get_layer(self, id):
-        return QgsMapLayerRegistry.instance().mapLayer(id)
+    def init_spatialite_layers(self):
+        self.splayers = self.spatialite_layers_dict()
+
+    def get_layer(self, lyrid):
+        return QgsMapLayerRegistry.instance().mapLayer(lyrid)
 
     def pin_layer_id(self):
         return self.proj.readEntry("fdt", "pinsLayerId", "")[0]
@@ -129,10 +140,10 @@ class FdtMainWidget(QWidget):
                 return False
         return True
 
-    def valid_pin_layer(self, id=None):
+    def valid_pin_layer(self, lid=None):
         if id == "invalid":
             return False
-        lyrId = id if id else self.pin_layer_id()
+        lyrId = lid if lid else self.pin_layer_id()
         if lyrId == "" or lyrId not in self.splayers:
             return False
         lyr = self.get_layer(lyrId)
@@ -141,7 +152,7 @@ class FdtMainWidget(QWidget):
         attrs = ['kind', 'name', 'date', 'setter', 'description', 'origin']
         return self.valid_layer_attributes(lyr, attrs)
 
-    def valid_grid_layer(self, id=""):
+    def valid_grid_layer(self, lid=""):
         return True
 
 #        lyrId = self.grids_layer_id()
@@ -150,7 +161,7 @@ class FdtMainWidget(QWidget):
 #        attrs = ['name']
 #        return self.valid_layer_attributes(lyrId, attrs)
 
-    def valid_feature_layer(self, id=""):
+    def valid_feature_layer(self, lid=""):
         return True
 
 #        lyrId = self.features_layer_id()
@@ -159,11 +170,25 @@ class FdtMainWidget(QWidget):
 #        attrs = ['name']
 #        return self.valid_layer_attributes(lyrId, attrs)
 
-    def layers_added(self, ids):
-        pass
+    @pyqtSlot("QList<QgsMapLayer *>")
+    def layers_added(self, layers):
+        check = False
+        for layer in layers:
+            if self.is_spatialite_layer(layer):
+                self.splayers[layer.id()] = layer
+                check = True
+        if check:
+            self.check_plugin_ready()
 
-    def layers_removed(self, ids):
-        pass
+    @pyqtSlot("QStringList")
+    def layers_to_be_removed(self, lids):
+        check = False
+        for lid in lids:
+            if self.splayers.has_key(lid):
+                del self.splayers[lid]
+                check = True
+        if check:
+            self.check_plugin_ready()
 
     def check_linked_layers(self):
         return (self.valid_pin_layer() and
@@ -184,8 +209,6 @@ class FdtMainWidget(QWidget):
         return self.valid_squares(majSq, minSq)
 
     def check_plugin_ready(self):
-        self.splayers = self.spatialite_layers_dict()
-
         spLyrs = "Spatialite layers\n"
         for lyrid, lyr in self.splayers.iteritems():
             spLyrs += "  Name: {0}\n  Id: {1}\n\n".format(lyr.name(), lyrid)
@@ -198,6 +221,9 @@ class FdtMainWidget(QWidget):
         for act in self.tb.actions():
             if act != self.settingsAct:
                 act.setEnabled(checks)
+
+    def clear_plugin(self):
+        pass
 
     def active_feature_layer(self):
         avl = self.iface.activeLayer()
