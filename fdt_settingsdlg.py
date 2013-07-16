@@ -42,7 +42,9 @@ class FdtSettingsDialog(QDialog):
         self.ui = Ui_SettingsDialog()
         self.ui.setupUi(self)
 
-        self.lyrCmbxs = [self.ui.pinsCmbBx, self.ui.gridsCmbBx, self.ui.featuresCmbBx]
+        self.lyrCmbxs = [self.ui.pinsCmbBx,
+                         self.ui.gridsCmbBx,
+                         self.ui.featuresCmbBx]
         self.ui.pinsCmbBx.currentIndexChanged[int].connect(self.validate_pins_combobox)
         self.ui.gridsCmbBx.currentIndexChanged[int].connect(self.validate_grids_combobox)
         self.ui.featuresCmbBx.currentIndexChanged[int].connect(self.validate_features_combobox)
@@ -80,26 +82,39 @@ class FdtSettingsDialog(QDialog):
 
     def init_values(self):
         # load values from project
-        self.ui.pinsCmbBx.setCurrentIndex(self.ui.pinsCmbBx.findData(self.parent.pin_layer_id()))
-        self.ui.gridsCmbBx.setCurrentIndex(self.ui.gridsCmbBx.findData(self.parent.grids_layer_id()))
-        self.ui.featuresCmbBx.setCurrentIndex(self.ui.featuresCmbBx.findData(self.parent.features_layer_id()))
+        self.ui.pinsCmbBx.setCurrentIndex(
+            self.ui.pinsCmbBx.findData(self.parent.pin_layer_id()))
+        self.ui.gridsCmbBx.setCurrentIndex(
+            self.ui.gridsCmbBx.findData(self.parent.grids_layer_id()))
+        self.ui.featuresCmbBx.setCurrentIndex(
+            self.ui.featuresCmbBx.findData(self.parent.features_layer_id()))
 
-        self.ui.gridsUnitCmdBx.setCurrentIndex(self.proj.readNumEntry("fdt", "gridSquaresUnit", 0)[0])
-        self.ui.gridsMajorSpnBx.setValue(self.proj.readNumEntry("fdt", "gridSquaresMajor", 0)[0])
-        self.ui.gridsMinorSpnBx.setValue(self.proj.readNumEntry("fdt", "gridSquaresMinor", 0)[0])
+        self.ui.gridsUnitCmdBx.setCurrentIndex(
+            self.proj.readNumEntry("fdt", "gridSquaresUnit", 0)[0])
+        self.ui.gridsMajorSpnBx.setValue(
+            self.proj.readNumEntry("fdt", "gridSquaresMajor", 0)[0])
+        self.ui.gridsMinorSpnBx.setValue(
+            self.proj.readNumEntry("fdt", "gridSquaresMinor", 0)[0])
 
     def save_values(self):
         # store values in project
-        self.proj.writeEntry("fdt", "pinsLayerId", self.ui.pinsCmbBx.itemData(self.ui.pinsCmbBx.currentIndex()))
-        self.proj.writeEntry("fdt", "gridsLayerId", self.ui.gridsCmbBx.itemData(self.ui.gridsCmbBx.currentIndex()))
-        self.proj.writeEntry("fdt", "featuresLayerId", self.ui.featuresCmbBx.itemData(self.ui.featuresCmbBx.currentIndex()))
+        self.proj.writeEntry("fdt", "pinsLayerId",
+            self.ui.pinsCmbBx.itemData(self.ui.pinsCmbBx.currentIndex()))
+        self.proj.writeEntry("fdt", "gridsLayerId",
+            self.ui.gridsCmbBx.itemData(self.ui.gridsCmbBx.currentIndex()))
+        self.proj.writeEntry("fdt", "featuresLayerId",
+            self.ui.featuresCmbBx.itemData(
+                self.ui.featuresCmbBx.currentIndex()))
 
-        self.proj.writeEntry("fdt", "gridSquaresUnit", self.ui.gridsUnitCmdBx.currentIndex())
-        self.proj.writeEntry("fdt", "gridSquaresMajor", self.ui.gridsMajorSpnBx.value())
-        self.proj.writeEntry("fdt", "gridSquaresMinor", self.ui.gridsMinorSpnBx.value())
+        self.proj.writeEntry("fdt", "gridSquaresUnit",
+                             self.ui.gridsUnitCmdBx.currentIndex())
+        self.proj.writeEntry("fdt", "gridSquaresMajor",
+                             self.ui.gridsMajorSpnBx.value())
+        self.proj.writeEntry("fdt", "gridSquaresMinor",
+                             self.ui.gridsMinorSpnBx.value())
 
     def combobox_stylesheet(self, valid):
-        return "" if valid else "QLabel {color: rgb(225, 0, 0);}"
+        return "" if valid else self.parent.badValueLabel
 
     def validate_pins_combobox(self):
         lyrId = self.ui.pinsCmbBx.itemData(self.ui.pinsCmbBx.currentIndex())
@@ -114,7 +129,8 @@ class FdtSettingsDialog(QDialog):
         return check
 
     def validate_features_combobox(self):
-        lyrId = self.ui.featuresCmbBx.itemData(self.ui.featuresCmbBx.currentIndex())
+        lyrId = self.ui.featuresCmbBx.itemData(
+            self.ui.featuresCmbBx.currentIndex())
         check = (self.parent.valid_feature_layer(lyrId))
         self.ui.featuresLabel.setStyleSheet(self.combobox_stylesheet(check))
         return check
@@ -127,7 +143,7 @@ class FdtSettingsDialog(QDialog):
     def check_grid_squares(self):
         gridCheck = self.parent.valid_squares(self.ui.gridsMajorSpnBx.value(),
                                               self.ui.gridsMinorSpnBx.value())
-        ss = "" if gridCheck else "QSpinBox {background-color: rgb(255, 210, 208);}"
+        ss = "" if gridCheck else self.parent.badLineEditValue
         self.ui.gridsMajorSpnBx.setStyleSheet(ss)
         self.ui.gridsMinorSpnBx.setStyleSheet(ss)
         return gridCheck
@@ -135,8 +151,6 @@ class FdtSettingsDialog(QDialog):
     def check_values(self):
         return (self.check_grid_squares() and
                 self.check_layer_comboboxes())
-
-
 
     @pyqtSlot(QAbstractButton)
     def dialog_action(self, btn):

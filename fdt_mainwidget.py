@@ -40,6 +40,8 @@ class FdtMainWidget(QWidget):
         self.qgsettings = QSettings()
         self.proj = QgsProject.instance()
         self.splayers = {}
+        self.active = False
+        self.init_bad_value_stylesheets()
 
         # set up the user interface from Designer.
         self.ui = Ui_MainWidget()
@@ -152,23 +154,15 @@ class FdtMainWidget(QWidget):
         attrs = ['kind', 'name', 'date', 'setter', 'description', 'origin']
         return self.valid_layer_attributes(lyr, attrs)
 
-    def valid_grid_layer(self, lid=""):
+    def valid_grid_layer(self, lid=None):
         return True
 
 #        lyrId = self.grids_layer_id()
-#        if lyrId == "" or lyrId not in self.splayers:
-#            return False
-#        attrs = ['name']
-#        return self.valid_layer_attributes(lyrId, attrs)
 
-    def valid_feature_layer(self, lid=""):
+    def valid_feature_layer(self, lid=None):
         return True
 
 #        lyrId = self.features_layer_id()
-#        if lyrId == "" or lyrId not in self.splayers:
-#            return False
-#        attrs = ['name']
-#        return self.valid_layer_attributes(lyrId, attrs)
 
     @pyqtSlot("QList<QgsMapLayer *>")
     def layers_added(self, layers):
@@ -196,10 +190,8 @@ class FdtMainWidget(QWidget):
                 self.valid_feature_layer())
 
     def valid_squares(self, major, minor):
-        if (major == 0 or
-            minor == 0 or
-            major < minor or
-            major%minor != 0):
+        if (major == 0 or minor == 0 or
+                major < minor or major % minor != 0):
             return False
         return True
 
@@ -209,6 +201,7 @@ class FdtMainWidget(QWidget):
         return self.valid_squares(majSq, minSq)
 
     def check_plugin_ready(self):
+        # log splayers
         spLyrs = "Spatialite layers\n"
         for lyrid, lyr in self.splayers.iteritems():
             spLyrs += "  Name: {0}\n  Id: {1}\n\n".format(lyr.name(), lyrid)
@@ -216,23 +209,61 @@ class FdtMainWidget(QWidget):
 
         checks = (self.check_grid_squares() and
                   self.check_linked_layers())
+        if checks:
+            self.enable_plugin(True)
+            self.init_plugin()
+            self.clear_notice()
+        else:
+            self.clear_plugin()
+            self.enable_plugin(False)
+            self.active = False
 
-        self.ui.tabWidget.setEnabled(checks)
+    def enable_plugin(self, enable):
+        self.ui.tabWidget.setEnabled(enable)
         for act in self.tb.actions():
             if act != self.settingsAct:
-                act.setEnabled(checks)
+                act.setEnabled(enable)
 
     def clear_plugin(self):
-        pass
+        self.notice("Project unsupported. Define settings.")
+        # location pins
+        self.ui.originPinCmbBx.clear()
+        self.ui.originEditFrame.setEnabled(False)
+        self.ui.directPinList.clear()
+        self.ui.directPinFrame.setEnabled(False)
+        self.ui.directPinEditFrame.setEnabled(False)
+        # grids
+        self.ui.gridsCmbBx.clear()
+        self.ui.gridsRemoveBtn.setEnabled(False)
+        self.ui.gridFrame.setEnabled(False)
+
+    def init_plugin(self):
+        if self.active:
+            return
+
+        self.clear_plugin()
+
+        # load origins
+
+        self.active = True
+
+    def init_bad_value_stylesheets(self):
+        self.badLineEditValue = \
+            "QLineEdit {background-color: rgb(255, 210, 208);}"
+        self.badDblSpinBoxValue = \
+            "QDoubleSpinBox {background-color: rgb(255, 210, 208);}"
+        self.badValueLabel = "QLabel {color: rgb(225, 0, 0);}"
 
     def active_feature_layer(self):
         avl = self.iface.activeLayer()
         if not avl:
-           self.msg_bar(self.tr("No active layer"), QgsMessageBar.INFO)
-           return False
+            self.msg_bar(self.tr("No active layer"),
+                         QgsMessageBar.INFO)
+            return False
         if avl.id() != self.features_layer_id():
-           self.msg_bar(self.tr("Features layer not active"), QgsMessageBar.INFO)
-           return False
+            self.msg_bar(self.tr("Features layer not active"),
+                         QgsMessageBar.INFO)
+            return False
         return True
 
     def selected_features(self):
@@ -249,6 +280,14 @@ class FdtMainWidget(QWidget):
                                 msg,
                                 kind,
                                 self.iface.messageTimeout())
+
+    def notice(self, notice):
+        self.ui.noticeLabel.show()
+        self.ui.noticeLabel.setText(notice)
+
+    def clear_notice(self):
+        self.ui.noticeLabel.setText("")
+        self.ui.noticeLabel.hide()
 
     def reset_add_grid_btns(self):
         for btn in self.ui.addGridBtnGrp.buttons():
@@ -283,9 +322,11 @@ class FdtMainWidget(QWidget):
         self.reset_add_grid_btns()
         origin = False
         if btn is self.ui.addGridGridRadio:
-            self.ui.addGridIconLabel.setPixmap(QPixmap(":/plugins/fossildigtools/icons/grid.svg"))
+            self.ui.addGridIconLabel.setPixmap(
+                QPixmap(":/plugins/fossildigtools/icons/grid.svg"))
         elif btn is self.ui.addGridOriginRadio:
-            self.ui.addGridIconLabel.setPixmap(QPixmap(":/plugins/fossildigtools/icons/origin.svg"))
+            self.ui.addGridIconLabel.setPixmap(
+                QPixmap(":/plugins/fossildigtools/icons/origin.svg"))
             origin = True
         self.set_grid_btns(origin)
 

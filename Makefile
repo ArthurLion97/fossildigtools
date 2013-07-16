@@ -46,13 +46,13 @@ default: compile
 compile: $(UI_FILES) $(RESOURCE_FILES)
 
 %_rc.py : %.qrc
-	pyrcc4 -o $*_rc.py  $<
+	/usr/local/bin/pyrcc4 -o $*_rc.py  $<
 
 Ui_%.py : %.ui
-	pyuic4 -o Ui_$*.py $<
+	/usr/local/bin/pyuic4 -o Ui_$*.py $<
 
 %.qm : %.ts
-	lrelease $<
+	/usr/bin/lrelease $<
 
 # The deploy  target only works on unix like operating system where
 # the Python plugin directory is located at:

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fdt_pindlg.ui'
 #
-# Created: Mon Jul 15 16:24:34 2013
+# Created: Tue Jul 16 14:31:54 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -79,19 +79,19 @@ class Ui_PinDialog(object):
         self.gridLayout.addLayout(self.horizontalLayout_3, 5, 1, 1, 1)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.pinXSpinBx = QtGui.QDoubleSpinBox(self.addPinGroupBox)
-        self.pinXSpinBx.setDecimals(4)
-        self.pinXSpinBx.setMaximum(10000000.0)
-        self.pinXSpinBx.setObjectName(_fromUtf8("pinXSpinBx"))
-        self.horizontalLayout.addWidget(self.pinXSpinBx)
+        self.pinXDblSpinBx = QtGui.QDoubleSpinBox(self.addPinGroupBox)
+        self.pinXDblSpinBx.setDecimals(4)
+        self.pinXDblSpinBx.setMaximum(10000000.0)
+        self.pinXDblSpinBx.setObjectName(_fromUtf8("pinXDblSpinBx"))
+        self.horizontalLayout.addWidget(self.pinXDblSpinBx)
         self.gridLayout.addLayout(self.horizontalLayout, 3, 1, 1, 1)
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.pinYSpinBx = QtGui.QDoubleSpinBox(self.addPinGroupBox)
-        self.pinYSpinBx.setDecimals(4)
-        self.pinYSpinBx.setMaximum(10000000.0)
-        self.pinYSpinBx.setObjectName(_fromUtf8("pinYSpinBx"))
-        self.horizontalLayout_2.addWidget(self.pinYSpinBx)
+        self.pinYDblSpinBx = QtGui.QDoubleSpinBox(self.addPinGroupBox)
+        self.pinYDblSpinBx.setDecimals(4)
+        self.pinYDblSpinBx.setMaximum(10000000.0)
+        self.pinYDblSpinBx.setObjectName(_fromUtf8("pinYDblSpinBx"))
+        self.horizontalLayout_2.addWidget(self.pinYDblSpinBx)
         self.gridLayout.addLayout(self.horizontalLayout_2, 4, 1, 1, 1)
         self.pinSetByLineEdit = QtGui.QLineEdit(self.addPinGroupBox)
         self.pinSetByLineEdit.setObjectName(_fromUtf8("pinSetByLineEdit"))
@@ -152,12 +152,10 @@ class Ui_PinDialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(PinDialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), PinDialog.accept)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), PinDialog.reject)
         QtCore.QMetaObject.connectSlotsByName(PinDialog)
-        PinDialog.setTabOrder(self.pinNameLineEdit, self.pinXSpinBx)
-        PinDialog.setTabOrder(self.pinXSpinBx, self.pinYSpinBx)
-        PinDialog.setTabOrder(self.pinYSpinBx, self.pinInfoTextEdit)
+        PinDialog.setTabOrder(self.pinNameLineEdit, self.pinXDblSpinBx)
+        PinDialog.setTabOrder(self.pinXDblSpinBx, self.pinYDblSpinBx)
+        PinDialog.setTabOrder(self.pinYDblSpinBx, self.pinInfoTextEdit)
         PinDialog.setTabOrder(self.pinInfoTextEdit, self.pinSetByLineEdit)
         PinDialog.setTabOrder(self.pinSetByLineEdit, self.buttonBox)
         PinDialog.setTabOrder(self.buttonBox, self.capturePinBtn)
