@@ -151,6 +151,9 @@
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
+                  <property name="insertPolicy">
+                   <enum>QComboBox::InsertAlphabetically</enum>
+                  </property>
                  </widget>
                 </item>
                 <item row="2" column="1">
@@ -276,6 +279,9 @@
                     <widget class="QListWidget" name="directPinList">
                      <property name="editTriggers">
                       <set>QAbstractItemView::NoEditTriggers</set>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>
@@ -445,7 +451,11 @@
                  <number>0</number>
                 </property>
                 <item row="0" column="1">
-                 <widget class="QComboBox" name="gridsCmbBx"/>
+                 <widget class="QComboBox" name="gridsCmbBx">
+                  <property name="insertPolicy">
+                   <enum>QComboBox::InsertAlphabetically</enum>
+                  </property>
+                 </widget>
                 </item>
                 <item row="0" column="0">
                  <widget class="QLabel" name="gridsIconLabel">

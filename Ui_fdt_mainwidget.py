@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fdt_mainwidget.ui'
 #
-# Created: Tue Jul 16 13:17:49 2013
+# Created: Tue Jul 16 15:44:53 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -95,6 +95,7 @@ class Ui_MainWidget(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.originPinCmbBx.sizePolicy().hasHeightForWidth())
         self.originPinCmbBx.setSizePolicy(sizePolicy)
+        self.originPinCmbBx.setInsertPolicy(QtGui.QComboBox.InsertAlphabetically)
         self.originPinCmbBx.setObjectName(_fromUtf8("originPinCmbBx"))
         self.gridLayout_9.addWidget(self.originPinCmbBx, 1, 0, 1, 2)
         self.originEditFrame = QtGui.QFrame(self.originsGrpBx)
@@ -203,6 +204,7 @@ class Ui_MainWidget(object):
         self.gridLayout_5.setVerticalSpacing(0)
         self.gridLayout_5.setObjectName(_fromUtf8("gridLayout_5"))
         self.gridsCmbBx = QtGui.QComboBox(self.gridsGrpBx)
+        self.gridsCmbBx.setInsertPolicy(QtGui.QComboBox.InsertAlphabetically)
         self.gridsCmbBx.setObjectName(_fromUtf8("gridsCmbBx"))
         self.gridLayout_5.addWidget(self.gridsCmbBx, 0, 1, 1, 1)
         self.gridsIconLabel = QtGui.QLabel(self.gridsGrpBx)
@@ -465,6 +467,7 @@ class Ui_MainWidget(object):
         self.originPinGoToBtn.setText(_translate("MainWidget", "...", None))
         self.originPinAddBtn.setToolTip(_translate("MainWidget", "Add origin pin", None))
         self.originPinAddBtn.setText(_translate("MainWidget", "...", None))
+        self.directPinList.setSortingEnabled(True)
         self.directPinAddBtn.setToolTip(_translate("MainWidget", "Add directional pin", None))
         self.directPinAddBtn.setText(_translate("MainWidget", "...", None))
         self.directPinEditBtn.setToolTip(_translate("MainWidget", "Edit directional pin", None))
