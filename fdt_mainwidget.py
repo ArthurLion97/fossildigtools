@@ -45,6 +45,8 @@ class FdtMainWidget(QWidget):
         self.proj = QgsProject.instance()
         self.splayers = {}
         self.active = False
+        self.curorigin = ''
+        self.datadelim = '|'
         self.init_bad_value_stylesheets()
 
         # set up the user interface from Designer.
@@ -88,7 +90,7 @@ class FdtMainWidget(QWidget):
 
         # track projects and layer changes
         self.iface.projectRead.connect(self.check_plugin_ready)
-        self.iface.newProjectCreated.connect(self.clear_plugin)
+        self.iface.newProjectCreated.connect(self.invalid_project)
 
         QgsMapLayerRegistry.instance().layersAdded["QList<QgsMapLayer *>"].connect(self.layers_added)
         QgsMapLayerRegistry.instance().layersWillBeRemoved["QStringList"].connect(self.layers_to_be_removed)
@@ -130,8 +132,44 @@ class FdtMainWidget(QWidget):
     def init_spatialite_layers(self):
         self.splayers = self.spatialite_layers_dict()
 
-    def get_layer(self, lyrid):
-        return QgsMapLayerRegistry.instance().mapLayer(lyrid)
+    def split_data(self, data):
+        return data.split(self.datadelim)
+
+    def join_data(self, a, b):
+        return "{0}{1}{2}".format(a, self.datadelim, b)
+
+    def get_layer(self, layerid):
+        return QgsMapLayerRegistry.instance().mapLayer(layerid)
+
+    def get_feature(self, layerid, featid):
+        layer = self.get_layer(str(layerid))
+        req = QgsFeatureRequest().setFilterFid(int(featid))
+        feat = QgsFeature()
+        layer.getFeatures(req).nextFeature(feat)
+        return feat
+
+    def get_features(self, layer, expstr):
+        exp = QgsExpression(expstr)
+        fields = layer.pendingFields()
+        exp.prepare(fields)
+
+        # # works
+        # feats = []
+        # for feat in layer.getFeatures():
+        #     # err = exp.evalErrorString()
+        #     if exp.evaluate(feat):
+        #         feats.append(feat)
+        #
+        # # doesn't work!!
+        # fit = layer.getFeatures()
+        # feat = QgsFeature()
+        # while fit.nextFeature(feat):
+        #     if exp.evaluate(feat) == 1:
+        #         feats.append(feat)
+        # fit.close()
+        # return feats
+
+        return filter(exp.evaluate, layer.getFeatures())
 
     def pin_layer_id(self):
         return self.proj.readEntry("fdt", "pinsLayerId", "")[0]
@@ -158,7 +196,7 @@ class FdtMainWidget(QWidget):
         lyr = self.get_layer(lyrId)
         if lyr.geometryType() != QGis.Point:
             return False
-        attrs = ['kind', 'name', 'date', 'setter', 'description', 'origin']
+        attrs = ['pkuid', 'kind', 'name', 'date', 'setter', 'description', 'origin']
         return self.valid_layer_attributes(lyr, attrs)
 
     def valid_grid_layer(self, lid=None):
@@ -197,8 +235,7 @@ class FdtMainWidget(QWidget):
                 self.valid_feature_layer())
 
     def valid_squares(self, major, minor):
-        if (major == 0 or minor == 0 or
-                major < minor or major % minor != 0):
+        if (major == 0 or minor == 0 or major < minor or major % minor != 0):
             return False
         return True
 
@@ -207,6 +244,7 @@ class FdtMainWidget(QWidget):
         minSq = self.proj.readNumEntry("fdt", "gridSquaresMinor", 0)[0]
         return self.valid_squares(majSq, minSq)
 
+    @pyqtSlot()
     def check_plugin_ready(self):
         # log splayers
         spLyrs = "Spatialite layers\n"
@@ -221,9 +259,7 @@ class FdtMainWidget(QWidget):
             self.init_plugin()
             self.clear_notice()
         else:
-            self.clear_plugin()
-            self.enable_plugin(False)
-            self.active = False
+            self.invalid_project()
 
     def enable_plugin(self, enable):
         self.ui.tabWidget.setEnabled(enable)
@@ -231,8 +267,15 @@ class FdtMainWidget(QWidget):
             if act != self.settingsAct:
                 act.setEnabled(enable)
 
+    @pyqtSlot()
+    def invalid_project(self):
+        self.active = False
+        self.clear_plugin()
+        self.enable_plugin(False)
+
     def clear_plugin(self):
-        self.notice("Project unsupported. Define settings.")
+        if not self.active:
+            self.notice(self.tr("Project unsupported. Define settings."))
         # location pins
         self.ui.originPinCmbBx.clear()
         self.ui.originEditFrame.setEnabled(False)
@@ -247,16 +290,87 @@ class FdtMainWidget(QWidget):
     def init_plugin(self):
         if self.active:
             return
+        self.active = True
+        self.load_pins()
+
+    @pyqtSlot()
+    def load_pins(self):
+        if not self.active:
+            return
 
         self.clear_plugin()
 
         # load origins
+        self.load_origin_pins()
+        if self.ui.originPinCmbBx.count() > 0:
+            self.curorigin = self.ui.originPinCmbBx.itemData(
+                             self.ui.originPinCmbBx.currentIndex())
+            # load directional pins associated with the current origin
+            self.load_directional_pins()
+            # load grids associated with the current origin
+            self.load_origin_grids()
 
-        self.active = True
+    def current_origin(self):
+        return self.split_data(self.curorigin)[1]
+
+    def current_origin_fid(self):
+        return self.split_data(self.curorigin)[0]
+
+    def current_origin_feat(self):
+        #self.pydev()
+        return self.get_feature(self.pin_layer_id(), self.current_origin_fid())
+
+    def origin_pins(self):
+        expstr = " \"kind\"='origin' "
+        layer = self.get_layer(self.pin_layer_id())
+        return self.get_features(layer, expstr)
+
+    def load_origin_pins(self):
+        self.ui.originPinCmbBx.clear()
+        pins = self.origin_pins()
+        haspins = len(pins) > 0
+        if haspins:
+            self.ui.originEditFrame.setEnabled(True)
+            self.ui.originPinCmbBx.blockSignals(True)
+            for pin in pins:
+                self.ui.originPinCmbBx.addItem(
+                    pin['name'], self.join_data(pin.id(), pin['pkuid']))
+            self.ui.originPinCmbBx.blockSignals(False)
+
+        self.ui.directPinFrame.setEnabled(haspins)
+
+    def directional_pins(self, origin=-1):
+        if origin == -1:
+            origin = self.current_origin()
+        if origin == -1:
+            return
+        expstr = " \"kind\"='directional' AND \"origin\"={0} ".format(origin)
+        layer = self.get_layer(self.pin_layer_id())
+        return self.get_features(layer, expstr)
+
+    def load_directional_pins(self):
+        self.ui.directPinList.clear()
+        pins = self.directional_pins(self.current_origin())
+        haspins = len(pins) > 0
+        if haspins:
+            self.ui.directPinList.blockSignals(True)
+            for pin in pins:
+                lw = QListWidgetItem(pin['name'])
+                lw.setData(Qt.UserRole, self.join_data(pin.id(), pin['pkuid']))
+                self.ui.directPinList.addItem(lw)
+            self.ui.directPinList.blockSignals(False)
+
+    def origin_grids(self, origin=-1):
+        pass
+
+    def load_origin_grids(self):
+        pass
 
     def init_bad_value_stylesheets(self):
         self.badLineEditValue = \
             "QLineEdit {background-color: rgb(255, 210, 208);}"
+        self.badSpinBoxValue = \
+            "QSpinBox {background-color: rgb(255, 210, 208);}"
         self.badDblSpinBoxValue = \
             "QDoubleSpinBox {background-color: rgb(255, 210, 208);}"
         self.badValueLabel = "QLabel {color: rgb(225, 0, 0);}"
@@ -316,8 +430,17 @@ class FdtMainWidget(QWidget):
 
     @pyqtSlot()
     def on_originPinAddBtn_clicked(self):
-        addPinDlg = FdtPinDialog(self, self.iface, 'origin')
-        addPinDlg.show()
+        pinDlg = FdtPinDialog(self, self.iface, 'origin')
+        pinDlg.accepted.connect(self.load_pins)
+        pinDlg.show()
+
+    @pyqtSlot()
+    def on_originPinEditBtn_clicked(self):
+        feat = self.current_origin_feat()
+        if feat.isValid():
+            pinDlg = FdtPinDialog(self, self.iface, 'origin', -1, feat)
+            pinDlg.accepted.connect(self.load_pins)
+            pinDlg.show()
 
     @pyqtSlot()
     def on_attributesOpenFormBtn_clicked(self):
