@@ -141,12 +141,12 @@ class FdtSettingsDialog(QDialog):
                 self.validate_features_combobox())
 
     def check_grid_squares(self):
-        gridCheck = self.parent.valid_squares(self.ui.gridsMajorSpnBx.value(),
-                                              self.ui.gridsMinorSpnBx.value())
-        ss = "" if gridCheck else self.parent.badLineEditValue
+        check = self.parent.valid_squares(self.ui.gridsMajorSpnBx.value(),
+                                          self.ui.gridsMinorSpnBx.value())
+        ss = "" if check else self.parent.badSpinBoxValue
         self.ui.gridsMajorSpnBx.setStyleSheet(ss)
         self.ui.gridsMinorSpnBx.setStyleSheet(ss)
-        return gridCheck
+        return check
 
     def check_values(self):
         return (self.check_grid_squares() and
