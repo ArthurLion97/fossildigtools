@@ -45,8 +45,9 @@ class FdtMainWidget(QWidget):
         self.proj = QgsProject.instance()
         self.splayers = {}
         self.active = False
-        self.curorigin = ''
         self.datadelim = '|'
+        self.curorigin = "{0}{1}{0}".format("-1", self.datadelim)
+        self.layerconections = False
         self.init_bad_value_stylesheets()
 
         # set up the user interface from Designer.
@@ -143,7 +144,7 @@ class FdtMainWidget(QWidget):
 
     def get_feature(self, layerid, featid):
         layer = self.get_layer(str(layerid))
-        req = QgsFeatureRequest().setFilterFid(int(featid))
+        req = QgsFeatureRequest().setFilterFid(featid)
         feat = QgsFeature()
         layer.getFeatures(req).nextFeature(feat)
         return feat
@@ -170,6 +171,16 @@ class FdtMainWidget(QWidget):
         # return feats
 
         return filter(exp.evaluate, layer.getFeatures())
+
+    def delete_feature(self, layerid, featid):
+        layer = self.get_layer(layerid)
+        if not layer:
+            return
+        layer.startEditing()
+        layer.deleteFeature(featid)
+        layer.commitChanges()
+        layer.setCacheImage(None)
+        layer.triggerRepaint()
 
     def pin_layer_id(self):
         return self.proj.readEntry("fdt", "pinsLayerId", "")[0]
@@ -261,37 +272,69 @@ class FdtMainWidget(QWidget):
         else:
             self.invalid_project()
 
+    @pyqtSlot()
+    def invalid_project(self):
+        self.active = False  # must come first
+        self.remove_layer_connections()
+        self.clear_plugin()
+        self.enable_plugin(False)
+
+    def init_plugin(self):
+        if self.active:
+            return
+        self.active = True  # must come first
+        self.load_pins()
+        self.make_layer_connections()
+
+    def clear_plugin(self):
+        if not self.active:
+            self.notice(self.tr("Project unsupported. Define settings."))
+        # location pins
+        self.ui.originPinCmbBx.blockSignals(True)
+        self.ui.originPinCmbBx.clear()
+        self.ui.originPinCmbBx.blockSignals(False)
+        self.ui.originEditFrame.setEnabled(False)
+        self.ui.directPinList.clear()
+        self.ui.directPinFrame.setEnabled(False)
+        self.ui.directPinEditFrame.setEnabled(False)
+        # grids
+        self.ui.gridsCmbBx.blockSignals(True)
+        self.ui.gridsCmbBx.clear()
+        self.ui.gridsCmbBx.blockSignals(False)
+        self.ui.gridsRemoveBtn.setEnabled(False)
+        self.ui.gridFrame.setEnabled(False)
+
     def enable_plugin(self, enable):
         self.ui.tabWidget.setEnabled(enable)
         for act in self.tb.actions():
             if act != self.settingsAct:
                 act.setEnabled(enable)
 
-    @pyqtSlot()
-    def invalid_project(self):
-        self.active = False
-        self.clear_plugin()
-        self.enable_plugin(False)
-
-    def clear_plugin(self):
-        if not self.active:
-            self.notice(self.tr("Project unsupported. Define settings."))
-        # location pins
-        self.ui.originPinCmbBx.clear()
-        self.ui.originEditFrame.setEnabled(False)
-        self.ui.directPinList.clear()
-        self.ui.directPinFrame.setEnabled(False)
-        self.ui.directPinEditFrame.setEnabled(False)
-        # grids
-        self.ui.gridsCmbBx.clear()
-        self.ui.gridsRemoveBtn.setEnabled(False)
-        self.ui.gridFrame.setEnabled(False)
-
-    def init_plugin(self):
-        if self.active:
+    def make_layer_connections(self):
+        if self.layerconections:
             return
-        self.active = True
-        self.load_pins()
+
+        layerids = [self.pin_layer_id(), self.grids_layer_id()]
+        methods = [self.load_pins, self.load_origin_grids()]
+
+        for i in range(len(layerids)):
+            layer = self.get_layer(layerids[i])
+            if layer:
+                layer.editingStopped.connect(methods[i])
+                layer.updatedFields.connect(self.check_plugin_ready)
+
+    def remove_layer_connections(self):
+        if not self.layerconections:
+            return
+
+        layerids = [self.pin_layer_id(), self.grids_layer_id()]
+        methods = [self.load_pins, self.load_origin_grids()]
+
+        for i in range(len(layerids)):
+            layer = self.get_layer(layerids[i])
+            if layer:
+                layer.editingStopped.disconnect(methods[i])
+                layer.updatedFields.disconnect(self.check_plugin_ready)
 
     @pyqtSlot()
     def load_pins(self):
@@ -302,19 +345,23 @@ class FdtMainWidget(QWidget):
 
         # load origins
         self.load_origin_pins()
+        self.update_current_origin()
+        self.load_origin_children()
+
+    def update_current_origin(self):
         if self.ui.originPinCmbBx.count() > 0:
             self.curorigin = self.ui.originPinCmbBx.itemData(
-                             self.ui.originPinCmbBx.currentIndex())
-            # load directional pins associated with the current origin
-            self.load_directional_pins()
-            # load grids associated with the current origin
-            self.load_origin_grids()
+                    self.ui.originPinCmbBx.currentIndex())
+        else:
+            self.curorigin = "{0}{1}{0}".format("-1", self.datadelim)
+
+        self.settings.setValue("currentOrigin", self.current_origin())
 
     def current_origin(self):
         return self.split_data(self.curorigin)[1]
 
     def current_origin_fid(self):
-        return self.split_data(self.curorigin)[0]
+        return int(self.split_data(self.curorigin)[0])
 
     def current_origin_feat(self):
         #self.pydev()
@@ -328,16 +375,33 @@ class FdtMainWidget(QWidget):
     def load_origin_pins(self):
         self.ui.originPinCmbBx.clear()
         pins = self.origin_pins()
-        haspins = len(pins) > 0
+        haspins = pins and len(pins) > 0
+        # self.pydev()
         if haspins:
             self.ui.originEditFrame.setEnabled(True)
             self.ui.originPinCmbBx.blockSignals(True)
-            for pin in pins:
+
+            curorig = self.settings.value("currentOrigin", "-1", type=str)
+            curindx = -1
+            for i in range(len(pins)):
+                pin = pins[i]
+                pkuid = pin['pkuid']
                 self.ui.originPinCmbBx.addItem(
-                    pin['name'], self.join_data(pin.id(), pin['pkuid']))
+                    pin['name'], self.join_data(pin.id(), pkuid))
+                if curorig != "-1" and curorig == str(pkuid):
+                    curindx = i
+            if curindx > -1:
+                self.ui.originPinCmbBx.setCurrentIndex(curindx)
+
             self.ui.originPinCmbBx.blockSignals(False)
 
         self.ui.directPinFrame.setEnabled(haspins)
+
+    def load_origin_children(self):
+        # load directional pins associated with the current origin
+        self.load_directional_pins()
+        # load grids associated with the current origin
+        self.load_origin_grids()
 
     def directional_pins(self, origin=-1):
         if origin == -1:
@@ -351,7 +415,7 @@ class FdtMainWidget(QWidget):
     def load_directional_pins(self):
         self.ui.directPinList.clear()
         pins = self.directional_pins(self.current_origin())
-        haspins = len(pins) > 0
+        haspins = pins and len(pins) > 0
         if haspins:
             self.ui.directPinList.blockSignals(True)
             for pin in pins:
@@ -428,10 +492,15 @@ class FdtMainWidget(QWidget):
         settingsDlg.exec_()
         self.check_plugin_ready()
 
+    @pyqtSlot(int)
+    def on_originPinCmbBx_currentIndexChanged(self, int):
+        self.update_current_origin()
+        self.load_origin_children()
+
     @pyqtSlot()
     def on_originPinAddBtn_clicked(self):
         pinDlg = FdtPinDialog(self, self.iface, 'origin')
-        pinDlg.accepted.connect(self.load_pins)
+        # pinDlg.accepted.connect(self.load_pins)
         pinDlg.show()
 
     @pyqtSlot()
@@ -439,8 +508,22 @@ class FdtMainWidget(QWidget):
         feat = self.current_origin_feat()
         if feat.isValid():
             pinDlg = FdtPinDialog(self, self.iface, 'origin', -1, feat)
-            pinDlg.accepted.connect(self.load_pins)
+            # pinDlg.accepted.connect(self.load_pins)
             pinDlg.show()
+
+    @pyqtSlot()
+    def on_originPinRemoveBtn_clicked(self):
+        res = QMessageBox.warning(
+            self.parent(),
+            self.tr("Caution!"),
+            self.tr("Really delete current origin ??\n\n"
+                    "Doing so will orphan any associated grids, "
+                    "which will have to be manually deleted."),
+            QMessageBox.Ok | QMessageBox.Cancel,
+            QMessageBox.Cancel)
+        if res != QMessageBox.Ok:
+            return
+        self.delete_feature(self.pin_layer_id(), self.current_origin_fid())
 
     @pyqtSlot()
     def on_attributesOpenFormBtn_clicked(self):

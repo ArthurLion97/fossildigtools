@@ -75,7 +75,11 @@ class FossilDigTools:
         self.iface.removePluginMenu(u"&Fossil Dig Tools", self.action)
         self.iface.removeToolBarIcon(self.action)
 
+        # clear out any signal/slot connections
+        self.toolswidget.remove_layer_connections()
+
         self.settings.setValue("currentTab", self.toolswidget.ui.tabWidget.currentIndex())
+
         self.dockWidget.setParent(None)  # remove parent for garbage collection
         del self.dockWidget
 
