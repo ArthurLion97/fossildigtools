@@ -111,7 +111,7 @@ class FdtPinDialog(QDialog):
             name = self.feat["name"]
             x = point.x()
             y = point.y()
-            info = self.feat["info"]
+            info = self.feat["description"]
             setter = self.feat["setter"]
             date = self.feat["date"]
 
@@ -144,7 +144,9 @@ class FdtPinDialog(QDialog):
         feat["setter"] = self.ui.pinSetByLineEdit.text()
         feat["date"] = self.ui.pinDateEdit.date().toString("yyyy/MM/dd")
 
-        if not self.feat:
+        if self.feat:
+            pinLyr.updateFeature(feat)
+        else:
             pinLyr.addFeature(feat, True)
         pinLyr.commitChanges()
         pinLyr.setCacheImage(None)
