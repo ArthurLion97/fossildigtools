@@ -30,6 +30,10 @@ from Ui_fdt_mainwidget import Ui_MainWidget
 from fdt_settingsdlg import FdtSettingsDialog
 from fdt_pindlg import FdtPinDialog
 
+PYDEV_DIR = '/Users/larrys/QGIS/PluginProjects/fossildigtools/pydev'
+if not PYDEV_DIR in sys.path:
+    sys.path.insert(2, PYDEV_DIR)
+import pydevd
 
 class FdtMainWidget(QWidget):
     def __init__(self, parent, iface, settings):
@@ -88,6 +92,9 @@ class FdtMainWidget(QWidget):
 
         QgsMapLayerRegistry.instance().layersAdded["QList<QgsMapLayer *>"].connect(self.layers_added)
         QgsMapLayerRegistry.instance().layersWillBeRemoved["QStringList"].connect(self.layers_to_be_removed)
+
+    def pydev(self):
+        pydevd.settrace('localhost', port=53100, stdoutToServer=True, stderrToServer=True)
 
     def setup_toolbar(self):
         self.pinPlotAct = QAction(
