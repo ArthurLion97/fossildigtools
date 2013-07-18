@@ -41,14 +41,16 @@ class FdtPinTool(QgsMapToolEmitPoint):
         self.mouseReleased.emit()
 
 class FdtPinDialog(QDialog):
-    def __init__(self, parent, iface, pinkind, origin=-1, feat=None):
+    def __init__(self, parent, iface, pinkind, feat=None):
         QDialog.__init__(self, parent)
         self.setWindowFlags(Qt.Tool|Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_DeleteOnClose)
-        self.parent = parent
+        self.p = parent
         self.iface = iface
         self.pinkind = pinkind
-        self.origin = origin
+        self.origin = pinkind == "origin"
+        self.originfeat = None if self.origin else self.p.current_origin_feat()
+        self.originpt = None if self.origin else self.p.current_origin_point()
         self.feat = feat
         self.canvas = self.iface.mapCanvas()
 
@@ -65,18 +67,19 @@ class FdtPinDialog(QDialog):
         self.ui.pinSetByLineEdit.textChanged.connect(self.check_values)
 
         self.pinTool = FdtPinTool(self.canvas)
-        self.pinTool.canvasClicked[QgsPoint,Qt.MouseButton].connect(self.place_pin)
+        self.pinTool.canvasClicked[QgsPoint,Qt.MouseButton].connect(
+            self.place_pin)
         self.pinTool.mouseReleased.connect(self.reset_tool)
         self.set_prev_tool()
 
         self.ui.buttonBox.clicked[QAbstractButton].connect(self.dialog_action)
-        self.restoreGeometry(self.parent.settings.value("/pinDialog/geometry",
-                                                        QByteArray(),
-                                                        type=QByteArray))
+        self.restoreGeometry(self.p.settings.value(
+            "/pinDialog/geometry",
+            QByteArray(),
+            type=QByteArray))
 
     def save_geometry(self):
-        self.parent.settings.setValue("/pinDialog/geometry",
-                                      self.saveGeometry())
+        self.p.settings.setValue("/pinDialog/geometry", self.saveGeometry())
 
     def closeEvent(self, e):
         self.save_geometry()
@@ -84,20 +87,24 @@ class FdtPinDialog(QDialog):
 
     def init_values(self):
         # defaults
-        origin = ""
+        originname = ""
         kindtxt = self.tr("Origin")
-        if self.pinkind == "origin":
-            self.ui.pinOriginFrame.setVisible(False)
+        if self.origin:
+            self.ui.pinOriginLabel.setVisible(False)
+            self.ui.pinOriginLineEdit.setVisible(False)
+            self.ui.fromOriginFrame.setVisible(False)
             self.ui.capturePinBtn.setIcon(
-                QIcon(":/plugins/fossildigtools/icons/capturepin-origin.svg"))
-        else:
-            self.ui.pinOriginFrame.setVisible(True)
-            if self.origin:
-                f = self.parent.current_origin_feat()
-                origin = f['name']
+                QIcon(":/plugins/fossildigtools/icons/"
+                      "capturepin-origin.svg"))
+        else:  # directional
+            self.ui.pinOriginLabel.setVisible(True)
+            self.ui.pinOriginLineEdit.setVisible(True)
+            self.ui.fromOriginFrame.setVisible(True)
+            originname = self.originfeat['name']
             kindtxt = self.tr("Directional")
             self.ui.capturePinBtn.setIcon(
-                QIcon(":/plugins/fossildigtools/icons/capturepin-directional.svg"))
+                QIcon(":/plugins/fossildigtools/icons/"
+                      "capturepin-directional.svg"))
 
         name = ""
         x = 0.0
@@ -118,7 +125,7 @@ class FdtPinDialog(QDialog):
 
         self.ui.pinNameLineEdit.setText(name)
         self.ui.pinKindLabel.setText(kindtxt)
-        self.ui.pinOriginLineEdit.setText(origin)
+        self.ui.pinOriginLineEdit.setText(originname)
         self.ui.pinXDblSpinBx.setValue(x)
         self.ui.pinYDblSpinBx.setValue(y)
         self.ui.pinInfoTextEdit.setPlainText(info)
@@ -126,12 +133,13 @@ class FdtPinDialog(QDialog):
         self.ui.pinDateEdit.setDate(QDate.fromString(date, "yyyy/MM/dd"))
 
     def save_values(self):
-        pinLyr = self.parent.get_layer(self.parent.pin_layer_id())
+        pinLyr = self.p.get_layer(self.p.pin_layer_id())
         if not pinLyr:
             return
         pinLyr.startEditing()
         feat = self.feat if self.feat else QgsFeature()
-        point = QgsPoint(self.ui.pinXDblSpinBx.value(), self.ui.pinYDblSpinBx.value())
+        point = QgsPoint(self.ui.pinXDblSpinBx.value(),
+                         self.ui.pinYDblSpinBx.value())
         feat.setGeometry(QgsGeometry.fromPoint(point))
 
         if not self.feat:
@@ -140,7 +148,7 @@ class FdtPinDialog(QDialog):
             feat["kind"] = self.pinkind
 
         feat["name"] = self.ui.pinNameLineEdit.text()
-        feat["origin"] = self.origin
+        feat["origin"] = -1 if self.origin else self.originfeat['pkuid']
         feat["description"] = self.ui.pinInfoTextEdit.toPlainText()
         feat["setter"] = self.ui.pinSetByLineEdit.text()
         feat["date"] = self.ui.pinDateEdit.date().toString("yyyy/MM/dd")
@@ -155,8 +163,8 @@ class FdtPinDialog(QDialog):
 
     def check_values(self):
         # verify everything is filled out and coords aren't wrong-ish
-        badle = self.parent.badLineEditValue
-        baddblsb = self.parent.badDblSpinBoxValue
+        badle = self.p.badLineEditValue
+        baddblsb = self.p.badDblSpinBoxValue
 
         nameok = self.ui.pinNameLineEdit.text() != ""
         self.ui.pinNameLineEdit.setStyleSheet("" if nameok else badle)
@@ -193,11 +201,12 @@ class FdtPinDialog(QDialog):
         self.canvas.setMapTool(self.pinTool)
 
     def place_pin(self, point, button):
-        # user might remove the layer so we have to check each time
+        #TODO: user might remove the layer so we have to check each time
 
-        # QMessageBox.information( self.iface.mainWindow(),
-        #                          "Coords",
-        #                          "X,Y = %s,%s" % (str(point.x()), str(point.y())))
+        # QMessageBox.information(
+        #     self.iface.mainWindow(),
+        #     "Coords",
+        #     "X,Y = %s,%s" % (str(point.x()), str(point.y())))
         self.ui.pinXDblSpinBx.setValue(point.x())
         self.ui.pinYDblSpinBx.setValue(point.y())
 

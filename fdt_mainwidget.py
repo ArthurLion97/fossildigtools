@@ -610,7 +610,7 @@ class FdtMainWidget(QWidget):
     def on_originPinEditBtn_clicked(self):
         feat = self.current_origin_feat()
         if feat.isValid():
-            pinDlg = FdtPinDialog(self, self.iface, 'origin', -1, feat)
+            pinDlg = FdtPinDialog(self, self.iface, 'origin', feat)
             # pinDlg.accepted.connect(self.load_pins)
             pinDlg.show()
 
@@ -644,8 +644,7 @@ class FdtMainWidget(QWidget):
 
     @pyqtSlot()
     def on_directPinAddBtn_clicked(self):
-        pinDlg = FdtPinDialog(self, self.iface, 'directional',
-                              self.current_origin())
+        pinDlg = FdtPinDialog(self, self.iface, 'directional')
         # pinDlg.accepted.connect(self.load_pins)
         pinDlg.show()
 
@@ -653,8 +652,7 @@ class FdtMainWidget(QWidget):
     def on_directPinEditBtn_clicked(self):
         feat = self.current_directional_feat()
         if feat.isValid():
-            pinDlg = FdtPinDialog(self, self.iface, 'directional',
-                                  self.current_origin(), feat)
+            pinDlg = FdtPinDialog(self, self.iface, 'directional', feat)
             # pinDlg.accepted.connect(self.load_pins)
             pinDlg.show()
 
