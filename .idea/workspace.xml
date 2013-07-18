@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ebe4c01-3712-4255-8951-2984b107c88b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fdt_mainwidget.py" afterPath="$PROJECT_DIR$/fdt_mainwidget.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fdt_mainwidget.ui" afterPath="$PROJECT_DIR$/fdt_mainwidget.ui" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fdt_mainwidget.py" afterPath="$PROJECT_DIR$/fdt_mainwidget.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fdt_mainwidget.ui" afterPath="$PROJECT_DIR$/fdt_mainwidget.ui" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ui_fdt_mainwidget.py" afterPath="$PROJECT_DIR$/Ui_fdt_mainwidget.py" />
     </list>
     <ignored path="fossildigtools.iws" />
@@ -13,7 +13,7 @@
     <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373991827462" ignored="false" />
     <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373991959300" ignored="false" />
     <file path="/a.xml" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373926347581" ignored="false" />
-    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374117623761" ignored="false" />
+    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374177553777" ignored="false" />
     <file path="/make.sh" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373989914665" ignored="false" />
     <file path="/start_script.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374005131444" ignored="false" />
     <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374109517019" ignored="false" />
@@ -39,17 +39,15 @@
     <favorites_list name="fossildigtools" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.4501197">
+    <splitter split-orientation="vertical" split-proportion="0.31364724">
       <split-first>
         <leaf>
           <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="22" column="11" selection-start="1139" selection-end="1139" vertical-scroll-proportion="0.3032015">
+                <state line="56" column="43" selection-start="2140" selection-end="2140" vertical-scroll-proportion="0.7138889">
                   <folding>
-                    <marker date="1374118036000" expanded="true" signature="15409:15923" placeholder="..." />
-                    <marker date="1374118036000" expanded="true" signature="20707:20770" placeholder="..." />
-                    <marker date="1374118036000" expanded="true" signature="23703:23796" placeholder="..." />
+                    <marker date="1374177587000" expanded="true" signature="16419:17063" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -59,9 +57,7 @@
             <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state line="91" column="63" selection-start="3521" selection-end="3521" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="e#1117#1127#0" expanded="true" />
-                  </folding>
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -87,7 +83,7 @@
           <file leaf-file-name="editor_window.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/../plugin_editor/editor/editor_window.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="3114" column="23" selection-start="125023" selection-end="125023" vertical-scroll-proportion="-3.413793">
+                <state line="3114" column="23" selection-start="125023" selection-end="125023" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -100,9 +96,9 @@
           <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="662" column="27" selection-start="22954" selection-end="22954" vertical-scroll-proportion="0.49758455">
+                <state line="474" column="63" selection-start="16040" selection-end="16040" vertical-scroll-proportion="-0.2046285">
                   <folding>
-                    <element signature="e#1117#1127#0" expanded="true" />
+                    <marker date="1374177587000" expanded="true" signature="16419:17063" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -164,7 +160,7 @@
         </expanded-state>
         <selected-state>
           <State>
-            <id>Annotator</id>
+            <id>PyPep8Inspection</id>
           </State>
         </selected-state>
       </profile-state>
@@ -242,7 +238,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="com.jetbrains.python.documentation.PythonDocumentationConfigurable" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="options.searchVisible" value="true" />
   </component>
@@ -404,12 +400,11 @@
     <frame x="364" y="66" width="1785" height="1374" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" x="973" y="962" width="708" height="281" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="973" y="962" width="708" height="281" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25562608" sideWeight="0.6703911" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2625505" sideWeight="0.6703911" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19561455" sideWeight="0.7310455" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35594574" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25908828" sideWeight="0.50039905" order="2" side_tool="true" content_ui="tabs" />
@@ -419,6 +414,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -531,16 +527,12 @@
     </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/PyQt4/QtGui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6798" column="8" selection-start="261152" selection-end="261152" vertical-scroll-proportion="0.33256617">
-          <folding />
-        </state>
+        <state line="6798" column="8" selection-start="261152" selection-end="261152" vertical-scroll-proportion="0.33256617" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Ui_fdt_pindlg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="0" selection-start="750" selection-end="750" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="27" column="0" selection-start="750" selection-end="750" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fossildigtools.py">
@@ -552,16 +544,12 @@
     </entry>
     <entry file="file:///Volumes/Build_Scratch/qgis-github/output/python/qgis/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="302" column="0" selection-start="9117" selection-end="9117" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="302" column="0" selection-start="9117" selection-end="9117" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.qgis2/python/plugins/plugin_reloader/reloader_plugin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="0" selection-start="4664" selection-end="4664" vertical-scroll-proportion="0.56674856">
-          <folding />
-        </state>
+        <state line="116" column="0" selection-start="4664" selection-end="4664" vertical-scroll-proportion="0.56674856" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_settingsdlg.py">
@@ -580,32 +568,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../plugin_editor/editor/editor_window.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3114" column="23" selection-start="125023" selection-end="125023" vertical-scroll-proportion="-3.413793">
+        <state line="3114" column="23" selection-start="125023" selection-end="125023" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/PyQt4/QtCore.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13258" column="0" selection-start="459531" selection-end="459531" vertical-scroll-proportion="0.06476684">
-          <folding />
-        </state>
+        <state line="13258" column="0" selection-start="459531" selection-end="459531" vertical-scroll-proportion="0.06476684" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="91" column="63" selection-start="3521" selection-end="3521" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#1117#1127#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="662" column="27" selection-start="22954" selection-end="22954" vertical-scroll-proportion="0.49758455">
+        <state line="474" column="63" selection-start="16040" selection-end="16040" vertical-scroll-proportion="-0.2046285">
           <folding>
-            <element signature="e#1117#1127#0" expanded="true" />
+            <marker date="1374177587000" expanded="true" signature="16419:17063" placeholder="..." />
           </folding>
         </state>
       </provider>

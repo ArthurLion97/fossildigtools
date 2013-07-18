@@ -36,7 +36,9 @@ if not PYDEV_DIR in sys.path:
     sys.path.insert(2, PYDEV_DIR)
 import pydevd
 
+
 class FdtMainWidget(QWidget):
+
     def __init__(self, parent, iface, settings):
         QWidget.__init__(self, parent)
         self.iface = iface
@@ -50,6 +52,11 @@ class FdtMainWidget(QWidget):
         self.curorigin = "{0}{1}{0}".format("-1", self.datadelim)
         self.layerconections = False
         self.init_bad_value_stylesheets()
+
+        self.redhlcolor = QColor(225, 0, 0)
+        self.bluehlcolor = QColor(0, 0, 225)
+        self.circlesegments = 32
+        self.removehighlightsmilli = 2000
         self.highlights = []
 
         # set up the user interface from Designer.
@@ -184,6 +191,19 @@ class FdtMainWidget(QWidget):
         layer.setCacheImage(None)
         layer.triggerRepaint()
 
+    def circle_geometry(self, pt, radius=0, segments=0):
+        if not radius:
+            radius = self.minor_grid_m() / 4
+        if not segments:
+            segments = self.circlesegments
+        pts = []
+        for i in range(segments):
+            theta = i * (2.0 * math.pi / segments)
+            p = QgsPoint(pt.x() + radius * math.cos(theta),
+                         pt.y() + radius * math.sin(theta))
+            pts.append(p)
+        return QgsGeometry.fromPolygon([pts])
+
     def add_highlight(self, layerid, geom, color):
         layer = self.get_layer(layerid)
         hl = QgsHighlight(self.canvas, geom, layer)
@@ -191,6 +211,11 @@ class FdtMainWidget(QWidget):
         hl.setWidth(0)
         hl.setColor(color)
         hl.show()
+
+    def remove_highlights(self, milliseconds=0):
+        if not milliseconds:
+            milliseconds = self.removehighlightsmilli
+        QTimer.singleShot(milliseconds, self.delete_highlights)
 
     @pyqtSlot()
     def delete_highlights(self):
@@ -250,7 +275,7 @@ class FdtMainWidget(QWidget):
     def layers_to_be_removed(self, lids):
         check = False
         for lid in lids:
-            if self.splayers.has_key(lid):
+            if lid in self.splayers:
                 del self.splayers[lid]
                 check = True
         if check:
@@ -401,7 +426,7 @@ class FdtMainWidget(QWidget):
     def update_current_origin(self):
         if self.ui.originPinCmbBx.count() > 0:
             self.curorigin = self.ui.originPinCmbBx.itemData(
-                    self.ui.originPinCmbBx.currentIndex())
+                self.ui.originPinCmbBx.currentIndex())
         else:
             self.curorigin = "{0}{1}{0}".format("-1", self.datadelim)
 
@@ -417,6 +442,10 @@ class FdtMainWidget(QWidget):
         #self.pydev()
         return self.get_feature(self.pin_layer_id(), self.current_origin_fid())
 
+    def current_origin_point(self):
+        feat = self.current_origin_feat()
+        return feat.geometry().asPoint()
+
     def origin_pins(self):
         expstr = " \"kind\"='origin' "
         layer = self.get_layer(self.pin_layer_id())
@@ -425,7 +454,9 @@ class FdtMainWidget(QWidget):
     def load_origin_pins(self):
         self.ui.originPinCmbBx.clear()
         pins = self.origin_pins()
-        haspins = pins and len(pins) > 0
+        haspins = False
+        if pins is not None:
+            haspins = len(pins) > 0
         # self.pydev()
         if haspins:
             self.ui.originEditFrame.setEnabled(True)
@@ -469,6 +500,10 @@ class FdtMainWidget(QWidget):
         return self.get_feature(self.pin_layer_id(),
                                 self.current_directional_fid())
 
+    def current_directional_point(self):
+        feat = self.current_directional_feat()
+        return feat.geometry().asPoint()
+
     def directional_pins(self, origin=-1):
         if origin == -1:
             origin = self.current_origin()
@@ -481,7 +516,9 @@ class FdtMainWidget(QWidget):
     def load_directional_pins(self):
         self.ui.directPinList.clear()
         pins = self.directional_pins(self.current_origin())
-        haspins = pins and len(pins) > 0
+        haspins = False
+        if pins is not None:
+            haspins = len(pins) > 0
         if haspins:
             self.ui.directPinList.blockSignals(True)
             for pin in pins:
@@ -559,7 +596,7 @@ class FdtMainWidget(QWidget):
         self.check_plugin_ready()
 
     @pyqtSlot(int)
-    def on_originPinCmbBx_currentIndexChanged(self, int):
+    def on_originPinCmbBx_currentIndexChanged(self, indx):
         self.update_current_origin()
         self.load_origin_children()
 
@@ -593,13 +630,13 @@ class FdtMainWidget(QWidget):
 
     @pyqtSlot()
     def on_originPinGoToBtn_clicked(self):
-        feat = self.current_origin_feat()
-        pt = feat.geometry().asPoint()
+        pt = self.current_origin_point()
         rect = self.rect_buf_point(pt, self.major_grid_buf())
         self.zoom_canvas(rect)
 
-        hlrect = self.rect_buf_point(pt, self.minor_grid_m())
-        self.flash_highlight(self.pin_layer_id(), hlrect)
+        geom = self.circle_geometry(pt)
+        self.add_highlight(self.pin_layer_id(), geom, self.redhlcolor)
+        self.remove_highlights()
 
     @pyqtSlot("QListWidgetItem *", "QListWidgetItem *")
     def on_directPinList_currentItemChanged(self, cur, prev):
@@ -626,7 +663,7 @@ class FdtMainWidget(QWidget):
         res = QMessageBox.warning(
             self.parent(),
             self.tr("Caution!"),
-            self.tr("Really delete current directional pin ?"),
+            self.tr("Really delete selected directional pin ?"),
             QMessageBox.Ok | QMessageBox.Cancel,
             QMessageBox.Cancel)
         if res != QMessageBox.Ok:
@@ -639,54 +676,16 @@ class FdtMainWidget(QWidget):
         layer.setSelectedFeatures([self.current_origin_fid(),
                                    self.current_directional_fid()])
         self.canvas.zoomToSelected(layer)
+        self.canvas.zoomByFactor(1.10)  # add a little buffer to extent
         layer.setSelectedFeatures([])
 
-        feat1 = self.current_origin_feat()
-        pt1 = feat1.geometry().asPoint()
-        rect1 = self.rect_buf_point(pt1, self.minor_grid_m())
-        geom1 = QgsGeometry.fromRect(rect1)
-        self.add_highlight(self.pin_layer_id(), geom1, QColor(225, 0, 0))
+        geom1 = self.circle_geometry(self.current_origin_point())
+        self.add_highlight(self.pin_layer_id(), geom1, self.redhlcolor)
 
-          # for ( int i = 0; i <= RADIUS_SEGMENTS; ++i )
-          # {
-          #   double theta = i * ( 2.0 * M_PI / RADIUS_SEGMENTS );
-          #   QgsPoint radiusPoint( mRadiusCenter.x() + r * cos( theta ),
-          #                         mRadiusCenter.y() + r * sin( theta ) );
-          #   mRubberBand->addPoint( radiusPoint );
-          # }
+        geom2 = self.circle_geometry(self.current_directional_point())
+        self.add_highlight(self.pin_layer_id(), geom2, self.bluehlcolor)
 
-        feat2 = self.current_directional_feat()
-        pt2 = feat2.geometry().asPoint()
-        geom2 = QgsGeometry().asPolygon()
-        pts2 = []
-        r2 = self.minor_grid_m() / 4
-        for i in range(32):
-            theta = i * (2.0 * math.pi / 32 )
-            pt = QgsPoint(pt2.x() + r2 * math.cos(theta),
-                          pt2.y() + r2 * math.sin(theta))
-            pts2.append(pt)
-        geom2 = QgsGeometry.fromPolygon([pts2])
-
-        # rb2 = QgsRubberBand(self.canvas, QGis.Polygon)
-        # # pts2 = []
-        # r2 = self.minor_grid_m() / 4
-        # for i in range(32):
-        #     theta = i * (2.0 * math.pi / 32 )
-        #     pt = QgsPoint(pt2.x() + r2 * math.cos(theta),
-        #                   pt2.y() + r2 * math.sin(theta))
-        #     rb2.addPoint(pt)
-        # geom2 = rb2.asGeometry()
-        # rb2.reset(QGis.Polygon)
-        # del rb2
-
-        self.add_highlight(self.pin_layer_id(), geom2, QColor(0, 0, 225))
-
-        # feat2 = self.current_directional_feat()
-        # pt2 = feat2.geometry().asPoint()
-        # hlrect2 = self.rect_buf_point(pt2, self.minor_grid_m())
-        # self.add_highlight(self.pin_layer_id(), hlrect2, QColor(0, 0, 225))
-
-        QTimer.singleShot(2000, self.delete_highlights)
+        self.remove_highlights()
 
     @pyqtSlot()
     def on_attributesOpenFormBtn_clicked(self):
