@@ -20,6 +20,7 @@
  ***************************************************************************/
 """
 import sys
+import math
 
 from qgis.core import *
 from qgis.gui import *
@@ -49,6 +50,7 @@ class FdtMainWidget(QWidget):
         self.curorigin = "{0}{1}{0}".format("-1", self.datadelim)
         self.layerconections = False
         self.init_bad_value_stylesheets()
+        self.highlights = []
 
         # set up the user interface from Designer.
         self.ui = Ui_MainWidget()
@@ -182,6 +184,20 @@ class FdtMainWidget(QWidget):
         layer.setCacheImage(None)
         layer.triggerRepaint()
 
+    def add_highlight(self, layerid, geom, color):
+        layer = self.get_layer(layerid)
+        hl = QgsHighlight(self.canvas, geom, layer)
+        self.highlights.append(hl)
+        hl.setWidth(0)
+        hl.setColor(color)
+        hl.show()
+
+    @pyqtSlot()
+    def delete_highlights(self):
+        for hl in self.highlights:
+            del hl
+        self.highlights = []
+
     def pin_layer_id(self):
         return self.proj.readEntry("fdt", "pinsLayerId", "")[0]
 
@@ -245,15 +261,49 @@ class FdtMainWidget(QWidget):
                 self.valid_grid_layer() and
                 self.valid_feature_layer())
 
+    def zoom_canvas(self, rect):
+        self.canvas.setExtent(rect)
+        self.canvas.refresh()
+
+    def to_meters(self, size, unit):
+        if unit == 'cm':
+            return size * 0.01
+        elif unit == 'in':
+            return size * 0.0254
+        elif unit == 'feet':
+            return size * 0.3048
+
+    def grid_unit_index(self):
+        return self.proj.readNumEntry("fdt", "gridSquaresUnit", 0)[0]
+
+    def grid_unit(self):
+        return 'cm' if self.grid_unit_index() == 0 else 'in'
+
+    def major_grid(self):
+        return self.proj.readNumEntry("fdt", "gridSquaresMajor", 0)[0]
+
+    def major_grid_m(self):
+        return self.to_meters(self.major_grid(), self.grid_unit())
+
+    def minor_grid(self):
+        return self.proj.readNumEntry("fdt", "gridSquaresMinor", 0)[0]
+
+    def minor_grid_m(self):
+        return self.to_meters(self.minor_grid(), self.grid_unit())
+
+    def major_grid_buf(self):
+        return self.major_grid_m() + (2 * self.minor_grid_m())
+
+    def rect_buf_point(self, pt, rect):
+        return QgsRectangle(pt.x() - rect / 2, pt.y() - rect / 2,
+                            pt.x() + rect / 2, pt.y() + rect / 2,)
+
     def valid_squares(self, major, minor):
-        if (major == 0 or minor == 0 or major < minor or major % minor != 0):
-            return False
-        return True
+        return (major != 0 and minor != 0 and
+                major >= minor and major % minor == 0)
 
     def check_grid_squares(self):
-        majSq = self.proj.readNumEntry("fdt", "gridSquaresMajor", 0)[0]
-        minSq = self.proj.readNumEntry("fdt", "gridSquaresMinor", 0)[0]
-        return self.valid_squares(majSq, minSq)
+        return self.valid_squares(self.major_grid(), self.minor_grid())
 
     @pyqtSlot()
     def check_plugin_ready(self):
@@ -403,6 +453,22 @@ class FdtMainWidget(QWidget):
         # load grids associated with the current origin
         self.load_origin_grids()
 
+    def current_directional_item(self):
+        return self.ui.directPinList.currentItem()
+
+    def current_directional(self):
+        return self.split_data(
+            self.current_directional_item().data(Qt.UserRole))[1]
+
+    def current_directional_fid(self):
+        return int(self.split_data(
+            self.current_directional_item().data(Qt.UserRole))[0])
+
+    def current_directional_feat(self):
+        #self.pydev()
+        return self.get_feature(self.pin_layer_id(),
+                                self.current_directional_fid())
+
     def directional_pins(self, origin=-1):
         if origin == -1:
             origin = self.current_origin()
@@ -516,7 +582,7 @@ class FdtMainWidget(QWidget):
         res = QMessageBox.warning(
             self.parent(),
             self.tr("Caution!"),
-            self.tr("Really delete current origin ??\n\n"
+            self.tr("Really delete current origin pin?\n\n"
                     "Doing so will orphan any associated grids, "
                     "which will have to be manually deleted."),
             QMessageBox.Ok | QMessageBox.Cancel,
@@ -524,6 +590,103 @@ class FdtMainWidget(QWidget):
         if res != QMessageBox.Ok:
             return
         self.delete_feature(self.pin_layer_id(), self.current_origin_fid())
+
+    @pyqtSlot()
+    def on_originPinGoToBtn_clicked(self):
+        feat = self.current_origin_feat()
+        pt = feat.geometry().asPoint()
+        rect = self.rect_buf_point(pt, self.major_grid_buf())
+        self.zoom_canvas(rect)
+
+        hlrect = self.rect_buf_point(pt, self.minor_grid_m())
+        self.flash_highlight(self.pin_layer_id(), hlrect)
+
+    @pyqtSlot("QListWidgetItem *", "QListWidgetItem *")
+    def on_directPinList_currentItemChanged(self, cur, prev):
+        self.ui.directPinEditFrame.setEnabled(cur is not None)
+
+    @pyqtSlot()
+    def on_directPinAddBtn_clicked(self):
+        pinDlg = FdtPinDialog(self, self.iface, 'directional',
+                              self.current_origin())
+        # pinDlg.accepted.connect(self.load_pins)
+        pinDlg.show()
+
+    @pyqtSlot()
+    def on_directPinEditBtn_clicked(self):
+        feat = self.current_directional_feat()
+        if feat.isValid():
+            pinDlg = FdtPinDialog(self, self.iface, 'directional',
+                                  self.current_origin(), feat)
+            # pinDlg.accepted.connect(self.load_pins)
+            pinDlg.show()
+
+    @pyqtSlot()
+    def on_directPinRemoveBtn_clicked(self):
+        res = QMessageBox.warning(
+            self.parent(),
+            self.tr("Caution!"),
+            self.tr("Really delete current directional pin ?"),
+            QMessageBox.Ok | QMessageBox.Cancel,
+            QMessageBox.Cancel)
+        if res != QMessageBox.Ok:
+            return
+        self.delete_feature(self.pin_layer_id(), self.current_directional_fid())
+
+    @pyqtSlot()
+    def on_directPinGoToBtn_clicked(self):
+        layer = self.get_layer(self.pin_layer_id())
+        layer.setSelectedFeatures([self.current_origin_fid(),
+                                   self.current_directional_fid()])
+        self.canvas.zoomToSelected(layer)
+        layer.setSelectedFeatures([])
+
+        feat1 = self.current_origin_feat()
+        pt1 = feat1.geometry().asPoint()
+        rect1 = self.rect_buf_point(pt1, self.minor_grid_m())
+        geom1 = QgsGeometry.fromRect(rect1)
+        self.add_highlight(self.pin_layer_id(), geom1, QColor(225, 0, 0))
+
+          # for ( int i = 0; i <= RADIUS_SEGMENTS; ++i )
+          # {
+          #   double theta = i * ( 2.0 * M_PI / RADIUS_SEGMENTS );
+          #   QgsPoint radiusPoint( mRadiusCenter.x() + r * cos( theta ),
+          #                         mRadiusCenter.y() + r * sin( theta ) );
+          #   mRubberBand->addPoint( radiusPoint );
+          # }
+
+        feat2 = self.current_directional_feat()
+        pt2 = feat2.geometry().asPoint()
+        geom2 = QgsGeometry().asPolygon()
+        pts2 = []
+        r2 = self.minor_grid_m() / 4
+        for i in range(32):
+            theta = i * (2.0 * math.pi / 32 )
+            pt = QgsPoint(pt2.x() + r2 * math.cos(theta),
+                          pt2.y() + r2 * math.sin(theta))
+            pts2.append(pt)
+        geom2 = QgsGeometry.fromPolygon([pts2])
+
+        # rb2 = QgsRubberBand(self.canvas, QGis.Polygon)
+        # # pts2 = []
+        # r2 = self.minor_grid_m() / 4
+        # for i in range(32):
+        #     theta = i * (2.0 * math.pi / 32 )
+        #     pt = QgsPoint(pt2.x() + r2 * math.cos(theta),
+        #                   pt2.y() + r2 * math.sin(theta))
+        #     rb2.addPoint(pt)
+        # geom2 = rb2.asGeometry()
+        # rb2.reset(QGis.Polygon)
+        # del rb2
+
+        self.add_highlight(self.pin_layer_id(), geom2, QColor(0, 0, 225))
+
+        # feat2 = self.current_directional_feat()
+        # pt2 = feat2.geometry().asPoint()
+        # hlrect2 = self.rect_buf_point(pt2, self.minor_grid_m())
+        # self.add_highlight(self.pin_layer_id(), hlrect2, QColor(0, 0, 225))
+
+        QTimer.singleShot(2000, self.delete_highlights)
 
     @pyqtSlot()
     def on_attributesOpenFormBtn_clicked(self):

@@ -89,12 +89,9 @@ class FdtSettingsDialog(QDialog):
         self.ui.featuresCmbBx.setCurrentIndex(
             self.ui.featuresCmbBx.findData(self.parent.features_layer_id()))
 
-        self.ui.gridsUnitCmdBx.setCurrentIndex(
-            self.proj.readNumEntry("fdt", "gridSquaresUnit", 0)[0])
-        self.ui.gridsMajorSpnBx.setValue(
-            self.proj.readNumEntry("fdt", "gridSquaresMajor", 0)[0])
-        self.ui.gridsMinorSpnBx.setValue(
-            self.proj.readNumEntry("fdt", "gridSquaresMinor", 0)[0])
+        self.ui.gridsUnitCmdBx.setCurrentIndex(self.parent.grid_unit_index())
+        self.ui.gridsMajorSpnBx.setValue(self.parent.major_grid())
+        self.ui.gridsMinorSpnBx.setValue(self.parent.minor_grid())
 
     def save_values(self):
         # store values in project

@@ -92,8 +92,9 @@ class FdtPinDialog(QDialog):
                 QIcon(":/plugins/fossildigtools/icons/capturepin-origin.svg"))
         else:
             self.ui.pinOriginFrame.setVisible(True)
-            if self.orgin:
-                origin = self.orgin
+            if self.origin:
+                f = self.parent.current_origin_feat()
+                origin = f['name']
             kindtxt = self.tr("Directional")
             self.ui.capturePinBtn.setIcon(
                 QIcon(":/plugins/fossildigtools/icons/capturepin-directional.svg"))
