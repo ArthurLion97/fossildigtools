@@ -681,9 +681,6 @@
                    <property name="toolTip">
                     <string>Add grid(s)</string>
                    </property>
-                   <property name="styleSheet">
-                    <string notr="true">color: rgb(1, 156, 17);</string>
-                   </property>
                    <property name="text">
                     <string notr="true">+</string>
                    </property>

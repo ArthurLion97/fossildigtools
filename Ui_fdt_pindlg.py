@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fdt_pindlg.ui'
 #
-# Created: Thu Jul 18 15:22:44 2013
+# Created: Thu Jul 18 22:06:48 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_PinDialog(object):
     def setupUi(self, PinDialog):
         PinDialog.setObjectName(_fromUtf8("PinDialog"))
-        PinDialog.resize(328, 662)
+        PinDialog.resize(329, 676)
         PinDialog.setMinimumSize(QtCore.QSize(280, 0))
         self.verticalLayout = QtGui.QVBoxLayout(PinDialog)
         self.verticalLayout.setMargin(3)
@@ -36,7 +36,7 @@ class Ui_PinDialog(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 316, 611))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 317, 625))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayout_3 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setMargin(3)
@@ -217,7 +217,8 @@ class Ui_PinDialog(object):
         self.label_9.setObjectName(_fromUtf8("label_9"))
         self.horizontalLayout_3.addWidget(self.label_9)
         self.capturePinBtn = QtGui.QToolButton(self.frame)
-        self.capturePinBtn.setMaximumSize(QtCore.QSize(24, 24))
+        self.capturePinBtn.setMinimumSize(QtCore.QSize(26, 26))
+        self.capturePinBtn.setMaximumSize(QtCore.QSize(26, 26))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/plugins/fossildigtools/icons/capturepin-origin.svg")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.capturePinBtn.setIcon(icon)
@@ -277,7 +278,7 @@ class Ui_PinDialog(object):
         self.label_4.setText(_translate("PinDialog", "Y", None))
         self.fromOriginUnitsCmbBx.setItemText(0, _translate("PinDialog", "m", None))
         self.fromOriginUnitsCmbBx.setItemText(1, _translate("PinDialog", "ft", None))
-        self.label_10.setText(_translate("PinDialog", "Distance from origin", None))
+        self.label_10.setText(_translate("PinDialog", "Capture from origin", None))
         self.toNBtn.setText(_translate("PinDialog", "N", None))
         self.toEBtn.setText(_translate("PinDialog", "E", None))
         self.toWBtn.setText(_translate("PinDialog", "W", None))

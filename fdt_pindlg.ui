@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>328</width>
-    <height>662</height>
+    <width>329</width>
+    <height>676</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -36,8 +36,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>316</width>
-        <height>611</height>
+        <width>317</width>
+        <height>625</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -252,7 +252,7 @@
                 <item row="0" column="0" colspan="3">
                  <widget class="QLabel" name="label_10">
                   <property name="text">
-                   <string>Distance from origin</string>
+                   <string>Capture from origin</string>
                   </property>
                  </widget>
                 </item>
@@ -379,10 +379,16 @@
                </item>
                <item>
                 <widget class="QToolButton" name="capturePinBtn">
+                 <property name="minimumSize">
+                  <size>
+                   <width>26</width>
+                   <height>26</height>
+                  </size>
+                 </property>
                  <property name="maximumSize">
                   <size>
-                   <width>24</width>
-                   <height>24</height>
+                   <width>26</width>
+                   <height>26</height>
                   </size>
                  </property>
                  <property name="text">

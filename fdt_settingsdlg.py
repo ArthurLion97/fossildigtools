@@ -85,9 +85,9 @@ class FdtSettingsDialog(QDialog):
         self.ui.pinsCmbBx.setCurrentIndex(
             self.ui.pinsCmbBx.findData(self.parent.pin_layer_id()))
         self.ui.gridsCmbBx.setCurrentIndex(
-            self.ui.gridsCmbBx.findData(self.parent.grids_layer_id()))
+            self.ui.gridsCmbBx.findData(self.parent.grid_layer_id()))
         self.ui.featuresCmbBx.setCurrentIndex(
-            self.ui.featuresCmbBx.findData(self.parent.features_layer_id()))
+            self.ui.featuresCmbBx.findData(self.parent.feature_layer_id()))
 
         self.ui.gridsUnitCmdBx.setCurrentIndex(self.parent.grid_unit_index())
         self.ui.gridsMajorSpnBx.setValue(self.parent.major_grid())

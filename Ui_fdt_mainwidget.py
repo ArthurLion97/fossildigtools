@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fdt_mainwidget.ui'
 #
-# Created: Wed Jul 17 16:18:52 2013
+# Created: Thu Jul 18 21:25:24 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -295,7 +295,6 @@ class Ui_MainWidget(object):
         self.gridLayout_3.addItem(spacerItem, 2, 4, 1, 1)
         self.gridsAddBtn = QtGui.QToolButton(self.gridFrame)
         self.gridsAddBtn.setMaximumSize(QtCore.QSize(16777215, 24))
-        self.gridsAddBtn.setStyleSheet(_fromUtf8("color: rgb(1, 156, 17);"))
         self.gridsAddBtn.setText(_fromUtf8("+"))
         self.gridsAddBtn.setIcon(icon3)
         self.gridsAddBtn.setIconSize(QtCore.QSize(20, 20))

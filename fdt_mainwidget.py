@@ -50,6 +50,7 @@ class FdtMainWidget(QWidget):
         self.active = False
         self.datadelim = '|'
         self.curorigin = "{0}{1}{0}".format("-1", self.datadelim)
+        self.curgrid = "{0}{1}{0}".format("-1", self.datadelim)
         self.layerconections = False
         self.init_bad_value_stylesheets()
 
@@ -231,10 +232,10 @@ class FdtMainWidget(QWidget):
     def pin_layer_id(self):
         return self.proj.readEntry("fdt", "pinsLayerId", "")[0]
 
-    def grids_layer_id(self):
+    def grid_layer_id(self):
         return self.proj.readEntry("fdt", "gridsLayerId", "")[0]
 
-    def features_layer_id(self):
+    def feature_layer_id(self):
         return self.proj.readEntry("fdt", "featuresLayerId", "")[0]
 
     def valid_layer_attributes(self, lyr, attrs):
@@ -396,8 +397,8 @@ class FdtMainWidget(QWidget):
         if self.layerconections:
             return
 
-        layerids = [self.pin_layer_id(), self.grids_layer_id()]
-        methods = [self.load_pins, self.load_origin_grids()]
+        layerids = [self.pin_layer_id(), self.grid_layer_id()]
+        methods = [self.load_pins, self.load_origin_major_grids]
 
         for i in range(len(layerids)):
             layer = self.get_layer(layerids[i])
@@ -409,8 +410,8 @@ class FdtMainWidget(QWidget):
         if not self.layerconections:
             return
 
-        layerids = [self.pin_layer_id(), self.grids_layer_id()]
-        methods = [self.load_pins, self.load_origin_grids()]
+        layerids = [self.pin_layer_id(), self.grid_layer_id()]
+        methods = [self.load_pins, self.load_origin_major_grids()]
 
         for i in range(len(layerids)):
             layer = self.get_layer(layerids[i])
@@ -439,7 +440,7 @@ class FdtMainWidget(QWidget):
 
         self.settings.setValue("currentOrigin", self.current_origin())
 
-    def current_origin(self):
+    def current_origin(self):  # pkuid
         return self.split_data(self.curorigin)[1]
 
     def current_origin_fid(self):
@@ -489,12 +490,12 @@ class FdtMainWidget(QWidget):
         # load directional pins associated with the current origin
         self.load_directional_pins()
         # load grids associated with the current origin
-        self.load_origin_grids()
+        self.load_origin_major_grids()
 
     def current_directional_item(self):
         return self.ui.directPinList.currentItem()
 
-    def current_directional(self):
+    def current_directional(self):  # pkuid
         return self.split_data(
             self.current_directional_item().data(Qt.UserRole))[1]
 
@@ -534,11 +535,164 @@ class FdtMainWidget(QWidget):
                 self.ui.directPinList.addItem(lw)
             self.ui.directPinList.blockSignals(False)
 
-    def origin_grids(self, origin=-1):
-        pass
+    def split_grid_name(self, data):
+        return data.split(', ')
 
-    def load_origin_grids(self):
-        pass
+    def join_grid_name(self, a, b):
+        return "{0}, {1}".format(a, b)
+
+    def update_current_grid(self):
+        if self.ui.gridsCmbBx.count() > 0:
+            self.curgrid = self.ui.gridsCmbBx.itemData(
+                self.ui.gridsCmbBx.currentIndex())
+        else:
+            self.curgrid = "{0}{1}{0}".format("-1", self.datadelim)
+
+        data = self.join_data(self.current_origin(), self.current_grid())
+        self.settings.setValue("currentGrid", data)
+
+    def current_grid(self):
+        return self.split_data(self.curgrid)[1]  # pkuid
+
+    def current_grid_fid(self):
+        return int(self.split_data(self.curgrid)[0])
+
+    def current_grid_feat(self):
+        #self.pydev()
+        return self.get_feature(self.grid_layer_id(), self.current_grid_fid())
+
+    def current_grid_polygon(self):
+        feat = self.current_grid_feat()
+        # multipolygon geometry, but we know it's a single geometry
+        return feat.geometry().asPolygon()
+
+    def current_grid_points(self):
+        pts = []
+        for i in self.current_grid_polygon():
+            for k in i:
+                pts.append(QgsPoint(k.x(), k.y()))
+        return pts
+
+    def current_grid_rect(self):
+        pts = self.current_grid_points()
+        return QgsRectangle(pts[0], pts[1], pts[2], pts[3])
+
+    def grid_xyloc_from_origin(self, x, y):
+        return [1, 1]
+
+    def create_major_grid_geom(self, x, y):  # lower left point
+        g = self.major_grid_m()
+        pts = [QgsPoint(x, y),
+               QgsPoint(x, y + g),
+               QgsPoint(x + g, y + g),
+               QgsPoint(x + g, y)]
+        return QgsGeometry.fromMultiPolygon([[pts]])
+
+    def create_minor_grids_geom(self, x, y):  # lower left point
+        g = self.minor_grid_m()
+        pts = [QgsPoint(x, y), QgsPoint(x + g, y + g)]
+        return QgsGeometry.fromMultiPolygon([pts])
+
+    def create_grid(self, refpt, refloc='ll'):
+        layer = self.get_layer(self.grid_layer_id())
+        if not layer:
+            return
+
+        x = refpt.x()
+        y = refpt.y()
+        g = self.major_grid_m()
+        # normalize to lower left coord
+        if refloc == 'ul':  # upper left
+            y -= g
+        elif refloc == 'ur':  # upper right
+            x -= g
+            y -= g
+        elif refloc == 'lr':  # lower right
+            x -= g
+        xyloc = self.grid_xyloc_from_origin(x + g / 2, y + g / 2)
+
+        layer.startEditing()
+
+        # major grid feature
+        feat1 = QgsFeature()
+        feat1.setGeometry(self.create_major_grid_geom(x, y))
+        fields = layer.pendingFields()
+        feat1.setFields(fields)
+        feat1["kind"] = 'major'
+        feat1['x'] = xyloc[0]
+        feat1['y'] = xyloc[1]
+        feat1['major'] = 0
+        feat1['origin'] = self.current_origin()
+        layer.addFeature(feat1, True)
+
+        # # minor grid feature
+        # feat2 = QgsFeature()
+        # feat2.setGeometry(self.create_minor_grids_geom(x, y))
+        # fields = layer.pendingFields()
+        # feat2.setFields(fields)
+        # feat2["kind"] = 'minor'
+        # feat2['x'] = xyloc[0]
+        # feat2['y'] = xyloc[1]
+        # feat2['origin'] = self.current_origin()
+        # layer.addFeature(feat2, True)
+
+        layer.commitChanges()
+        layer.setCacheImage(None)
+        layer.triggerRepaint()
+
+    def origin_major_grids(self, origin=-1):
+        if origin == -1:
+            origin = self.current_origin()
+        if origin == -1:
+            return
+        expstr = " \"kind\"='major' AND \"origin\"={0} ".format(origin)
+        layer = self.get_layer(self.grid_layer_id())
+        return self.get_features(layer, expstr)
+
+    def load_origin_major_grids(self):
+        self.ui.gridsCmbBx.clear()
+        # self.pydev()
+        if self.current_origin() == -1:
+            self.ui.gridFrame.setEnabled(False)
+            return
+        self.ui.gridFrame.setEnabled(True)
+
+        grids = self.origin_major_grids()
+        hasgrids = False
+        if grids is not None:
+            hasgrids = len(grids) > 0
+        # self.pydev()
+        self.ui.addGridGridRadio.setEnabled(hasgrids)
+        # simulate click for button group
+        if hasgrids:
+            self.ui.addGridGridRadio.click()
+        else:
+            self.ui.addGridOriginRadio.click()
+        self.ui.gridsRemoveBtn.setEnabled(hasgrids)
+        self.ui.gridsGoToBtn.setEnabled(hasgrids)
+        if hasgrids:
+            self.ui.gridsCmbBx.blockSignals(True)
+
+            datalist = self.split_data(
+                self.settings.value("currentGrid",
+                                    "{0}{1}{0}".format("-1", self.datadelim),
+                                    type=str))
+            (curorig, curgrid) = datalist[0], datalist[1]
+            curindx = -1
+            for i in range(len(grids)):
+                grid = grids[i]
+                pkuid = grid['pkuid']
+                name = self.join_grid_name(grid['x'], grid['y'])
+                self.ui.gridsCmbBx.addItem(name,
+                                           self.join_data(grid.id(), pkuid))
+                if (curgrid != "-1" and
+                        curorig == self.current_origin() and
+                        curgrid == str(pkuid)):
+                    curindx = i
+            if curindx > -1:
+                self.ui.gridsCmbBx.setCurrentIndex(curindx)
+
+            self.ui.gridsCmbBx.blockSignals(False)
 
     def init_bad_value_stylesheets(self):
         self.badLineEditValue = \
@@ -555,7 +709,7 @@ class FdtMainWidget(QWidget):
             self.msg_bar(self.tr("No active layer"),
                          QgsMessageBar.INFO)
             return False
-        if avl.id() != self.features_layer_id():
+        if avl.id() != self.feature_layer_id():
             self.msg_bar(self.tr("Features layer not active"),
                          QgsMessageBar.INFO)
             return False
@@ -706,6 +860,16 @@ class FdtMainWidget(QWidget):
     def on_attributesOpenFormBtn_clicked(self):
         for f in self.selected_features():
             self.iface.openFeatureForm(self.iface.activeLayer(), f)
+
+    @pyqtSlot()
+    def on_gridsAddBtn_clicked(self):
+        # TODO: loop through checked quadrants
+
+        # TODO: figure the reference point, relative to the checked quadrant
+
+        self.create_grid(self.current_origin_point(), 'll')
+
+        # TODO: reset quadrant buttons
 
     @pyqtSlot(QAbstractButton)
     def on_addGridRadioGrp_buttonClicked(self, btn):
