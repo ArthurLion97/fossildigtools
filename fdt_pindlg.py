@@ -40,6 +40,7 @@ class FdtPinTool(QgsMapToolEmitPoint):
         QgsMapToolEmitPoint.canvasReleaseEvent(self, e)
         self.mouseReleased.emit()
 
+
 class FdtPinDialog(QDialog):
     def __init__(self, parent, iface, pinkind, feat=None):
         QDialog.__init__(self, parent)
@@ -183,7 +184,7 @@ class FdtPinDialog(QDialog):
         yok = (int(y) != 0 and p.match(str(y)) is not None)
         self.ui.pinYDblSpinBx.setStyleSheet("" if yok else baddblsb)
 
-        return (nameok and setbyok and xok and yok)
+        return nameok and setbyok and xok and yok
 
     @pyqtSlot(QAbstractButton)
     def dialog_action(self, btn):

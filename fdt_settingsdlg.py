@@ -45,14 +45,19 @@ class FdtSettingsDialog(QDialog):
         self.lyrCmbxs = [self.ui.pinsCmbBx,
                          self.ui.gridsCmbBx,
                          self.ui.featuresCmbBx]
-        self.ui.pinsCmbBx.currentIndexChanged[int].connect(self.validate_pins_combobox)
-        self.ui.gridsCmbBx.currentIndexChanged[int].connect(self.validate_grids_combobox)
-        self.ui.featuresCmbBx.currentIndexChanged[int].connect(self.validate_features_combobox)
+        self.ui.pinsCmbBx.currentIndexChanged[int].\
+            connect(self.validate_pins_combobox)
+        self.ui.gridsCmbBx.currentIndexChanged[int].\
+            connect(self.validate_grids_combobox)
+        self.ui.featuresCmbBx.currentIndexChanged[int].\
+            connect(self.validate_features_combobox)
 
         self.populate_comboboxes()
 
-        self.ui.gridsMajorSpnBx.valueChanged[int].connect(self.check_grid_squares)
-        self.ui.gridsMinorSpnBx.valueChanged[int].connect(self.check_grid_squares)
+        self.ui.gridsMajorSpnBx.valueChanged[int].\
+            connect(self.check_grid_squares)
+        self.ui.gridsMinorSpnBx.valueChanged[int].\
+            connect(self.check_grid_squares)
 
         self.init_values()
 
@@ -78,7 +83,7 @@ class FdtSettingsDialog(QDialog):
             cmbx.clear()
             cmbx.addItem("", "invalid")
             for lyrid, lyr in lyrsdict.iteritems():
-               cmbx.addItem(lyr.name(), lyrid)
+                cmbx.addItem(lyr.name(), lyrid)
 
     def init_values(self):
         # load values from project
