@@ -106,11 +106,19 @@ class FdtMainWidget(QWidget):
         # ensure any highlights are removed on subsequent refreshes
         self.canvas.mapCanvasRefreshed.connect(self.delete_highlights)
 
-        QgsMapLayerRegistry.instance().layersAdded["QList<QgsMapLayer *>"].connect(self.layers_added)
-        QgsMapLayerRegistry.instance().layersWillBeRemoved["QStringList"].connect(self.layers_to_be_removed)
+        QgsMapLayerRegistry.instance().layersAdded["QList<QgsMapLayer *>"].\
+            connect(self.layers_added)
+        QgsMapLayerRegistry.instance().layersWillBeRemoved["QStringList"].\
+            connect(self.layers_to_be_removed)
 
     def pydev(self):
-        pydevd.settrace('localhost', port=53100, stdoutToServer=True, stderrToServer=True)
+        try:  # or it crashes QGIS if connection to debug server unavailable
+            pydevd.settrace('localhost',
+                            port=53100,
+                            stdoutToServer=True,
+                            stderrToServer=True)
+        except StandardError:
+            pass
 
     def setup_toolbar(self):
         self.pinPlotAct = QAction(
@@ -118,7 +126,6 @@ class FdtMainWidget(QWidget):
             '', self)
         self.pinPlotAct.setToolTip(self.tr('Plot point from pins'))
         self.tb.addAction(self.pinPlotAct)
-
 
         spacer = QWidget(self)
         spacer.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Preferred)
@@ -246,16 +253,17 @@ class FdtMainWidget(QWidget):
         return True
 
     def valid_pin_layer(self, lid=None):
-        if id == "invalid":
+        if lid == "invalid":
             return False
         lyrId = lid if lid else self.pin_layer_id()
         if lyrId == "" or lyrId not in self.splayers:
             return False
-        lyr = self.get_layer(lyrId)
-        if lyr.geometryType() != QGis.Point:
+        layer = self.get_layer(lyrId)
+        if layer and layer.geometryType() != QGis.Point:
             return False
-        attrs = ['pkuid', 'kind', 'name', 'date', 'setter', 'description', 'origin']
-        return self.valid_layer_attributes(lyr, attrs)
+        attrs = ['pkuid', 'kind', 'name', 'date',
+                 'setter', 'description', 'origin']
+        return self.valid_layer_attributes(layer, attrs)
 
     def valid_grid_layer(self, lid=None):
         return True
@@ -271,7 +279,7 @@ class FdtMainWidget(QWidget):
     def layers_added(self, layers):
         check = False
         for layer in layers:
-            if self.is_spatialite_layer(layer):
+            if self.is_spatialite_layer(layer) and layer not in self.splayers:
                 self.splayers[layer.id()] = layer
                 check = True
         if check:
@@ -455,16 +463,17 @@ class FdtMainWidget(QWidget):
         return feat.geometry().asPoint()
 
     def origin_pins(self):
+        pins = []
         expstr = " \"kind\"='origin' "
         layer = self.get_layer(self.pin_layer_id())
-        return self.get_features(layer, expstr)
+        if layer:
+            pins = self.get_features(layer, expstr)
+        return pins
 
     def load_origin_pins(self):
         self.ui.originPinCmbBx.clear()
         pins = self.origin_pins()
-        haspins = False
-        if pins is not None:
-            haspins = len(pins) > 0
+        haspins = len(pins) > 0
         # self.pydev()
         if haspins:
             self.ui.originEditFrame.setEnabled(True)
@@ -479,7 +488,8 @@ class FdtMainWidget(QWidget):
                     pin['name'], self.join_data(pin.id(), pkuid))
                 if curorig != "-1" and curorig == str(pkuid):
                     curindx = i
-            if curindx > -1:
+            if (curindx > -1 and
+                    not curindx > (self.ui.originPinCmbBx.count() - 1)):
                 self.ui.originPinCmbBx.setCurrentIndex(curindx)
 
             self.ui.originPinCmbBx.blockSignals(False)
@@ -513,20 +523,21 @@ class FdtMainWidget(QWidget):
         return feat.geometry().asPoint()
 
     def directional_pins(self, origin=-1):
+        pins = []
         if origin == -1:
             origin = self.current_origin()
         if origin == -1:
             return
         expstr = " \"kind\"='directional' AND \"origin\"={0} ".format(origin)
         layer = self.get_layer(self.pin_layer_id())
-        return self.get_features(layer, expstr)
+        if layer:
+            pins = self.get_features(layer, expstr)
+        return pins
 
     def load_directional_pins(self):
         self.ui.directPinList.clear()
         pins = self.directional_pins(self.current_origin())
-        haspins = False
-        if pins is not None:
-            haspins = len(pins) > 0
+        haspins = len(pins) > 0
         if haspins:
             self.ui.directPinList.blockSignals(True)
             for pin in pins:
@@ -563,7 +574,6 @@ class FdtMainWidget(QWidget):
 
     def current_grid_polygon(self):
         feat = self.current_grid_feat()
-        # multipolygon geometry, but we know it's a single geometry
         return feat.geometry().asPolygon()
 
     def current_grid_points(self):
@@ -641,13 +651,16 @@ class FdtMainWidget(QWidget):
         layer.triggerRepaint()
 
     def origin_major_grids(self, origin=-1):
+        grids = []
         if origin == -1:
             origin = self.current_origin()
         if origin == -1:
-            return
+            return grids
         expstr = " \"kind\"='major' AND \"origin\"={0} ".format(origin)
         layer = self.get_layer(self.grid_layer_id())
-        return self.get_features(layer, expstr)
+        if layer:
+            grids = self.get_features(layer, expstr)
+        return grids
 
     def load_origin_major_grids(self):
         self.ui.gridsCmbBx.clear()
@@ -658,9 +671,7 @@ class FdtMainWidget(QWidget):
         self.ui.gridFrame.setEnabled(True)
 
         grids = self.origin_major_grids()
-        hasgrids = False
-        if grids is not None:
-            hasgrids = len(grids) > 0
+        hasgrids = len(grids) > 0
         # self.pydev()
         self.ui.addGridGridRadio.setEnabled(hasgrids)
         # simulate click for button group
@@ -689,8 +700,8 @@ class FdtMainWidget(QWidget):
                         curorig == self.current_origin() and
                         curgrid == str(pkuid)):
                     curindx = i
-            if curindx > -1:
-                self.ui.gridsCmbBx.setCurrentIndex(curindx)
+            if curindx > -1 and not curindx > (self.ui.gridsCmbBx.count() - 1):
+                    self.ui.gridsCmbBx.setCurrentIndex(curindx)
 
             self.ui.gridsCmbBx.blockSignals(False)
 
