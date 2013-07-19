@@ -102,6 +102,9 @@ class FdtMainWidget(QWidget):
         self.iface.projectRead.connect(self.check_plugin_ready)
         self.iface.newProjectCreated.connect(self.invalid_project)
 
+        # ensure any highlights are removed on subsequent refreshes
+        self.canvas.mapCanvasRefreshed.connect(self.delete_highlights)
+
         QgsMapLayerRegistry.instance().layersAdded["QList<QgsMapLayer *>"].connect(self.layers_added)
         QgsMapLayerRegistry.instance().layersWillBeRemoved["QStringList"].connect(self.layers_to_be_removed)
 
@@ -193,7 +196,9 @@ class FdtMainWidget(QWidget):
 
     def circle_geometry(self, pt, radius=0, segments=0):
         if not radius:
-            radius = self.minor_grid_m() / 4
+            ctx = self.canvas.mapRenderer().rendererContext()
+            # mm (converted to map pixels, then to meters)
+            radius = 5 * ctx.scaleFactor() * ctx.mapToPixel().mapUnitsPerPixel()
         if not segments:
             segments = self.circlesegments
         pts = []
@@ -295,8 +300,10 @@ class FdtMainWidget(QWidget):
             return size * 0.01
         elif unit == 'in':
             return size * 0.0254
-        elif unit == 'feet':
+        elif unit == 'feet' or unit == 'ft':
             return size * 0.3048
+        # elif unit == 'meter' or unit == 'm':
+        return size
 
     def grid_unit_index(self):
         return self.proj.readNumEntry("fdt", "gridSquaresUnit", 0)[0]
@@ -634,9 +641,10 @@ class FdtMainWidget(QWidget):
         rect = self.rect_buf_point(pt, self.major_grid_buf())
         self.zoom_canvas(rect)
 
+        # highlight origin pt
         geom = self.circle_geometry(pt)
         self.add_highlight(self.pin_layer_id(), geom, self.redhlcolor)
-        self.remove_highlights()
+        # self.remove_highlights()
 
     @pyqtSlot("QListWidgetItem *", "QListWidgetItem *")
     def on_directPinList_currentItemChanged(self, cur, prev):
@@ -670,20 +678,29 @@ class FdtMainWidget(QWidget):
 
     @pyqtSlot()
     def on_directPinGoToBtn_clicked(self):
-        layer = self.get_layer(self.pin_layer_id())
-        layer.setSelectedFeatures([self.current_origin_fid(),
-                                   self.current_directional_fid()])
-        self.canvas.zoomToSelected(layer)
-        self.canvas.zoomByFactor(1.10)  # add a little buffer to extent
-        layer.setSelectedFeatures([])
+        o = QgsPoint(self.current_origin_point())
+        d = QgsPoint(self.current_directional_point())
+        # handle instance where extent of pins has no width or height,
+        # e.g. they are offest directly north south, east or west
+        pad = self.minor_grid_m() / 2
+        if o.x() == d.x():
+            o.setX(o.x() + pad)
+            d.setX(d.x() - pad)
+        if o.y() == d.y():
+            o.setY(o.y() + pad)
+            d.setY(d.y() - pad)
 
+        rect = QgsRectangle(o, d) if o < d else QgsRectangle(d, o)
+        self.zoom_canvas(rect)
+        self.canvas.zoomByFactor(1.10)  # add a little buffer to extent
+
+        # highlight origin pt
         geom1 = self.circle_geometry(self.current_origin_point())
         self.add_highlight(self.pin_layer_id(), geom1, self.redhlcolor)
-
+        # highlight directional pt
         geom2 = self.circle_geometry(self.current_directional_point())
         self.add_highlight(self.pin_layer_id(), geom2, self.bluehlcolor)
-
-        self.remove_highlights()
+        # self.remove_highlights()
 
     @pyqtSlot()
     def on_attributesOpenFormBtn_clicked(self):

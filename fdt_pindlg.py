@@ -78,6 +78,8 @@ class FdtPinDialog(QDialog):
             QByteArray(),
             type=QByteArray))
 
+        self.ui.pinNameLineEdit.setFocus()
+
     def save_geometry(self):
         self.p.settings.setValue("/pinDialog/geometry", self.saveGeometry())
 
@@ -199,6 +201,30 @@ class FdtPinDialog(QDialog):
             self.reset_tool()
             return
         self.canvas.setMapTool(self.pinTool)
+
+    def offset_origin_coords(self, offset=(0.0, 0.0)):
+        dist = self.p.to_meters(self.ui.fromOriginDistDblSpnBx.value(),
+                                self.ui.fromOriginUnitsCmbBx.currentText())
+        if int(dist) == 0:
+            return
+        self.ui.pinXDblSpinBx.setValue( self.originpt.x() + dist * offset[0])
+        self.ui.pinYDblSpinBx.setValue( self.originpt.y() + dist * offset[1])
+
+    @pyqtSlot()
+    def on_toNBtn_clicked(self):
+        self.offset_origin_coords((0.0, 1.0))
+
+    @pyqtSlot()
+    def on_toSBtn_clicked(self):
+        self.offset_origin_coords((0.0, -1.0))
+
+    @pyqtSlot()
+    def on_toEBtn_clicked(self):
+        self.offset_origin_coords((1.0, 0.0))
+
+    @pyqtSlot()
+    def on_toWBtn_clicked(self):
+        self.offset_origin_coords((-1.0, 0.0))
 
     def place_pin(self, point, button):
         #TODO: user might remove the layer so we have to check each time

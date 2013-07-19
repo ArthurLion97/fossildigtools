@@ -13,10 +13,10 @@
     <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373991827462" ignored="false" />
     <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373991959300" ignored="false" />
     <file path="/a.xml" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373926347581" ignored="false" />
-    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374177553777" ignored="false" />
+    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374193888020" ignored="false" />
     <file path="/make.sh" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373989914665" ignored="false" />
     <file path="/start_script.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374005131444" ignored="false" />
-    <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374181453457" ignored="false" />
+    <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374189192180" ignored="false" />
     <file path="/fdt_settingsdlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374106302869" ignored="false" />
     <file path="/Python Console" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374005444736" ignored="false" />
     <file path="/fragment.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374019870912" ignored="false" />
@@ -44,10 +44,10 @@
       <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="650" column="15" selection-start="22150" selection-end="22150" vertical-scroll-proportion="0.44093567">
+            <state line="658" column="15" selection-start="22562" selection-end="22562" vertical-scroll-proportion="0.4681208">
               <folding>
                 <element signature="e#1117#1127#0" expanded="true" />
-                <marker date="1374182865000" expanded="true" signature="16419:17063" placeholder="..." />
+                <marker date="1374193908000" expanded="true" signature="16799:17443" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -56,7 +56,7 @@
       <file leaf-file-name="fdt_pindlg.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="26" selection-start="1851" selection-end="1851" vertical-scroll-proportion="-23.0">
+            <state line="229" column="32" selection-start="8307" selection-end="8313" vertical-scroll-proportion="-13.689655">
               <folding />
             </state>
           </provider>
@@ -393,7 +393,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35594574" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25908828" sideWeight="0.50039905" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26895452" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26895452" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -540,13 +540,6 @@
         <state line="13258" column="0" selection-start="459531" selection-end="459531" vertical-scroll-proportion="0.06476684" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fdt_settingsdlg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="26" selection-start="3845" selection-end="3845" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fossildigtools.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="0" selection-start="2917" selection-end="2917" vertical-scroll-proportion="0.0">
@@ -561,19 +554,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/fdt_settingsdlg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="95" column="26" selection-start="3845" selection-end="3845" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="26" selection-start="1851" selection-end="1851" vertical-scroll-proportion="-23.0">
+        <state line="229" column="32" selection-start="8307" selection-end="8313" vertical-scroll-proportion="-13.689655">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="650" column="15" selection-start="22150" selection-end="22150" vertical-scroll-proportion="0.44093567">
+        <state line="658" column="15" selection-start="22562" selection-end="22562" vertical-scroll-proportion="0.4681208">
           <folding>
             <element signature="e#1117#1127#0" expanded="true" />
-            <marker date="1374182865000" expanded="true" signature="16419:17063" placeholder="..." />
+            <marker date="1374193908000" expanded="true" signature="16799:17443" placeholder="..." />
           </folding>
         </state>
       </provider>
