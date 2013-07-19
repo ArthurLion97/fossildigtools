@@ -266,9 +266,16 @@ class FdtMainWidget(QWidget):
         return self.valid_layer_attributes(layer, attrs)
 
     def valid_grid_layer(self, lid=None):
-        return True
-
-#        lyrId = self.grids_layer_id()
+        if lid == "invalid":
+            return False
+        lyrId = lid if lid else self.grid_layer_id()
+        if lyrId == "" or lyrId not in self.splayers:
+            return False
+        layer = self.get_layer(lyrId)
+        if layer and layer.geometryType() != QGis.Polygon:
+            return False
+        attrs = ['pkuid', 'kind', 'x', 'y', 'minor', 'origin']
+        return self.valid_layer_attributes(layer, attrs)
 
     def valid_feature_layer(self, lid=None):
         return True
@@ -587,51 +594,78 @@ class FdtMainWidget(QWidget):
         pts = self.current_grid_points()
         return QgsRectangle(pts[0], pts[1], pts[2], pts[3])
 
-    def grid_xyloc_from_origin(self, x, y):
-        return [1, 1]
+    def current_grid_center(self):
+        return self.current_grid_rect().center()
 
-    def create_major_grid_geom(self, x, y):  # lower left point
+    def offset_within_size(self, a, b, size):
+        # offset of a from b within number of sizes
+        d = 0
+        if a > b:
+            while a > b:
+                d += 1
+                b += size
+        else:
+            while a < b:
+                d -= 1
+                b -= size
+        return d
+
+    def grid_xyloc_from_origin(self, pt):  # p is center point of grid
         g = self.major_grid_m()
-        pts = [QgsPoint(x, y),
-               QgsPoint(x, y + g),
-               QgsPoint(x + g, y + g),
-               QgsPoint(x + g, y)]
-        return QgsGeometry.fromMultiPolygon([[pts]])
+        o = self.current_origin_point()
+        return [self.offset_within_size(pt.x(), o.x(), g),
+                self.offset_within_size(pt.y(), o.y(), g)]
 
-    def create_minor_grids_geom(self, x, y):  # lower left point
-        g = self.minor_grid_m()
-        pts = [QgsPoint(x, y), QgsPoint(x + g, y + g)]
-        return QgsGeometry.fromMultiPolygon([pts])
+    def grid_xyloc_exists(self, xyloc):
+        expstr = ' "kind"=\'major\' and "x"={0} and "y"={1} and "origin"={2} '.\
+            format(xyloc[0], xyloc[1], self.current_origin())
+        feats = []
+        layer = self.get_layer(self.grid_layer_id())
+        if layer:
+            feats = self.get_features(layer, expstr)
+        return len(feats) > 0
 
-    def create_grid(self, refpt, refloc='ll'):
+    def create_grid_geom(self, pt, kind):  # lower left point
+        g = self.major_grid_m() if kind == 'major' else self.minor_grid_m()
+        pts = [QgsPoint(pt.x(), pt.y()),
+               QgsPoint(pt.x(), pt.y() + g),
+               QgsPoint(pt.x() + g, pt.y() + g),
+               QgsPoint(pt.x() + g, pt.y())]
+        return QgsGeometry.fromPolygon([pts])
+
+    def create_grid(self, pt, ptloc='ll'):
         layer = self.get_layer(self.grid_layer_id())
         if not layer:
             return
 
-        x = refpt.x()
-        y = refpt.y()
+        x = pt.x()
+        y = pt.y()
         g = self.major_grid_m()
         # normalize to lower left coord
-        if refloc == 'ul':  # upper left
+        if ptloc == 'ul':  # upper left
             y -= g
-        elif refloc == 'ur':  # upper right
+        elif ptloc == 'ur':  # upper right
             x -= g
             y -= g
-        elif refloc == 'lr':  # lower right
+        elif ptloc == 'lr':  # lower right
             x -= g
-        xyloc = self.grid_xyloc_from_origin(x + g / 2, y + g / 2)
+        xyloc = self.grid_xyloc_from_origin(QgsPoint(x + g / 2, y + g / 2))
+
+        # don't duplicate grids
+        if self.grid_xyloc_exists(xyloc):
+            return
 
         layer.startEditing()
 
         # major grid feature
         feat1 = QgsFeature()
-        feat1.setGeometry(self.create_major_grid_geom(x, y))
+        feat1.setGeometry(self.create_grid_geom(QgsPoint(x, y), 'major'))
         fields = layer.pendingFields()
         feat1.setFields(fields)
         feat1["kind"] = 'major'
         feat1['x'] = xyloc[0]
         feat1['y'] = xyloc[1]
-        feat1['major'] = 0
+        feat1['minor'] = "n/a"
         feat1['origin'] = self.current_origin()
         layer.addFeature(feat1, True)
 
@@ -684,12 +718,12 @@ class FdtMainWidget(QWidget):
         if hasgrids:
             self.ui.gridsCmbBx.blockSignals(True)
 
+            defaultdata = "{0}{1}{0}".format("-1", self.datadelim)
             datalist = self.split_data(
-                self.settings.value("currentGrid",
-                                    "{0}{1}{0}".format("-1", self.datadelim),
-                                    type=str))
+                self.settings.value("currentGrid", defaultdata, type=str))
             (curorig, curgrid) = datalist[0], datalist[1]
             curindx = -1
+            # self.pydev()
             for i in range(len(grids)):
                 grid = grids[i]
                 pkuid = grid['pkuid']
@@ -704,6 +738,9 @@ class FdtMainWidget(QWidget):
                     self.ui.gridsCmbBx.setCurrentIndex(curindx)
 
             self.ui.gridsCmbBx.blockSignals(False)
+
+        # trigger gui update
+        self.on_gridsCmbBx_currentIndexChanged(-1)
 
     def init_bad_value_stylesheets(self):
         self.badLineEditValue = \
@@ -871,6 +908,10 @@ class FdtMainWidget(QWidget):
     def on_attributesOpenFormBtn_clicked(self):
         for f in self.selected_features():
             self.iface.openFeatureForm(self.iface.activeLayer(), f)
+
+    @pyqtSlot(int)
+    def on_gridsCmbBx_currentIndexChanged(self, indx):
+        self.update_current_grid()
 
     @pyqtSlot()
     def on_gridsAddBtn_clicked(self):
