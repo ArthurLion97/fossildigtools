@@ -13,7 +13,7 @@
     <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373991827462" ignored="false" />
     <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373991959300" ignored="false" />
     <file path="/a.xml" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373926347581" ignored="false" />
-    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374355177995" ignored="false" />
+    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374361708389" ignored="false" />
     <file path="/make.sh" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373989914665" ignored="false" />
     <file path="/start_script.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374005131444" ignored="false" />
     <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374189192180" ignored="false" />
@@ -39,13 +39,13 @@
     <favorites_list name="fossildigtools" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.6073794">
+    <splitter split-orientation="vertical" split-proportion="0.19016083">
       <split-first>
         <leaf>
           <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="442" column="18" selection-start="15212" selection-end="15212" vertical-scroll-proportion="0.8029557">
+                <state line="759" column="40" selection-start="26025" selection-end="26025" vertical-scroll-proportion="2.2619047">
                   <folding />
                 </state>
               </provider>
@@ -94,8 +94,14 @@
           <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="743" column="18" selection-start="25487" selection-end="25487" vertical-scroll-proportion="0.15425532">
-                  <folding />
+                <state line="905" column="0" selection-start="31496" selection-end="31496" vertical-scroll-proportion="0.73913044">
+                  <folding>
+                    <marker date="1374361717000" expanded="true" signature="1547:39488" placeholder="..." />
+                    <marker date="1374361717000" expanded="true" signature="26025:26087" placeholder="..." />
+                    <marker date="1374361717000" expanded="true" signature="26127:28043" placeholder="..." />
+                    <marker date="1374361717000" expanded="true" signature="37001:38958" placeholder="..." />
+                    <marker date="1374361717000" expanded="true" signature="39043:39488" placeholder="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -592,8 +598,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="743" column="18" selection-start="25487" selection-end="25487" vertical-scroll-proportion="0.15425532">
-          <folding />
+        <state line="905" column="0" selection-start="31496" selection-end="31496" vertical-scroll-proportion="0.73913044">
+          <folding>
+            <marker date="1374361717000" expanded="true" signature="1547:39488" placeholder="..." />
+            <marker date="1374361717000" expanded="true" signature="26025:26087" placeholder="..." />
+            <marker date="1374361717000" expanded="true" signature="26127:28043" placeholder="..." />
+            <marker date="1374361717000" expanded="true" signature="37001:38958" placeholder="..." />
+            <marker date="1374361717000" expanded="true" signature="39043:39488" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

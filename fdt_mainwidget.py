@@ -750,6 +750,13 @@ class FdtMainWidget(QWidget):
         grids = self.get_features(self.grid_layer_id(), expstr)
         return grids
 
+    def origin_major_grids_xylocs(self):
+        xylocs = []
+        grids = self.origin_major_grids()
+        for grid in grids:
+            xylocs.append((grid['x'], grid['y']))
+        return xylocs  # list of tuples
+
     def reload_origin_major_grids(self):
         QTimer.singleShot(1000, self.load_origin_major_grids)
 
@@ -757,7 +764,6 @@ class FdtMainWidget(QWidget):
         self.ui.gridsCmbBx.blockSignals(True)
         self.ui.gridsCmbBx.clear()
         self.ui.gridsCmbBx.blockSignals(False)
-        # self.update_current_grid()
 
         if self.current_origin() == -1:
             self.ui.gridFrame.setEnabled(False)
@@ -769,10 +775,13 @@ class FdtMainWidget(QWidget):
         # self.pydev()
         self.ui.addGridGridRadio.setEnabled(hasgrids)
         # simulate click for button group
+        self.ui.addGridRadioGrp.blockSignals(True)
         if hasgrids:
+
             self.ui.addGridGridRadio.click()
         else:
             self.ui.addGridOriginRadio.click()
+        self.ui.addGridRadioGrp.blockSignals(False)
         self.ui.gridsRemoveBtn.setEnabled(hasgrids)
         self.ui.gridsGoToBtn.setEnabled(hasgrids)
         if hasgrids:
@@ -799,8 +808,11 @@ class FdtMainWidget(QWidget):
 
             self.ui.gridsCmbBx.blockSignals(False)
 
-        # trigger gui update
+        # trigger gui updates
         self.update_current_grid()
+        self.on_addGridRadioGrp_buttonClicked(
+            self.ui.addGridGridRadio if hasgrids
+            else self.ui.addGridOriginRadio)
 
     def init_bad_value_stylesheets(self):
         self.badLineEditValue = \
@@ -870,6 +882,33 @@ class FdtMainWidget(QWidget):
             self.ui.addGridSBtn.setEnabled(False)
             self.ui.addGridWBtn.setEnabled(False)
             self.ui.addGridEBtn.setEnabled(False)
+
+    def update_grid_buttons(self):
+        origin = self.add_grids_ref_is_origin()
+        c = [0, 0]  # center reference x/y location
+        if not origin:
+            c = self.grid_xyloc_from_origin(self.current_grid_center())
+        (x, y) = c[0], c[1]
+
+        # handle when x or y is 1 or -1 and relative grid to test crosses axis
+        # i.e., there are never any tested x or y that are 0
+        mx = 2 if x == 1 else 1
+        px = 2 if x == -1 else 1
+        my = 2 if y == 1 else 1
+        py = 2 if y == -1 else 1
+
+        xylocs = set(self.origin_major_grids_xylocs())  # set(list of tuples)
+
+        self.ui.addGridNWBtn.setEnabled((x - mx, y + py) not in xylocs)
+        self.ui.addGridNEBtn.setEnabled((x + px, y + py) not in xylocs)
+        self.ui.addGridSWBtn.setEnabled((x - mx, y - my) not in xylocs)
+        self.ui.addGridSEBtn.setEnabled((x + px, y - my) not in xylocs)
+
+        if not origin:
+            self.ui.addGridNBtn.setEnabled((x, y + py) not in xylocs)
+            self.ui.addGridEBtn.setEnabled((x + px, y) not in xylocs)
+            self.ui.addGridWBtn.setEnabled((x - mx, y) not in xylocs)
+            self.ui.addGridSBtn.setEnabled((x, y - my) not in xylocs)
 
     def open_settings_dlg(self):
         settingsDlg = FdtSettingsDialog(self, self.iface, self.settings)
@@ -984,6 +1023,7 @@ class FdtMainWidget(QWidget):
     @pyqtSlot(int)
     def on_gridsCmbBx_currentIndexChanged(self, indx):
         self.update_current_grid()
+        self.update_grid_buttons()
 
     @pyqtSlot()
     def on_gridsRemoveBtn_clicked(self):
@@ -1077,6 +1117,9 @@ class FdtMainWidget(QWidget):
                 QPixmap(":/plugins/fossildigtools/icons/origin.svg"))
             origin = True
         self.set_grid_btns(origin)
+
+        # disable buttons where grids already exist
+        self.update_grid_buttons()
 
 
 if __name__ == "__main__":
