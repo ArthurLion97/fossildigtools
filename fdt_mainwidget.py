@@ -670,10 +670,9 @@ class FdtMainWidget(QWidget):
             if i == 26:
                 (i, l) = 0, l + 1
 
-    def create_grid(self, pt, ptloc='ll'):
+    def create_grid(self, layer, pt, ptloc='ll'):
         if not self.check_grid_squares():
             return
-        layer = self.get_layer(self.grid_layer_id())
         if not layer:
             return
 
@@ -693,8 +692,6 @@ class FdtMainWidget(QWidget):
         # don't duplicate grids
         if self.grid_xyloc_exists(xyloc):
             return
-
-        layer.startEditing()
 
         # major grid feature
         feat1 = QgsFeature()
@@ -742,10 +739,6 @@ class FdtMainWidget(QWidget):
                 feat2['minor'] = mid
                 feat2['origin'] = self.current_origin()
                 layer.addFeature(feat2, True)
-
-        # layer.commitChanges()
-        layer.setCacheImage(None)
-        layer.triggerRepaint()
 
     def origin_major_grids(self, origin=-1):
         grids = []
@@ -849,6 +842,18 @@ class FdtMainWidget(QWidget):
     def clear_notice(self):
         self.ui.noticeLabel.setText("")
         self.ui.noticeLabel.hide()
+
+    def add_grids_ref_is_origin(self):
+        return self.ui.addGridRadioGrp.checkedButton() == \
+            self.ui.addGridOriginRadio
+
+    def add_grids_has_checked(self):
+        haschecked = False
+        for btn in self.ui.addGridBtnGrp.buttons():
+            if btn.isCheckable() and btn.isChecked():
+                haschecked = True
+                break
+        return haschecked
 
     def reset_add_grid_btns(self):
         for btn in self.ui.addGridBtnGrp.buttons():
@@ -1004,13 +1009,58 @@ class FdtMainWidget(QWidget):
 
     @pyqtSlot()
     def on_gridsAddBtn_clicked(self):
-        # TODO: loop through checked quadrants
+        if not self.add_grids_has_checked():
+            return
+        layer = self.get_layer(self.grid_layer_id())
+        if not layer:
+            return
 
-        # TODO: figure the reference point, relative to the checked quadrant
+        layer.blockSignals(True)
+        layer.startEditing()
 
-        self.create_grid(self.current_origin_point(), 'll')
+        if self.add_grids_ref_is_origin():
+            p = self.current_origin_point()
+            if self.ui.addGridNWBtn.isChecked():
+                self.create_grid(layer, p, 'lr')
+            if self.ui.addGridNEBtn.isChecked():
+                self.create_grid(layer, p, 'll')
+            if self.ui.addGridSWBtn.isChecked():
+                self.create_grid(layer, p, 'ur')
+            if self.ui.addGridSEBtn.isChecked():
+                self.create_grid(layer, p, 'ul')
+        else:
+            rect = self.current_grid_rect()
+            ll = QgsPoint(rect.xMinimum(), rect.yMinimum())
+            ul = QgsPoint(rect.xMinimum(), rect.yMaximum())
+            ur = QgsPoint(rect.xMaximum(), rect.yMaximum())
+            lr = QgsPoint(rect.xMaximum(), rect.yMinimum())
+
+            if self.ui.addGridWBtn.isChecked():
+                self.create_grid(layer, ul, 'ur')
+            if self.ui.addGridNWBtn.isChecked():
+                self.create_grid(layer, ul, 'lr')
+
+            if self.ui.addGridNBtn.isChecked():
+                self.create_grid(layer, ur, 'lr')
+            if self.ui.addGridNEBtn.isChecked():
+                self.create_grid(layer, ur, 'll')
+
+            if self.ui.addGridEBtn.isChecked():
+                self.create_grid(layer, lr, 'll')
+            if self.ui.addGridSEBtn.isChecked():
+                self.create_grid(layer, lr, 'ul')
+
+            if self.ui.addGridSBtn.isChecked():
+                self.create_grid(layer, ll, 'ul')
+            if self.ui.addGridSWBtn.isChecked():
+                self.create_grid(layer, ll, 'ur')
 
         self.reset_add_grid_btns()
+
+        layer.blockSignals(False)
+        layer.commitChanges()
+        layer.setCacheImage(None)
+        layer.triggerRepaint()
 
     @pyqtSlot(QAbstractButton)
     def on_addGridRadioGrp_buttonClicked(self, btn):
