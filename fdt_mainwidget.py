@@ -50,6 +50,7 @@ class FdtMainWidget(QWidget):
         self.active = False
         self.datadelim = '|'
         self.curorigin = "{0}{1}{0}".format("-1", self.datadelim)
+        self.curorigintxt = ""
         self.curgrid = "{0}{1}{0}".format("-1", self.datadelim)
         self.layerconections = False
         self.init_bad_value_stylesheets()
@@ -466,10 +467,15 @@ class FdtMainWidget(QWidget):
         if self.ui.originPinCmbBx.count() > 0:
             self.curorigin = self.ui.originPinCmbBx.itemData(
                 self.ui.originPinCmbBx.currentIndex())
+            self.curorigintxt = " ({0})".format(
+                self.ui.originPinCmbBx.currentText())
         else:
             self.curorigin = "{0}{1}{0}".format("-1", self.datadelim)
+            self.curorigintxt = ''
 
         self.settings.setValue("currentOrigin", self.current_origin())
+        self.ui.gridsGrpBx.setTitle(
+            "{0}{1}".format(self.tr('Grids'), self.curorigintxt))
 
     def current_origin(self):  # pkuid
         return self.split_data(self.curorigin)[1]
