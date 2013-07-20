@@ -39,13 +39,13 @@
     <favorites_list name="fossildigtools" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.23651844">
+    <splitter split-orientation="vertical" split-proportion="0.6073794">
       <split-first>
         <leaf>
-          <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="680" column="31" selection-start="23326" selection-end="23326" vertical-scroll-proportion="0.0">
+                <state line="442" column="18" selection-start="15212" selection-end="15212" vertical-scroll-proportion="0.8029557">
                   <folding />
                 </state>
               </provider>
@@ -78,10 +78,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="editor_window.py" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="editor_window.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/../plugin_editor/editor/editor_window.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="549" column="8" selection-start="22871" selection-end="22913" vertical-scroll-proportion="0.95212764">
+                <state line="557" column="0" selection-start="23028" selection-end="23028" vertical-scroll-proportion="-12.24138">
                   <folding />
                 </state>
               </provider>
@@ -94,7 +94,7 @@
           <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="450" column="59" selection-start="15515" selection-end="15515" vertical-scroll-proportion="0.50130206">
+                <state line="743" column="18" selection-start="25487" selection-end="25487" vertical-scroll-proportion="0.15425532">
                   <folding />
                 </state>
               </provider>
@@ -585,14 +585,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../plugin_editor/editor/editor_window.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="549" column="8" selection-start="22871" selection-end="22913" vertical-scroll-proportion="0.95212764">
+        <state line="557" column="0" selection-start="23028" selection-end="23028" vertical-scroll-proportion="-12.24138">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="450" column="59" selection-start="15515" selection-end="15515" vertical-scroll-proportion="0.50130206">
+        <state line="743" column="18" selection-start="25487" selection-end="25487" vertical-scroll-proportion="0.15425532">
           <folding />
         </state>
       </provider>

@@ -750,6 +750,9 @@ class FdtMainWidget(QWidget):
         grids = self.get_features(self.grid_layer_id(), expstr)
         return grids
 
+    def reload_origin_major_grids(self):
+        QTimer.singleShot(1000, self.load_origin_major_grids)
+
     def load_origin_major_grids(self):
         self.ui.gridsCmbBx.blockSignals(True)
         self.ui.gridsCmbBx.clear()
@@ -797,7 +800,7 @@ class FdtMainWidget(QWidget):
             self.ui.gridsCmbBx.blockSignals(False)
 
         # trigger gui update
-        self.on_gridsCmbBx_currentIndexChanged()
+        self.update_current_grid()
 
     def init_bad_value_stylesheets(self):
         self.badLineEditValue = \
@@ -978,8 +981,8 @@ class FdtMainWidget(QWidget):
         for f in self.selected_features():
             self.iface.openFeatureForm(self.iface.activeLayer(), f)
 
-    @pyqtSlot()
-    def on_gridsCmbBx_currentIndexChanged(self):
+    @pyqtSlot(int)
+    def on_gridsCmbBx_currentIndexChanged(self, indx):
         self.update_current_grid()
 
     @pyqtSlot()
@@ -994,7 +997,7 @@ class FdtMainWidget(QWidget):
             return
 
         # find/delete both major and minor grids for same location
-        xyloc = self.grid_xyloc_from_origin(self.current_grid_points()[2])
+        xyloc = self.grid_xyloc_from_origin(self.current_grid_center())
         expstr = ' "x"={0} and "y"={1} and "origin"={2} '.\
             format(xyloc[0], xyloc[1], self.current_origin())
         feats = self.get_features(self.grid_layer_id(), expstr)
