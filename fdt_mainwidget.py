@@ -611,6 +611,22 @@ class FdtMainWidget(QWidget):
     def current_grid_center(self):
         return self.current_grid_rect().center()
 
+    def current_grid_ll_point(self):
+        rect = self.current_grid_rect()
+        return QgsPoint(rect.xMinimum(), rect.yMinimum())
+
+    def current_grid_ul_point(self):
+        rect = self.current_grid_rect()
+        return QgsPoint(rect.xMinimum(), rect.yMaximum())
+
+    def current_grid_ur_point(self):
+        rect = self.current_grid_rect()
+        return QgsPoint(rect.xMaximum(), rect.yMaximum())
+
+    def current_grid_lr_point(self):
+        rect = self.current_grid_rect()
+        return QgsPoint(rect.xMaximum(), rect.yMinimum())
+
     def offset_within_size(self, a, b, size):
         # offset of a from b within number of sizes
         d = 0
