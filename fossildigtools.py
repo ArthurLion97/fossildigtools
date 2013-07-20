@@ -39,7 +39,8 @@ class FossilDigTools:
         self.plugin_dir = os.path.dirname(__file__)
         # initialize locale
         locale = QSettings().value("locale/userLocale")[0:2]
-        localePath = os.path.join(self.plugin_dir, 'i18n', 'fossildigtools_{}.qm'.format(locale))
+        localePath = os.path.join(self.plugin_dir, 'i18n',
+                                  'fossildigtools_{}.qm'.format(locale))
 
         if os.path.exists(localePath):
             self.translator = QTranslator()
@@ -64,8 +65,11 @@ class FossilDigTools:
         self.settings = QSettings("bhigr", "fossildigtools")
 
         # add dock widget
-        self.dockWidget = QDockWidget(u"Fossil Dig Tools", self.iface.mainWindow())
-        self.toolswidget = FdtMainWidget(self.dockWidget, self.iface, self.settings)
+        self.dockWidget = QDockWidget(u"Fossil Dig Tools",
+                                      self.iface.mainWindow())
+        self.toolswidget = FdtMainWidget(self.dockWidget,
+                                         self.iface,
+                                         self.settings)
         self.dockWidget.setWidget(self.toolswidget)
         self.dockWidget.layout().setContentsMargins(0, 0, 0, 0)
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.dockWidget)
@@ -78,7 +82,8 @@ class FossilDigTools:
         # clear out any signal/slot connections
         self.toolswidget.remove_layer_connections()
 
-        self.settings.setValue("currentTab", self.toolswidget.ui.tabWidget.currentIndex())
+        self.settings.setValue("currentTab",
+                               self.toolswidget.ui.tabWidget.currentIndex())
 
         self.dockWidget.setParent(None)  # remove parent for garbage collection
         del self.dockWidget

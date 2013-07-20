@@ -117,7 +117,7 @@ class FdtMainWidget(QWidget):
                             port=53100,
                             stdoutToServer=True,
                             stderrToServer=True)
-        except StandardError:
+        except:
             pass
 
     def setup_toolbar(self):
@@ -164,12 +164,17 @@ class FdtMainWidget(QWidget):
 
     def get_feature(self, layerid, featid):
         layer = self.get_layer(str(layerid))
+        if not layer:
+            return None
         req = QgsFeatureRequest().setFilterFid(featid)
         feat = QgsFeature()
         layer.getFeatures(req).nextFeature(feat)
         return feat
 
-    def get_features(self, layer, expstr):
+    def get_features(self, layerid, expstr):
+        layer = self.get_layer(str(layerid))
+        if not layer:
+            return []
         exp = QgsExpression(expstr)
         fields = layer.pendingFields()
         exp.prepare(fields)
@@ -198,6 +203,17 @@ class FdtMainWidget(QWidget):
             return
         layer.startEditing()
         layer.deleteFeature(featid)
+        layer.commitChanges()
+        layer.setCacheImage(None)
+        layer.triggerRepaint()
+
+    def delete_features(self, layerid, feats):
+        layer = self.get_layer(layerid)
+        if not layer:
+            return
+        layer.startEditing()
+        for feat in feats:
+            layer.deleteFeature(feat.id())
         layer.commitChanges()
         layer.setCacheImage(None)
         layer.triggerRepaint()
@@ -470,12 +486,8 @@ class FdtMainWidget(QWidget):
         return feat.geometry().asPoint()
 
     def origin_pins(self):
-        pins = []
         expstr = " \"kind\"='origin' "
-        layer = self.get_layer(self.pin_layer_id())
-        if layer:
-            pins = self.get_features(layer, expstr)
-        return pins
+        return self.get_features(self.pin_layer_id(), expstr)
 
     def load_origin_pins(self):
         self.ui.originPinCmbBx.clear()
@@ -530,16 +542,12 @@ class FdtMainWidget(QWidget):
         return feat.geometry().asPoint()
 
     def directional_pins(self, origin=-1):
-        pins = []
         if origin == -1:
             origin = self.current_origin()
         if origin == -1:
             return
         expstr = " \"kind\"='directional' AND \"origin\"={0} ".format(origin)
-        layer = self.get_layer(self.pin_layer_id())
-        if layer:
-            pins = self.get_features(layer, expstr)
-        return pins
+        return self.get_features(self.pin_layer_id(), expstr)
 
     def load_directional_pins(self):
         self.ui.directPinList.clear()
@@ -592,7 +600,7 @@ class FdtMainWidget(QWidget):
 
     def current_grid_rect(self):
         pts = self.current_grid_points()
-        return QgsRectangle(pts[0], pts[1], pts[2], pts[3])
+        return QgsRectangle(pts[0], pts[2])
 
     def current_grid_center(self):
         return self.current_grid_rect().center()
@@ -619,10 +627,7 @@ class FdtMainWidget(QWidget):
     def grid_xyloc_exists(self, xyloc):
         expstr = ' "kind"=\'major\' and "x"={0} and "y"={1} and "origin"={2} '.\
             format(xyloc[0], xyloc[1], self.current_origin())
-        feats = []
-        layer = self.get_layer(self.grid_layer_id())
-        if layer:
-            feats = self.get_features(layer, expstr)
+        feats = self.get_features(self.grid_layer_id(), expstr)
         return len(feats) > 0
 
     def create_grid_geom(self, pt, kind):  # lower left point
@@ -633,7 +638,19 @@ class FdtMainWidget(QWidget):
                QgsPoint(pt.x() + g, pt.y())]
         return QgsGeometry.fromPolygon([pts])
 
+    def minor_grid_id(self):  # generator
+        ab = list(map(chr, range(ord('a'), ord('z') + 1)))
+        (i, l) = 0, 1
+        while True:
+            char = ab[i]
+            yield char * l
+            i += 1
+            if i == 26:
+                (i, l) = 0, l + 1
+
     def create_grid(self, pt, ptloc='ll'):
+        if not self.check_grid_squares():
+            return
         layer = self.get_layer(self.grid_layer_id())
         if not layer:
             return
@@ -669,18 +686,42 @@ class FdtMainWidget(QWidget):
         feat1['origin'] = self.current_origin()
         layer.addFeature(feat1, True)
 
-        # # minor grid feature
-        # feat2 = QgsFeature()
-        # feat2.setGeometry(self.create_minor_grids_geom(x, y))
-        # fields = layer.pendingFields()
-        # feat2.setFields(fields)
-        # feat2["kind"] = 'minor'
-        # feat2['x'] = xyloc[0]
-        # feat2['y'] = xyloc[1]
-        # feat2['origin'] = self.current_origin()
-        # layer.addFeature(feat2, True)
+        # self.pydev()
 
-        layer.commitChanges()
+        # minor grid features (from top-left to bottom-right)
+        n = self.major_grid() // self.minor_grid()
+        mg = self.minor_grid_m()
+        # whether to buffer exterior of major with minor
+        # TODO: make this a setting
+        mbuf = True
+        if mbuf:
+            n += 2
+            x -= mg
+            y -= mg
+        gid = self.minor_grid_id()  # generator
+        for j in range(n)[::-1]:
+            my = y + j * mg
+            for k in range(n):
+                mx = x + k * mg
+                feat2 = QgsFeature()
+                feat2.setGeometry(
+                    self.create_grid_geom(QgsPoint(mx, my), 'minor'))
+                fields = layer.pendingFields()
+                feat2.setFields(fields)
+                feat2["kind"] = 'minor'
+                feat2['x'] = xyloc[0]
+                feat2['y'] = xyloc[1]
+                mid = ' '  # column should not contain NULL
+                if mbuf:
+                    if j != 0 and j != n - 1 and k != 0 and k != n - 1:
+                        mid = gid.next()
+                else:
+                    mid = gid.next()
+                feat2['minor'] = mid
+                feat2['origin'] = self.current_origin()
+                layer.addFeature(feat2, True)
+
+        # layer.commitChanges()
         layer.setCacheImage(None)
         layer.triggerRepaint()
 
@@ -691,14 +732,15 @@ class FdtMainWidget(QWidget):
         if origin == -1:
             return grids
         expstr = " \"kind\"='major' AND \"origin\"={0} ".format(origin)
-        layer = self.get_layer(self.grid_layer_id())
-        if layer:
-            grids = self.get_features(layer, expstr)
+        grids = self.get_features(self.grid_layer_id(), expstr)
         return grids
 
     def load_origin_major_grids(self):
+        self.ui.gridsCmbBx.blockSignals(True)
         self.ui.gridsCmbBx.clear()
-        # self.pydev()
+        self.ui.gridsCmbBx.blockSignals(False)
+        # self.update_current_grid()
+
         if self.current_origin() == -1:
             self.ui.gridFrame.setEnabled(False)
             return
@@ -740,7 +782,7 @@ class FdtMainWidget(QWidget):
             self.ui.gridsCmbBx.blockSignals(False)
 
         # trigger gui update
-        self.on_gridsCmbBx_currentIndexChanged(-1)
+        self.on_gridsCmbBx_currentIndexChanged()
 
     def init_bad_value_stylesheets(self):
         self.badLineEditValue = \
@@ -909,9 +951,34 @@ class FdtMainWidget(QWidget):
         for f in self.selected_features():
             self.iface.openFeatureForm(self.iface.activeLayer(), f)
 
-    @pyqtSlot(int)
-    def on_gridsCmbBx_currentIndexChanged(self, indx):
+    @pyqtSlot()
+    def on_gridsCmbBx_currentIndexChanged(self):
         self.update_current_grid()
+
+    @pyqtSlot()
+    def on_gridsRemoveBtn_clicked(self):
+        res = QMessageBox.warning(
+            self.parent(),
+            self.tr("Caution!"),
+            self.tr("Really delete current grid ?"),
+            QMessageBox.Ok | QMessageBox.Cancel,
+            QMessageBox.Cancel)
+        if res != QMessageBox.Ok:
+            return
+
+        # find/delete both major and minor grids for same location
+        xyloc = self.grid_xyloc_from_origin(self.current_grid_points()[2])
+        expstr = ' "x"={0} and "y"={1} and "origin"={2} '.\
+            format(xyloc[0], xyloc[1], self.current_origin())
+        feats = self.get_features(self.grid_layer_id(), expstr)
+        if feats:
+            self.delete_features(self.grid_layer_id(), feats)
+
+    @pyqtSlot()
+    def on_gridsGoToBtn_clicked(self):
+        pt = self.current_grid_center()
+        rect = self.rect_buf_point(pt, self.major_grid_buf())
+        self.zoom_canvas(rect)
 
     @pyqtSlot()
     def on_gridsAddBtn_clicked(self):
@@ -921,7 +988,7 @@ class FdtMainWidget(QWidget):
 
         self.create_grid(self.current_origin_point(), 'll')
 
-        # TODO: reset quadrant buttons
+        self.reset_add_grid_btns()
 
     @pyqtSlot(QAbstractButton)
     def on_addGridRadioGrp_buttonClicked(self, btn):
