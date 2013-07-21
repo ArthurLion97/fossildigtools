@@ -221,17 +221,19 @@ class FdtMainWidget(QWidget):
         layer.triggerRepaint()
 
     def circle_geometry(self, pt, radius=0, segments=0):
+        # radius in mm
         if not radius:
-            ctx = self.canvas.mapRenderer().rendererContext()
-            # mm (converted to map pixels, then to meters)
-            radius = 5 * ctx.scaleFactor() * ctx.mapToPixel().mapUnitsPerPixel()
+            radius = 5
+        ctx = self.canvas.mapRenderer().rendererContext()
+        # mm (converted to map pixels, then to meters)
+        r = radius * ctx.scaleFactor() * ctx.mapToPixel().mapUnitsPerPixel()
         if not segments:
             segments = self.circlesegments
         pts = []
         for i in range(segments):
             theta = i * (2.0 * math.pi / segments)
-            p = QgsPoint(pt.x() + radius * math.cos(theta),
-                         pt.y() + radius * math.sin(theta))
+            p = QgsPoint(pt.x() + r * math.cos(theta),
+                         pt.y() + r * math.sin(theta))
             pts.append(p)
         return QgsGeometry.fromPolygon([pts])
 
