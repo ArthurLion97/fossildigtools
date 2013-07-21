@@ -775,14 +775,8 @@ class FdtMainWidget(QWidget):
         hasgrids = len(grids) > 0
         # self.pydev()
         self.ui.addGridGridRadio.setEnabled(hasgrids)
-        # simulate click for button group
-        self.ui.addGridRadioGrp.blockSignals(True)
-        if hasgrids:
-
-            self.ui.addGridGridRadio.click()
-        else:
-            self.ui.addGridOriginRadio.click()
-        self.ui.addGridRadioGrp.blockSignals(False)
+        self.ui.addGridGridRadio.setChecked(hasgrids)
+        self.ui.addGridOriginRadio.setChecked(not hasgrids)
         self.ui.gridsRemoveBtn.setEnabled(hasgrids)
         self.ui.gridsGoToBtn.setEnabled(hasgrids)
         if hasgrids:
@@ -846,7 +840,7 @@ class FdtMainWidget(QWidget):
         return fids
 
     def msg_bar(self, msg, kind):
-        self.msgbar.pushMessage(self.tr( "Fossil Dig Tools" ),
+        self.msgbar.pushMessage(self.tr("Fossil Dig Tools"),
                                 msg,
                                 kind,
                                 self.iface.messageTimeout())
