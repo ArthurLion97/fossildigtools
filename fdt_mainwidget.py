@@ -21,10 +21,12 @@
 """
 import sys
 import math
-from operator import itemgetter, attrgetter
+from itertools import ifilter
+from operator import itemgetter
 
 from qgis.core import *
 from qgis.gui import *
+from query import *
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -173,7 +175,7 @@ class FdtMainWidget(QWidget):
         layer.getFeatures(req).nextFeature(feat)
         return feat
 
-    def get_features(self, layerid, expstr):
+    def get_features(self, layerid, expstr, itr=False):
         layer = self.get_layer(str(layerid))
         if not layer:
             return []
@@ -196,8 +198,20 @@ class FdtMainWidget(QWidget):
         #         feats.append(feat)
         # fit.close()
         # return feats
+        if itr:
+            return ifilter(exp.evaluate, layer.getFeatures())
+        else:
+            return filter(exp.evaluate, layer.getFeatures())
 
-        return filter(exp.evaluate, layer.getFeatures())
+    def get_features_iter(self, layerid, expstr):
+        return self.get_features(layerid, expstr, True)
+
+    def get_features_query_iter(self, layerid, expstr):
+        layer = self.get_layer(str(layerid))
+        if not layer:
+            return []
+        q = (query(layer).where(expstr))
+        return q()
 
     def delete_feature(self, layerid, featid):
         layer = self.get_layer(layerid)
@@ -209,16 +223,18 @@ class FdtMainWidget(QWidget):
         layer.setCacheImage(None)
         layer.triggerRepaint()
 
-    def delete_features(self, layerid, feats):
+    def delete_features(self, layerid, expr):
         layer = self.get_layer(layerid)
         if not layer:
             return
-        layer.startEditing()
-        for feat in feats:
-            layer.deleteFeature(feat.id())
-        layer.commitChanges()
-        layer.setCacheImage(None)
-        layer.triggerRepaint()
+        feats = self.get_features(layerid, expr)
+        if feats:
+            layer.startEditing()
+            for feat in feats:
+                layer.deleteFeature(feat.id())
+            layer.commitChanges()
+            layer.setCacheImage(None)
+            layer.triggerRepaint()
 
     def circle_geometry(self, pt, radius=0, segments=0):
         # radius in mm
@@ -502,15 +518,13 @@ class FdtMainWidget(QWidget):
         self.ui.originPinCmbBx.clear()
         pins = self.origin_pins()
         haspins = len(pins) > 0
-        # self.pydev()
         if haspins:
             self.ui.originEditFrame.setEnabled(True)
             self.ui.originPinCmbBx.blockSignals(True)
 
             curorig = self.settings.value("currentOrigin", "-1", type=str)
             curindx = -1
-            for i in range(len(pins)):
-                pin = pins[i]
+            for (i, pin) in enumerate(pins):
                 pkuid = pin['pkuid']
                 self.ui.originPinCmbBx.addItem(
                     pin['name'], self.join_data(pin.id(), pkuid))
@@ -554,21 +568,18 @@ class FdtMainWidget(QWidget):
         if origin == -1:
             origin = self.current_origin()
         if origin == -1:
-            return
+            return []
         expstr = " \"kind\"='directional' AND \"origin\"={0} ".format(origin)
         return self.get_features(self.pin_layer_id(), expstr)
 
     def load_directional_pins(self):
         self.ui.directPinList.clear()
-        pins = self.directional_pins(self.current_origin())
-        haspins = len(pins) > 0
-        if haspins:
-            self.ui.directPinList.blockSignals(True)
-            for pin in pins:
-                lw = QListWidgetItem(pin['name'])
-                lw.setData(Qt.UserRole, self.join_data(pin.id(), pin['pkuid']))
-                self.ui.directPinList.addItem(lw)
-            self.ui.directPinList.blockSignals(False)
+        self.ui.directPinList.blockSignals(True)
+        for pin in self.directional_pins(self.current_origin()):
+            lw = QListWidgetItem(pin['name'])
+            lw.setData(Qt.UserRole, self.join_data(pin.id(), pin['pkuid']))
+            self.ui.directPinList.addItem(lw)
+        self.ui.directPinList.blockSignals(False)
 
     def split_grid_name(self, data):
         return data.split(', ')
@@ -745,19 +756,16 @@ class FdtMainWidget(QWidget):
                 layer.addFeature(feat2, True)
 
     def origin_major_grids(self, origin=-1):
-        grids = []
         if origin == -1:
             origin = self.current_origin()
         if origin == -1:
-            return grids
+            return []
         expstr = " \"kind\"='major' AND \"origin\"={0} ".format(origin)
-        grids = self.get_features(self.grid_layer_id(), expstr)
-        return grids
+        return self.get_features(self.grid_layer_id(), expstr)
 
     def origin_major_grids_xylocs(self):
         xylocs = []
-        grids = self.origin_major_grids()
-        for grid in grids:
+        for grid in self.origin_major_grids():
             xylocs.append((grid['x'], grid['y']))
         return xylocs  # list of tuples
 
@@ -1044,9 +1052,7 @@ class FdtMainWidget(QWidget):
         xyloc = self.grid_xyloc_from_origin(self.current_grid_center())
         expstr = ' "x"={0} and "y"={1} and "origin"={2} '.\
             format(xyloc[0], xyloc[1], self.current_origin())
-        feats = self.get_features(self.grid_layer_id(), expstr)
-        if feats:
-            self.delete_features(self.grid_layer_id(), feats)
+        self.delete_features(self.grid_layer_id(), expstr)
 
     @pyqtSlot()
     def on_gridsGoToBtn_clicked(self):
