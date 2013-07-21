@@ -13,7 +13,7 @@
     <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373991827462" ignored="false" />
     <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373991959300" ignored="false" />
     <file path="/a.xml" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373926347581" ignored="false" />
-    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374361708389" ignored="false" />
+    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374381332352" ignored="false" />
     <file path="/make.sh" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373989914665" ignored="false" />
     <file path="/start_script.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374005131444" ignored="false" />
     <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374189192180" ignored="false" />
@@ -39,76 +39,55 @@
     <favorites_list name="fossildigtools" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.19016083">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="759" column="40" selection-start="26025" selection-end="26025" vertical-scroll-proportion="2.2619047">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="fdt_pindlg.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="42" column="0" selection-start="1566" selection-end="1566" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="fdt_settingsdlg.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/fdt_settingsdlg.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="39" column="0" selection-start="1572" selection-end="1572" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="fossildigtools.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/fossildigtools.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="57" column="47" selection-start="2384" selection-end="2384" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="editor_window.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../plugin_editor/editor/editor_window.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="557" column="0" selection-start="23028" selection-end="23028" vertical-scroll-proportion="-12.24138">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="905" column="0" selection-start="31496" selection-end="31496" vertical-scroll-proportion="0.73913044">
-                  <folding>
-                    <marker date="1374361717000" expanded="true" signature="1547:39488" placeholder="..." />
-                    <marker date="1374361717000" expanded="true" signature="26025:26087" placeholder="..." />
-                    <marker date="1374361717000" expanded="true" signature="26127:28043" placeholder="..." />
-                    <marker date="1374361717000" expanded="true" signature="37001:38958" placeholder="..." />
-                    <marker date="1374361717000" expanded="true" signature="39043:39488" placeholder="..." />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="772" column="42" selection-start="26572" selection-end="26572" vertical-scroll-proportion="0.8192771">
+              <folding>
+                <element signature="e#1117#1127#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fdt_pindlg.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="42" column="0" selection-start="1566" selection-end="1566" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fdt_settingsdlg.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fdt_settingsdlg.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="0" selection-start="1572" selection-end="1572" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fossildigtools.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fossildigtools.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="57" column="47" selection-start="2384" selection-end="2384" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="editor_window.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../plugin_editor/editor/editor_window.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="557" column="0" selection-start="23028" selection-end="23028" vertical-scroll-proportion="-12.24138">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -561,6 +540,13 @@
         <state line="116" column="0" selection-start="4664" selection-end="4664" vertical-scroll-proportion="0.56674856" />
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/qgis/core.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18666" column="8" selection-start="728620" selection-end="728620" vertical-scroll-proportion="-0.3409091">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="42" column="0" selection-start="1566" selection-end="1566" vertical-scroll-proportion="0.0">
@@ -582,13 +568,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/qgis/core.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18666" column="8" selection-start="728620" selection-end="728620" vertical-scroll-proportion="-0.3409091">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../plugin_editor/editor/editor_window.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="557" column="0" selection-start="23028" selection-end="23028" vertical-scroll-proportion="-12.24138">
@@ -598,13 +577,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="905" column="0" selection-start="31496" selection-end="31496" vertical-scroll-proportion="0.73913044">
+        <state line="772" column="42" selection-start="26572" selection-end="26572" vertical-scroll-proportion="0.8192771">
           <folding>
-            <marker date="1374361717000" expanded="true" signature="1547:39488" placeholder="..." />
-            <marker date="1374361717000" expanded="true" signature="26025:26087" placeholder="..." />
-            <marker date="1374361717000" expanded="true" signature="26127:28043" placeholder="..." />
-            <marker date="1374361717000" expanded="true" signature="37001:38958" placeholder="..." />
-            <marker date="1374361717000" expanded="true" signature="39043:39488" placeholder="..." />
+            <element signature="e#1117#1127#0" expanded="true" />
           </folding>
         </state>
       </provider>

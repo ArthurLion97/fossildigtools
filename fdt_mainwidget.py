@@ -21,6 +21,7 @@
 """
 import sys
 import math
+from operator import itemgetter, attrgetter
 
 from qgis.core import *
 from qgis.gui import *
@@ -373,10 +374,10 @@ class FdtMainWidget(QWidget):
     @pyqtSlot()
     def check_plugin_ready(self):
         # log splayers
-        spLyrs = "Spatialite layers\n"
-        for lyrid, lyr in self.splayers.iteritems():
-            spLyrs += "  Name: {0}\n  Id: {1}\n\n".format(lyr.name(), lyrid)
-        QgsMessageLog.logMessage(spLyrs, self.tr("Fdt"), QgsMessageLog.INFO)
+        # spLyrs = "Spatialite layers\n"
+        # for lyrid, lyr in self.splayers.iteritems():
+        #     spLyrs += "  Name: {0}\n  Id: {1}\n\n".format(lyr.name(), lyrid)
+        # QgsMessageLog.logMessage(spLyrs, self.tr("Fdt"), QgsMessageLog.INFO)
 
         checks = (self.check_grid_squares() and
                   self.check_linked_layers())
@@ -773,13 +774,20 @@ class FdtMainWidget(QWidget):
 
         grids = self.origin_major_grids()
         hasgrids = len(grids) > 0
-        # self.pydev()
+
         self.ui.addGridGridRadio.setEnabled(hasgrids)
         self.ui.addGridGridRadio.setChecked(hasgrids)
         self.ui.addGridOriginRadio.setChecked(not hasgrids)
         self.ui.gridsRemoveBtn.setEnabled(hasgrids)
         self.ui.gridsGoToBtn.setEnabled(hasgrids)
         if hasgrids:
+            # sort grids by x then y
+            glist = []
+            for grid in grids:
+                glist.append((grid.id(), grid['pkuid'],
+                              int(grid['x']), int(grid['y'])))
+            glist = sorted(glist, key=itemgetter(2, 3))
+
             self.ui.gridsCmbBx.blockSignals(True)
 
             defaultdata = "{0}{1}{0}".format("-1", self.datadelim)
@@ -787,17 +795,16 @@ class FdtMainWidget(QWidget):
                 self.settings.value("currentGrid", defaultdata, type=str))
             (curorig, curgrid) = datalist[0], datalist[1]
             curindx = -1
-            # self.pydev()
-            for i in range(len(grids)):
-                grid = grids[i]
-                pkuid = grid['pkuid']
-                name = self.join_grid_name(grid['x'], grid['y'])
-                self.ui.gridsCmbBx.addItem(name,
-                                           self.join_data(grid.id(), pkuid))
+            # populate grids combobox
+            for (i, g) in enumerate(glist):
+                name = self.join_grid_name(str(g[2]), str(g[3]))
+                self.ui.gridsCmbBx.addItem(name, self.join_data(g[0], g[1]))
+
                 if (curgrid != "-1" and
                         curorig == self.current_origin() and
-                        curgrid == str(pkuid)):
+                        curgrid == str(g[1])):
                     curindx = i
+
             if curindx > -1 and not curindx > (self.ui.gridsCmbBx.count() - 1):
                     self.ui.gridsCmbBx.setCurrentIndex(curindx)
 
