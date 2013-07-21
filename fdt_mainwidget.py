@@ -429,26 +429,26 @@ class FdtMainWidget(QWidget):
         if self.layerconections:
             return
 
-        layerids = [self.pin_layer_id(), self.grid_layer_id()]
-        methods = [self.load_pins, self.load_origin_major_grids]
-
-        for i in range(len(layerids)):
-            layer = self.get_layer(layerids[i])
+        actions = {self.pin_layer_id(): self.load_pins,
+                   self.grid_layer_id(): self.load_origin_major_grids}
+        for layerid, method in actions.iteritems():
+            layer = self.get_layer(layerid)
             if layer:
-                layer.editingStopped.connect(methods[i])
+                layer.editingStopped.connect(method)
                 layer.updatedFields.connect(self.check_plugin_ready)
+
+        self.layerconections = True
 
     def remove_layer_connections(self):
         if not self.layerconections:
             return
 
-        layerids = [self.pin_layer_id(), self.grid_layer_id()]
-        methods = [self.load_pins, self.load_origin_major_grids()]
-
-        for i in range(len(layerids)):
-            layer = self.get_layer(layerids[i])
+        actions = {self.pin_layer_id(): self.load_pins,
+                   self.grid_layer_id(): self.load_origin_major_grids}
+        for layerid, method in actions.iteritems():
+            layer = self.get_layer(layerid)
             if layer:
-                layer.editingStopped.disconnect(methods[i])
+                layer.editingStopped.disconnect(method)
                 layer.updatedFields.disconnect(self.check_plugin_ready)
 
     @pyqtSlot()
@@ -690,6 +690,7 @@ class FdtMainWidget(QWidget):
         xyloc = self.grid_xyloc_from_origin(QgsPoint(x + g / 2, y + g / 2))
 
         # don't duplicate grids
+        # TODO: move to comparison of set of origin_major_grids_xylocs()
         if self.grid_xyloc_exists(xyloc):
             return
 
