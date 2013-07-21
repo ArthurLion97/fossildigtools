@@ -521,14 +521,17 @@ class FdtMainWidget(QWidget):
         if haspins:
             self.ui.originEditFrame.setEnabled(True)
             self.ui.originPinCmbBx.blockSignals(True)
+            # sort by pin name
+            plist = []
+            for p in pins:
+                plist.append((p.id(), p['pkuid'], p['name']))
+            plist = sorted(plist, key=itemgetter(2))
 
             curorig = self.settings.value("currentOrigin", "-1", type=str)
             curindx = -1
-            for (i, pin) in enumerate(pins):
-                pkuid = pin['pkuid']
-                self.ui.originPinCmbBx.addItem(
-                    pin['name'], self.join_data(pin.id(), pkuid))
-                if curorig != "-1" and curorig == str(pkuid):
+            for (i, p) in enumerate(plist):
+                self.ui.originPinCmbBx.addItem(p[2], self.join_data(p[0], p[1]))
+                if curorig != "-1" and curorig == str(p[1]):
                     curindx = i
             if (curindx > -1 and
                     not curindx > (self.ui.originPinCmbBx.count() - 1)):
