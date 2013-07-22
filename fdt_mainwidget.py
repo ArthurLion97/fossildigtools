@@ -229,25 +229,33 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         layer.setCacheImage(None)
         layer.triggerRepaint()
 
-    def delete_features(self, layerid, expr):
+    def delete_features(self, layerid, feats):
         # NOTE: does not trigger layer.editingStopped signals
+        if not feats:
+            return
         layer = self.get_layer(layerid)
         if not layer:
             return
-        feats = self.get_features(layerid, expr)
+
+        # trigger gui update manually instead of on layer.editingStopped
+        # otherwise, on Mac, cpu maxes out updating the gui many times
+        layer.blockSignals(True)
+        layer.startEditing()
+        layer.beginEditCommand("Delete features")
+        for feat in feats:
+            layer.deleteFeature(feat.id())
+        layer.commitChanges()
+        layer.endEditCommand()
+        layer.blockSignals(False)
+        layer.setCacheImage(None)
+        layer.triggerRepaint()
+
+    def delete_features_by_expr(self, layerid, expr):
+        # NOTE: does not trigger layer.editingStopped signals
+        feats = self.get_features(layerid, expr)  # checks for layer
         if feats:
-            # trigger gui update manually instead of on layer.editingStopped
-            # otherwise, on Mac, cpu maxes out updating the gui many times
-            layer.blockSignals(True)
-            layer.startEditing()
-            layer.beginEditCommand("Delete features")
-            for feat in feats:
-                layer.deleteFeature(feat.id())
-            layer.commitChanges()
-            layer.endEditCommand()
-            layer.blockSignals(False)
-            layer.setCacheImage(None)
-            layer.triggerRepaint()
+            self.delete_features(layerid, feats)
+
 
     def circle_geometry(self, pt, radius=0, segments=0):
         # radius in mm
@@ -668,7 +676,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         xyloc = self.grid_xyloc_from_origin(self.current_grid_center())
         expstr = ' "x"={0} and "y"={1} and "origin"={2} '. \
             format(xyloc[0], xyloc[1], self.current_origin())
-        self.delete_features(self.grid_layer_id(), expstr)
+        self.delete_features_by_expr(self.grid_layer_id(), expstr)
         self.load_origin_major_grids()
 
     def origin_has_grids(self):
@@ -680,7 +688,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def delete_all_origin_grids(self):
         # find/delete both major and minor grids for current origin
         expstr = ' "origin"={0} '.format(self.current_origin())
-        self.delete_features(self.grid_layer_id(), expstr)
+        self.delete_features_by_expr(self.grid_layer_id(), expstr)
         self.load_origin_major_grids()
 
     def offset_within_size(self, a, b, size):
