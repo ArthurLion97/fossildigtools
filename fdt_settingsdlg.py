@@ -91,6 +91,7 @@ class FdtSettingsDialog(QDialog, Ui_SettingsDialog):
         self.gridsUnitCmdBx.setCurrentIndex(self.parent.grid_unit_index())
         self.gridsMajorSpnBx.setValue(self.parent.major_grid())
         self.gridsMinorSpnBx.setValue(self.parent.minor_grid())
+        self.gridsBufferMajor.setChecked(self.parent.buffer_major_grid())
 
     def save_values(self):
         # store values in project
@@ -107,6 +108,8 @@ class FdtSettingsDialog(QDialog, Ui_SettingsDialog):
                              self.gridsMajorSpnBx.value())
         self.proj.writeEntry("fdt", "gridSquaresMinor",
                              self.gridsMinorSpnBx.value())
+        self.proj.writeEntry("fdt", "gridsBufferMajor",
+                             self.gridsBufferMajor.isChecked())
 
     def combobox_stylesheet(self, valid):
         return "" if valid else self.parent.badValueLabel

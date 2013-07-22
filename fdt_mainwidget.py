@@ -397,12 +397,16 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def minor_grid_m(self):
         return self.to_meters(self.minor_grid(), self.grid_unit())
 
-    def major_grid_buf(self):
-        return self.major_grid_m() + (2 * self.minor_grid_m())
+    def buffer_major_grid(self):
+        return bool(self.proj.readNumEntry("fdt", "gridsBufferMajor", 1)[0])
 
-    def rect_buf_point(self, pt, rect):
-        return QgsRectangle(pt.x() - rect / 2, pt.y() - rect / 2,
-                            pt.x() + rect / 2, pt.y() + rect / 2,)
+    def major_grid_buf(self):
+        buffer = (2 * self.minor_grid_m()) if self.buffer_major_grid() else 0
+        return self.major_grid_m() + buffer
+
+    def rect_buf_point(self, pt, size):
+        return QgsRectangle(pt.x() - size / 2, pt.y() - size / 2,
+                            pt.x() + size / 2, pt.y() + size / 2,)
 
     def valid_squares(self, major, minor):
         return (major != 0 and minor != 0 and
@@ -777,8 +781,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         n = self.major_grid() // self.minor_grid()
         mg = self.minor_grid_m()
         # whether to buffer exterior of major with minor
-        # TODO: make this a setting
-        mbuf = True
+        mbuf = self.buffer_major_grid()
         if mbuf:
             n += 2
             x -= mg
@@ -1216,9 +1219,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             rect.combineExtentWith(r)
 
         # buffer it with minor grid
-        # TODO: make this a setting
-        mbuf = True
-        if mbuf:
+        if self.buffer_major_grid():
             g = self.minor_grid_m()
             ll = QgsPoint(rect.xMinimum() - g, rect.yMinimum() - g)
             ur = QgsPoint(rect.xMaximum() + g, rect.yMaximum() + g)

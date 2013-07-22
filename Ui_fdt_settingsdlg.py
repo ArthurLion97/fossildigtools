@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fdt_settingsdlg.ui'
 #
-# Created: Mon Jul 15 16:24:47 2013
+# Created: Mon Jul 22 13:08:03 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -25,12 +25,8 @@ except AttributeError:
 
 class Ui_SettingsDialog(object):
     def setupUi(self, SettingsDialog):
-        """
-
-        :param SettingsDialog:
-        """
         SettingsDialog.setObjectName(_fromUtf8("SettingsDialog"))
-        SettingsDialog.resize(320, 429)
+        SettingsDialog.resize(320, 440)
         SettingsDialog.setMinimumSize(QtCore.QSize(320, 320))
         self.verticalLayout = QtGui.QVBoxLayout(SettingsDialog)
         self.verticalLayout.setContentsMargins(0, 6, 0, -1)
@@ -40,7 +36,7 @@ class Ui_SettingsDialog(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 308, 371))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 308, 382))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setMargin(6)
@@ -137,6 +133,10 @@ class Ui_SettingsDialog(object):
         self.label.setWordWrap(True)
         self.label.setObjectName(_fromUtf8("label"))
         self.verticalLayout_5.addWidget(self.label)
+        self.gridsBufferMajor = QtGui.QCheckBox(self.squaresGrpBx)
+        self.gridsBufferMajor.setChecked(True)
+        self.gridsBufferMajor.setObjectName(_fromUtf8("gridsBufferMajor"))
+        self.verticalLayout_5.addWidget(self.gridsBufferMajor)
         self.verticalLayout_2.addWidget(self.squaresGrpBx)
         spacerItem = QtGui.QSpacerItem(20, 0, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem)
@@ -167,6 +167,8 @@ class Ui_SettingsDialog(object):
         self.gridsUnitCmdBx.setItemText(0, _translate("SettingsDialog", "cm", None))
         self.gridsUnitCmdBx.setItemText(1, _translate("SettingsDialog", "in", None))
         self.label.setText(_translate("SettingsDialog", "Note: Changing grid size later will require deletion of existing grids.", None))
+        self.gridsBufferMajor.setToolTip(_translate("SettingsDialog", "Add perimeter of minor grids around major grids", None))
+        self.gridsBufferMajor.setText(_translate("SettingsDialog", "Buffer major grids with minor", None))
 
 from qgis.gui import QgsCollapsibleGroupBox
 import resources_rc
