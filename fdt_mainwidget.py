@@ -125,6 +125,12 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             pass
 
     def setup_toolbar(self):
+        self.zoomGridsAct = QAction(
+            QIcon(":/plugins/fossildigtools/icons/zoom-grids.svg"),
+            '', self)
+        self.zoomGridsAct.setToolTip(self.tr('Zoom to grids extent'))
+        self.tb.addAction(self.zoomGridsAct)
+
         self.pinPlotAct = QAction(
             QIcon(":/plugins/fossildigtools/icons/pinplot.svg"),
             '', self)

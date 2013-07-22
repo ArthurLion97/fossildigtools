@@ -20,5 +20,6 @@
         <file>icons/remove.svg</file>
         <file>icons/remove-all.svg</file>
         <file>icons/settings.svg</file>
+        <file>icons/zoom-grids.svg</file>
     </qresource>
 </RCC>
