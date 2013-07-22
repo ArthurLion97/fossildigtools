@@ -41,10 +41,10 @@ class FdtPinTool(QgsMapToolEmitPoint):
         self.mouseReleased.emit()
 
 
-class FdtPinDialog(QDialog):
+class FdtPinDialog(QDialog, Ui_PinDialog):
     def __init__(self, parent, iface, pinkind, feat=None):
         QDialog.__init__(self, parent)
-        self.setWindowFlags(Qt.Tool|Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.Tool | Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.p = parent
         self.iface = iface
@@ -56,16 +56,16 @@ class FdtPinDialog(QDialog):
         self.canvas = self.iface.mapCanvas()
 
         # set up the user interface from Designer.
-        self.ui = Ui_PinDialog()
-        self.ui.setupUi(self)
+        # self.ui = Ui_PinDialog()
+        self.setupUi(self)
 
         self.init_values()
         self.check_values()
 
-        self.ui.pinNameLineEdit.textChanged.connect(self.check_values)
-        self.ui.pinXDblSpinBx.valueChanged.connect(self.check_values)
-        self.ui.pinYDblSpinBx.valueChanged.connect(self.check_values)
-        self.ui.pinSetByLineEdit.textChanged.connect(self.check_values)
+        self.pinNameLineEdit.textChanged.connect(self.check_values)
+        self.pinXDblSpinBx.valueChanged.connect(self.check_values)
+        self.pinYDblSpinBx.valueChanged.connect(self.check_values)
+        self.pinSetByLineEdit.textChanged.connect(self.check_values)
 
         self.pinTool = FdtPinTool(self.canvas)
         self.pinTool.canvasClicked[QgsPoint,Qt.MouseButton].connect(
@@ -73,13 +73,13 @@ class FdtPinDialog(QDialog):
         self.pinTool.mouseReleased.connect(self.reset_tool)
         self.set_prev_tool()
 
-        self.ui.buttonBox.clicked[QAbstractButton].connect(self.dialog_action)
+        self.buttonBox.clicked[QAbstractButton].connect(self.dialog_action)
         self.restoreGeometry(self.p.settings.value(
             "/pinDialog/geometry",
             QByteArray(),
             type=QByteArray))
 
-        self.ui.pinNameLineEdit.setFocus()
+        self.pinNameLineEdit.setFocus()
 
     def save_geometry(self):
         self.p.settings.setValue("/pinDialog/geometry", self.saveGeometry())
@@ -93,19 +93,19 @@ class FdtPinDialog(QDialog):
         originname = ""
         kindtxt = self.tr("Origin")
         if self.origin:
-            self.ui.pinOriginLabel.setVisible(False)
-            self.ui.pinOriginLineEdit.setVisible(False)
-            self.ui.fromOriginFrame.setVisible(False)
-            self.ui.capturePinBtn.setIcon(
+            self.pinOriginLabel.setVisible(False)
+            self.pinOriginLineEdit.setVisible(False)
+            self.fromOriginFrame.setVisible(False)
+            self.capturePinBtn.setIcon(
                 QIcon(":/plugins/fossildigtools/icons/"
                       "capturepin-origin.svg"))
         else:  # directional
-            self.ui.pinOriginLabel.setVisible(True)
-            self.ui.pinOriginLineEdit.setVisible(True)
-            self.ui.fromOriginFrame.setVisible(True)
+            self.pinOriginLabel.setVisible(True)
+            self.pinOriginLineEdit.setVisible(True)
+            self.fromOriginFrame.setVisible(True)
             originname = self.originfeat['name']
             kindtxt = self.tr("Directional")
-            self.ui.capturePinBtn.setIcon(
+            self.capturePinBtn.setIcon(
                 QIcon(":/plugins/fossildigtools/icons/"
                       "capturepin-directional.svg"))
 
@@ -126,14 +126,14 @@ class FdtPinDialog(QDialog):
             setter = self.feat["setter"]
             date = self.feat["date"]
 
-        self.ui.pinNameLineEdit.setText(name)
-        self.ui.pinKindLabel.setText(kindtxt)
-        self.ui.pinOriginLineEdit.setText(originname)
-        self.ui.pinXDblSpinBx.setValue(x)
-        self.ui.pinYDblSpinBx.setValue(y)
-        self.ui.pinInfoTextEdit.setPlainText(info)
-        self.ui.pinSetByLineEdit.setText(setter)
-        self.ui.pinDateEdit.setDate(QDate.fromString(date, "yyyy/MM/dd"))
+        self.pinNameLineEdit.setText(name)
+        self.pinKindLabel.setText(kindtxt)
+        self.pinOriginLineEdit.setText(originname)
+        self.pinXDblSpinBx.setValue(x)
+        self.pinYDblSpinBx.setValue(y)
+        self.pinInfoTextEdit.setPlainText(info)
+        self.pinSetByLineEdit.setText(setter)
+        self.pinDateEdit.setDate(QDate.fromString(date, "yyyy/MM/dd"))
 
     def save_values(self):
         pinLyr = self.p.get_layer(self.p.pin_layer_id())
@@ -141,8 +141,8 @@ class FdtPinDialog(QDialog):
             return
         pinLyr.startEditing()
         feat = self.feat if self.feat else QgsFeature()
-        point = QgsPoint(self.ui.pinXDblSpinBx.value(),
-                         self.ui.pinYDblSpinBx.value())
+        point = QgsPoint(self.pinXDblSpinBx.value(),
+                         self.pinYDblSpinBx.value())
         feat.setGeometry(QgsGeometry.fromPoint(point))
 
         if not self.feat:
@@ -150,11 +150,11 @@ class FdtPinDialog(QDialog):
             feat.setFields(fields)
             feat["kind"] = self.pinkind
 
-        feat["name"] = self.ui.pinNameLineEdit.text()
+        feat["name"] = self.pinNameLineEdit.text()
         feat["origin"] = -1 if self.origin else self.originfeat['pkuid']
-        feat["description"] = self.ui.pinInfoTextEdit.toPlainText()
-        feat["setter"] = self.ui.pinSetByLineEdit.text()
-        feat["date"] = self.ui.pinDateEdit.date().toString("yyyy/MM/dd")
+        feat["description"] = self.pinInfoTextEdit.toPlainText()
+        feat["setter"] = self.pinSetByLineEdit.text()
+        feat["date"] = self.pinDateEdit.date().toString("yyyy/MM/dd")
 
         if self.feat:
             pinLyr.updateFeature(feat)
@@ -169,26 +169,26 @@ class FdtPinDialog(QDialog):
         badle = self.p.badLineEditValue
         baddblsb = self.p.badDblSpinBoxValue
 
-        nameok = self.ui.pinNameLineEdit.text() != ""
-        self.ui.pinNameLineEdit.setStyleSheet("" if nameok else badle)
+        nameok = self.pinNameLineEdit.text() != ""
+        self.pinNameLineEdit.setStyleSheet("" if nameok else badle)
 
-        setbyok = self.ui.pinSetByLineEdit.text() != ""
-        self.ui.pinSetByLineEdit.setStyleSheet("" if setbyok else badle)
+        setbyok = self.pinSetByLineEdit.text() != ""
+        self.pinSetByLineEdit.setStyleSheet("" if setbyok else badle)
 
         p = re.compile('\d+\.\d+')
-        x = self.ui.pinXDblSpinBx.value()
+        x = self.pinXDblSpinBx.value()
         xok = (int(x) != 0 and p.match(str(x)) is not None)
-        self.ui.pinXDblSpinBx.setStyleSheet("" if xok else baddblsb)
+        self.pinXDblSpinBx.setStyleSheet("" if xok else baddblsb)
 
-        y = self.ui.pinYDblSpinBx.value()
+        y = self.pinYDblSpinBx.value()
         yok = (int(y) != 0 and p.match(str(y)) is not None)
-        self.ui.pinYDblSpinBx.setStyleSheet("" if yok else baddblsb)
+        self.pinYDblSpinBx.setStyleSheet("" if yok else baddblsb)
 
         return nameok and setbyok and xok and yok
 
     @pyqtSlot(QAbstractButton)
     def dialog_action(self, btn):
-        if btn == self.ui.buttonBox.button(QDialogButtonBox.Ok):
+        if btn == self.buttonBox.button(QDialogButtonBox.Ok):
             if self.check_values():
                 self.save_values()
                 self.accept()
@@ -204,12 +204,12 @@ class FdtPinDialog(QDialog):
         self.canvas.setMapTool(self.pinTool)
 
     def offset_origin_coords(self, offset=(0.0, 0.0)):
-        dist = self.p.to_meters(self.ui.fromOriginDistDblSpnBx.value(),
-                                self.ui.fromOriginUnitsCmbBx.currentText())
+        dist = self.p.to_meters(self.fromOriginDistDblSpnBx.value(),
+                                self.fromOriginUnitsCmbBx.currentText())
         if int(dist) == 0:
             return
-        self.ui.pinXDblSpinBx.setValue( self.originpt.x() + dist * offset[0])
-        self.ui.pinYDblSpinBx.setValue( self.originpt.y() + dist * offset[1])
+        self.pinXDblSpinBx.setValue(self.originpt.x() + dist * offset[0])
+        self.pinYDblSpinBx.setValue(self.originpt.y() + dist * offset[1])
 
     @pyqtSlot()
     def on_toNBtn_clicked(self):
@@ -234,11 +234,11 @@ class FdtPinDialog(QDialog):
         #     self.iface.mainWindow(),
         #     "Coords",
         #     "X,Y = %s,%s" % (str(point.x()), str(point.y())))
-        self.ui.pinXDblSpinBx.setValue(point.x())
-        self.ui.pinYDblSpinBx.setValue(point.y())
+        self.pinXDblSpinBx.setValue(point.x())
+        self.pinYDblSpinBx.setValue(point.y())
 
-        if self.ui.capturePinBtn.isCheckable():
-            self.ui.capturePinBtn.setChecked(False)
+        if self.capturePinBtn.isCheckable():
+            self.capturePinBtn.setChecked(False)
 
         self.raise_()
         self.activateWindow()
@@ -255,9 +255,4 @@ class FdtPinDialog(QDialog):
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    settingsDlg = FdtPinDialog()
-    settingsDlg.show()
-    settingsDlg.raise_()
-    settingsDlg.activateWindow()
-    sys.exit(app.exec_())
+    pass

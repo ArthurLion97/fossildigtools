@@ -83,7 +83,7 @@ class FossilDigTools:
         self.toolswidget.remove_layer_connections()
 
         self.settings.setValue("currentTab",
-                               self.toolswidget.ui.tabWidget.currentIndex())
+                               self.toolswidget.tabWidget.currentIndex())
 
         self.dockWidget.setParent(None)  # remove parent for garbage collection
         del self.dockWidget

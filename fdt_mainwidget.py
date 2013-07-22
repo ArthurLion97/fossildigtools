@@ -40,7 +40,7 @@ if not PYDEV_DIR in sys.path:
 import pydevd
 
 
-class FdtMainWidget(QWidget):
+class FdtMainWidget(QWidget, Ui_MainWidget):
 
     def __init__(self, parent, iface, settings):
         QWidget.__init__(self, parent)
@@ -65,8 +65,8 @@ class FdtMainWidget(QWidget):
         self.highlights = []
 
         # set up the user interface from Designer.
-        self.ui = Ui_MainWidget()
-        self.ui.setupUi(self)
+        # self.ui = Ui_MainWidget()
+        self.setupUi(self)
 
         # setup toolbar
         self.tb = QToolBar(self)
@@ -77,7 +77,7 @@ class FdtMainWidget(QWidget):
         self.tb.setContextMenuPolicy(Qt.DefaultContextMenu)
         self.tb.setLayoutDirection(Qt.LeftToRight)
         self.tb.setIconSize(QSize(20, 20))
-        self.ui.toolBarFrameLayout.addWidget(self.tb)
+        self.toolBarFrameLayout.addWidget(self.tb)
 
         self.setup_toolbar()
 
@@ -86,13 +86,13 @@ class FdtMainWidget(QWidget):
             gpbx.setSettingGroup("digtools")
             gpbx.setSettings(settings)
 
-        self.ui.addGridBtnGrp.setExclusive(False)
+        self.addGridBtnGrp.setExclusive(False)
         self.set_grid_btns(True)  # default to origin
 
         # restore current tab
         curtab = self.settings.value("currentTab", 0, type=int)
-        if not (curtab + 1) > self.ui.tabWidget.count():
-            self.ui.tabWidget.setCurrentIndex(curtab)
+        if not (curtab + 1) > self.tabWidget.count():
+            self.tabWidget.setCurrentIndex(curtab)
 
         # reference to the canvas
         self.canvas = self.iface.mapCanvas()
@@ -224,15 +224,20 @@ class FdtMainWidget(QWidget):
         layer.triggerRepaint()
 
     def delete_features(self, layerid, expr):
+        # NOTE: does not trigger layer.editingStopped signals
         layer = self.get_layer(layerid)
         if not layer:
             return
         feats = self.get_features(layerid, expr)
         if feats:
+            # trigger gui update manually instead of on layer.editingStopped
+            # otherwise, on Mac, cpu maxes out updating the gui many times
+            layer.blockSignals(True)
             layer.startEditing()
             for feat in feats:
                 layer.deleteFeature(feat.id())
             layer.commitChanges()
+            layer.blockSignals(False)
             layer.setCacheImage(None)
             layer.triggerRepaint()
 
@@ -424,22 +429,22 @@ class FdtMainWidget(QWidget):
         if not self.active:
             self.notice(self.tr("Project unsupported. Define settings."))
         # location pins
-        self.ui.originPinCmbBx.blockSignals(True)
-        self.ui.originPinCmbBx.clear()
-        self.ui.originPinCmbBx.blockSignals(False)
-        self.ui.originEditFrame.setEnabled(False)
-        self.ui.directPinList.clear()
-        self.ui.directPinFrame.setEnabled(False)
-        self.ui.directPinEditFrame.setEnabled(False)
+        self.originPinCmbBx.blockSignals(True)
+        self.originPinCmbBx.clear()
+        self.originPinCmbBx.blockSignals(False)
+        self.originEditFrame.setEnabled(False)
+        self.directPinList.clear()
+        self.directPinFrame.setEnabled(False)
+        self.directPinEditFrame.setEnabled(False)
         # grids
-        self.ui.gridsCmbBx.blockSignals(True)
-        self.ui.gridsCmbBx.clear()
-        self.ui.gridsCmbBx.blockSignals(False)
-        self.ui.gridsRemoveBtn.setEnabled(False)
-        self.ui.gridFrame.setEnabled(False)
+        self.gridsCmbBx.blockSignals(True)
+        self.gridsCmbBx.clear()
+        self.gridsCmbBx.blockSignals(False)
+        self.gridsRemoveBtn.setEnabled(False)
+        self.gridFrame.setEnabled(False)
 
     def enable_plugin(self, enable):
-        self.ui.tabWidget.setEnabled(enable)
+        self.tabWidget.setEnabled(enable)
         for act in self.tb.actions():
             if act != self.settingsAct:
                 act.setEnabled(enable)
@@ -483,17 +488,17 @@ class FdtMainWidget(QWidget):
         self.load_origin_children()
 
     def update_current_origin(self):
-        if self.ui.originPinCmbBx.count() > 0:
-            self.curorigin = self.ui.originPinCmbBx.itemData(
-                self.ui.originPinCmbBx.currentIndex())
+        if self.originPinCmbBx.count() > 0:
+            self.curorigin = self.originPinCmbBx.itemData(
+                self.originPinCmbBx.currentIndex())
             self.curorigintxt = " ({0})".format(
-                self.ui.originPinCmbBx.currentText())
+                self.originPinCmbBx.currentText())
         else:
             self.curorigin = "{0}{1}{0}".format("-1", self.datadelim)
             self.curorigintxt = ''
 
         self.settings.setValue("currentOrigin", self.current_origin())
-        self.ui.gridsGrpBx.setTitle(
+        self.gridsGrpBx.setTitle(
             "{0}{1}".format(self.tr('Grids'), self.curorigintxt))
 
     def current_origin(self):  # pkuid
@@ -510,17 +515,20 @@ class FdtMainWidget(QWidget):
         feat = self.current_origin_feat()
         return feat.geometry().asPoint()
 
+    def delete_current_origin(self):
+        self.delete_feature(self.pin_layer_id(), self.current_origin_fid())
+
     def origin_pins(self):
         expstr = " \"kind\"='origin' "
         return self.get_features(self.pin_layer_id(), expstr)
 
     def load_origin_pins(self):
-        self.ui.originPinCmbBx.clear()
+        self.originPinCmbBx.clear()
         pins = self.origin_pins()
         haspins = len(pins) > 0
         if haspins:
-            self.ui.originEditFrame.setEnabled(True)
-            self.ui.originPinCmbBx.blockSignals(True)
+            self.originEditFrame.setEnabled(True)
+            self.originPinCmbBx.blockSignals(True)
             # sort by pin name
             plist = []
             for p in pins:
@@ -530,16 +538,16 @@ class FdtMainWidget(QWidget):
             curorig = self.settings.value("currentOrigin", "-1", type=str)
             curindx = -1
             for (i, p) in enumerate(plist):
-                self.ui.originPinCmbBx.addItem(p[2], self.join_data(p[0], p[1]))
+                self.originPinCmbBx.addItem(p[2], self.join_data(p[0], p[1]))
                 if curorig != "-1" and curorig == str(p[1]):
                     curindx = i
             if (curindx > -1 and
-                    not curindx > (self.ui.originPinCmbBx.count() - 1)):
-                self.ui.originPinCmbBx.setCurrentIndex(curindx)
+                    not curindx > (self.originPinCmbBx.count() - 1)):
+                self.originPinCmbBx.setCurrentIndex(curindx)
 
-            self.ui.originPinCmbBx.blockSignals(False)
+            self.originPinCmbBx.blockSignals(False)
 
-        self.ui.directPinFrame.setEnabled(haspins)
+        self.directPinFrame.setEnabled(haspins)
 
     def load_origin_children(self):
         # load directional pins associated with the current origin
@@ -548,7 +556,7 @@ class FdtMainWidget(QWidget):
         self.load_origin_major_grids()
 
     def current_directional_item(self):
-        return self.ui.directPinList.currentItem()
+        return self.directPinList.currentItem()
 
     def current_directional(self):  # pkuid
         return self.split_data(
@@ -567,6 +575,9 @@ class FdtMainWidget(QWidget):
         feat = self.current_directional_feat()
         return feat.geometry().asPoint()
 
+    def delete_current_directional(self):
+        self.delete_feature(self.pin_layer_id(), self.current_directional_fid())
+
     def directional_pins(self, origin=-1):
         if origin == -1:
             origin = self.current_origin()
@@ -576,13 +587,13 @@ class FdtMainWidget(QWidget):
         return self.get_features(self.pin_layer_id(), expstr)
 
     def load_directional_pins(self):
-        self.ui.directPinList.clear()
-        self.ui.directPinList.blockSignals(True)
+        self.directPinList.clear()
+        self.directPinList.blockSignals(True)
         for pin in self.directional_pins(self.current_origin()):
             lw = QListWidgetItem(pin['name'])
             lw.setData(Qt.UserRole, self.join_data(pin.id(), pin['pkuid']))
-            self.ui.directPinList.addItem(lw)
-        self.ui.directPinList.blockSignals(False)
+            self.directPinList.addItem(lw)
+        self.directPinList.blockSignals(False)
 
     def split_grid_name(self, data):
         return data.split(', ')
@@ -591,9 +602,9 @@ class FdtMainWidget(QWidget):
         return "{0}, {1}".format(a, b)
 
     def update_current_grid(self):
-        if self.ui.gridsCmbBx.count() > 0:
-            self.curgrid = self.ui.gridsCmbBx.itemData(
-                self.ui.gridsCmbBx.currentIndex())
+        if self.gridsCmbBx.count() > 0:
+            self.curgrid = self.gridsCmbBx.itemData(
+                self.gridsCmbBx.currentIndex())
         else:
             self.curgrid = "{0}{1}{0}".format("-1", self.datadelim)
 
@@ -643,6 +654,20 @@ class FdtMainWidget(QWidget):
     def current_grid_lr_point(self):
         rect = self.current_grid_rect()
         return QgsPoint(rect.xMaximum(), rect.yMinimum())
+
+    def delete_current_grid(self):
+        # find/delete both major and minor grids for same location
+        xyloc = self.grid_xyloc_from_origin(self.current_grid_center())
+        expstr = ' "x"={0} and "y"={1} and "origin"={2} '. \
+            format(xyloc[0], xyloc[1], self.current_origin())
+        self.delete_features(self.grid_layer_id(), expstr)
+        self.load_origin_major_grids()
+
+    def delete_all_origin_grids(self):
+        # find/delete both major and minor grids for current origin
+        expstr = ' "origin"={0} '.format(self.current_origin())
+        self.delete_features(self.grid_layer_id(), expstr)
+        self.load_origin_major_grids()
 
     def offset_within_size(self, a, b, size):
         # offset of a from b within number of sizes
@@ -776,23 +801,24 @@ class FdtMainWidget(QWidget):
         QTimer.singleShot(1000, self.load_origin_major_grids)
 
     def load_origin_major_grids(self):
-        self.ui.gridsCmbBx.blockSignals(True)
-        self.ui.gridsCmbBx.clear()
-        self.ui.gridsCmbBx.blockSignals(False)
+        self.gridsCmbBx.blockSignals(True)
+        self.gridsCmbBx.clear()
+        self.gridsCmbBx.blockSignals(False)
 
         if self.current_origin() == -1:
-            self.ui.gridFrame.setEnabled(False)
+            self.gridFrame.setEnabled(False)
             return
-        self.ui.gridFrame.setEnabled(True)
+        self.gridFrame.setEnabled(True)
 
         grids = self.origin_major_grids()
         hasgrids = len(grids) > 0
 
-        self.ui.addGridGridRadio.setEnabled(hasgrids)
-        self.ui.addGridGridRadio.setChecked(hasgrids)
-        self.ui.addGridOriginRadio.setChecked(not hasgrids)
-        self.ui.gridsRemoveBtn.setEnabled(hasgrids)
-        self.ui.gridsGoToBtn.setEnabled(hasgrids)
+        self.addGridGridRadio.setEnabled(hasgrids)
+        self.addGridGridRadio.setChecked(hasgrids)
+        self.addGridOriginRadio.setChecked(not hasgrids)
+        self.gridsRemoveBtn.setEnabled(hasgrids)
+        self.gridsGoToBtn.setEnabled(hasgrids)
+        self.gridsRemoveAllBtn.setEnabled(hasgrids)
         if hasgrids:
             # sort grids by x then y
             glist = []
@@ -801,7 +827,7 @@ class FdtMainWidget(QWidget):
                               int(grid['x']), int(grid['y'])))
             glist = sorted(glist, key=itemgetter(2, 3))
 
-            self.ui.gridsCmbBx.blockSignals(True)
+            self.gridsCmbBx.blockSignals(True)
 
             defaultdata = "{0}{1}{0}".format("-1", self.datadelim)
             datalist = self.split_data(
@@ -811,23 +837,23 @@ class FdtMainWidget(QWidget):
             # populate grids combobox
             for (i, g) in enumerate(glist):
                 name = self.join_grid_name(str(g[2]), str(g[3]))
-                self.ui.gridsCmbBx.addItem(name, self.join_data(g[0], g[1]))
+                self.gridsCmbBx.addItem(name, self.join_data(g[0], g[1]))
 
                 if (curgrid != "-1" and
                         curorig == self.current_origin() and
                         curgrid == str(g[1])):
                     curindx = i
 
-            if curindx > -1 and not curindx > (self.ui.gridsCmbBx.count() - 1):
-                    self.ui.gridsCmbBx.setCurrentIndex(curindx)
+            if curindx > -1 and not curindx > (self.gridsCmbBx.count() - 1):
+                    self.gridsCmbBx.setCurrentIndex(curindx)
 
-            self.ui.gridsCmbBx.blockSignals(False)
+            self.gridsCmbBx.blockSignals(False)
 
         # trigger gui updates
         self.update_current_grid()
         self.on_addGridRadioGrp_buttonClicked(
-            self.ui.addGridGridRadio if hasgrids
-            else self.ui.addGridOriginRadio)
+            self.addGridGridRadio if hasgrids
+            else self.addGridOriginRadio)
 
     def init_bad_value_stylesheets(self):
         self.badLineEditValue = \
@@ -866,37 +892,37 @@ class FdtMainWidget(QWidget):
                                 self.iface.messageTimeout())
 
     def notice(self, notice):
-        self.ui.noticeLabel.show()
-        self.ui.noticeLabel.setText(notice)
+        self.noticeLabel.show()
+        self.noticeLabel.setText(notice)
 
     def clear_notice(self):
-        self.ui.noticeLabel.setText("")
-        self.ui.noticeLabel.hide()
+        self.noticeLabel.setText("")
+        self.noticeLabel.hide()
 
     def add_grids_ref_is_origin(self):
-        return self.ui.addGridRadioGrp.checkedButton() == \
-            self.ui.addGridOriginRadio
+        return self.addGridRadioGrp.checkedButton() == \
+            self.addGridOriginRadio
 
     def add_grids_has_checked(self):
         haschecked = False
-        for btn in self.ui.addGridBtnGrp.buttons():
+        for btn in self.addGridBtnGrp.buttons():
             if btn.isCheckable() and btn.isChecked():
                 haschecked = True
                 break
         return haschecked
 
     def reset_add_grid_btns(self):
-        for btn in self.ui.addGridBtnGrp.buttons():
+        for btn in self.addGridBtnGrp.buttons():
             btn.setEnabled(True)
             if btn.isCheckable():
                 btn.setChecked(False)
 
     def set_grid_btns(self, origin=False):
         if origin:
-            self.ui.addGridNBtn.setEnabled(False)
-            self.ui.addGridSBtn.setEnabled(False)
-            self.ui.addGridWBtn.setEnabled(False)
-            self.ui.addGridEBtn.setEnabled(False)
+            self.addGridNBtn.setEnabled(False)
+            self.addGridSBtn.setEnabled(False)
+            self.addGridWBtn.setEnabled(False)
+            self.addGridEBtn.setEnabled(False)
 
     def update_grid_buttons(self):
         origin = self.add_grids_ref_is_origin()
@@ -914,16 +940,16 @@ class FdtMainWidget(QWidget):
 
         xylocs = set(self.origin_major_grids_xylocs())  # set(list of tuples)
 
-        self.ui.addGridNWBtn.setEnabled((x - mx, y + py) not in xylocs)
-        self.ui.addGridNEBtn.setEnabled((x + px, y + py) not in xylocs)
-        self.ui.addGridSWBtn.setEnabled((x - mx, y - my) not in xylocs)
-        self.ui.addGridSEBtn.setEnabled((x + px, y - my) not in xylocs)
+        self.addGridNWBtn.setEnabled((x - mx, y + py) not in xylocs)
+        self.addGridNEBtn.setEnabled((x + px, y + py) not in xylocs)
+        self.addGridSWBtn.setEnabled((x - mx, y - my) not in xylocs)
+        self.addGridSEBtn.setEnabled((x + px, y - my) not in xylocs)
 
         if not origin:
-            self.ui.addGridNBtn.setEnabled((x, y + py) not in xylocs)
-            self.ui.addGridEBtn.setEnabled((x + px, y) not in xylocs)
-            self.ui.addGridWBtn.setEnabled((x - mx, y) not in xylocs)
-            self.ui.addGridSBtn.setEnabled((x, y - my) not in xylocs)
+            self.addGridNBtn.setEnabled((x, y + py) not in xylocs)
+            self.addGridEBtn.setEnabled((x + px, y) not in xylocs)
+            self.addGridWBtn.setEnabled((x - mx, y) not in xylocs)
+            self.addGridSBtn.setEnabled((x, y - my) not in xylocs)
 
     def open_settings_dlg(self):
         settingsDlg = FdtSettingsDialog(self, self.iface, self.settings)
@@ -951,17 +977,40 @@ class FdtMainWidget(QWidget):
 
     @pyqtSlot()
     def on_originPinRemoveBtn_clicked(self):
-        res = QMessageBox.warning(
-            self.parent(),
-            self.tr("Caution!"),
-            self.tr("Really delete current origin pin?\n\n"
-                    "Doing so will orphan any associated grids, "
-                    "which will have to be manually deleted."),
-            QMessageBox.Ok | QMessageBox.Cancel,
-            QMessageBox.Cancel)
-        if res != QMessageBox.Ok:
+        msgbx = QMessageBox(self.parent())
+        msgbx.setIcon(QMessageBox.Warning)
+        msgbx.setWindowTitle(self.tr("Caution!"))
+        msgbx.setText(
+            self.tr("Really delete current origin pin?\n\n"))
+        msgbx.setDetailedText(self.tr(
+            "Deleting just pin will orphan any associated grids, "
+            "which will have to be manually deleted."))
+        msgbx.setStandardButtons(QMessageBox.Cancel)
+        delpin = msgbx.addButton(self.tr("Delete pin"),
+                                 QMessageBox.ActionRole)
+        delgrids = msgbx.addButton(self.tr("Delete pin and grids"),
+                                   QMessageBox.ActionRole)
+        msgbx.setDefaultButton(QMessageBox.Cancel)
+        msgbx.exec_()
+        btn = msgbx.buttonClicked()
+        if btn == QMessageBox.Cancel:
             return
-        self.delete_feature(self.pin_layer_id(), self.current_origin_fid())
+        elif btn == delpin:
+            self.delete_feature(self.pin_layer_id(), self.current_origin_fid())
+        elif btn == delgrids:
+            self.delete_all_origin_grids()
+
+        # res = QMessageBox.warning(
+        #     self.parent(),
+        #     self.tr("Caution!"),
+        #     self.tr("Really delete current origin pin?\n\n"
+        #             "Deleting just pin will orphan any associated grids, "
+        #             "which will have to be manually deleted."),
+        #     QMessageBox.Ok | QMessageBox.Cancel,
+        #     QMessageBox.Cancel)
+        # if res != QMessageBox.Ok:
+        #     return
+        # self.delete_feature(self.pin_layer_id(), self.current_origin_fid())
 
     @pyqtSlot()
     def on_originPinGoToBtn_clicked(self):
@@ -976,7 +1025,7 @@ class FdtMainWidget(QWidget):
 
     @pyqtSlot("QListWidgetItem *", "QListWidgetItem *")
     def on_directPinList_currentItemChanged(self, cur, prev):
-        self.ui.directPinEditFrame.setEnabled(cur is not None)
+        self.directPinEditFrame.setEnabled(cur is not None)
 
     @pyqtSlot()
     def on_directPinAddBtn_clicked(self):
@@ -1002,7 +1051,8 @@ class FdtMainWidget(QWidget):
             QMessageBox.Cancel)
         if res != QMessageBox.Ok:
             return
-        self.delete_feature(self.pin_layer_id(), self.current_directional_fid())
+
+        self.delete_current_directional()
 
     @pyqtSlot()
     def on_directPinGoToBtn_clicked(self):
@@ -1051,17 +1101,29 @@ class FdtMainWidget(QWidget):
         if res != QMessageBox.Ok:
             return
 
-        # find/delete both major and minor grids for same location
-        xyloc = self.grid_xyloc_from_origin(self.current_grid_center())
-        expstr = ' "x"={0} and "y"={1} and "origin"={2} '.\
-            format(xyloc[0], xyloc[1], self.current_origin())
-        self.delete_features(self.grid_layer_id(), expstr)
+        self.delete_current_grid()
 
     @pyqtSlot()
     def on_gridsGoToBtn_clicked(self):
         pt = self.current_grid_center()
         rect = self.rect_buf_point(pt, self.major_grid_buf())
         self.zoom_canvas(rect)
+
+    @pyqtSlot(QAbstractButton)
+    def on_addGridRadioGrp_buttonClicked(self, btn):
+        self.reset_add_grid_btns()
+        origin = False
+        if btn is self.addGridGridRadio:
+            self.addGridIconLabel.setPixmap(
+                QPixmap(":/plugins/fossildigtools/icons/grid.svg"))
+        elif btn is self.addGridOriginRadio:
+            self.addGridIconLabel.setPixmap(
+                QPixmap(":/plugins/fossildigtools/icons/origin.svg"))
+            origin = True
+        self.set_grid_btns(origin)
+
+        # disable buttons where grids already exist
+        self.update_grid_buttons()
 
     @pyqtSlot()
     def on_gridsAddBtn_clicked(self):
@@ -1076,13 +1138,13 @@ class FdtMainWidget(QWidget):
 
         if self.add_grids_ref_is_origin():
             p = self.current_origin_point()
-            if self.ui.addGridNWBtn.isChecked():
+            if self.addGridNWBtn.isChecked():
                 self.create_grid(layer, p, 'lr')
-            if self.ui.addGridNEBtn.isChecked():
+            if self.addGridNEBtn.isChecked():
                 self.create_grid(layer, p, 'll')
-            if self.ui.addGridSWBtn.isChecked():
+            if self.addGridSWBtn.isChecked():
                 self.create_grid(layer, p, 'ur')
-            if self.ui.addGridSEBtn.isChecked():
+            if self.addGridSEBtn.isChecked():
                 self.create_grid(layer, p, 'ul')
         else:
             rect = self.current_grid_rect()
@@ -1091,54 +1153,51 @@ class FdtMainWidget(QWidget):
             ur = QgsPoint(rect.xMaximum(), rect.yMaximum())
             lr = QgsPoint(rect.xMaximum(), rect.yMinimum())
 
-            if self.ui.addGridWBtn.isChecked():
+            if self.addGridWBtn.isChecked():
                 self.create_grid(layer, ul, 'ur')
-            if self.ui.addGridNWBtn.isChecked():
+            if self.addGridNWBtn.isChecked():
                 self.create_grid(layer, ul, 'lr')
 
-            if self.ui.addGridNBtn.isChecked():
+            if self.addGridNBtn.isChecked():
                 self.create_grid(layer, ur, 'lr')
-            if self.ui.addGridNEBtn.isChecked():
+            if self.addGridNEBtn.isChecked():
                 self.create_grid(layer, ur, 'll')
 
-            if self.ui.addGridEBtn.isChecked():
+            if self.addGridEBtn.isChecked():
                 self.create_grid(layer, lr, 'll')
-            if self.ui.addGridSEBtn.isChecked():
+            if self.addGridSEBtn.isChecked():
                 self.create_grid(layer, lr, 'ul')
 
-            if self.ui.addGridSBtn.isChecked():
+            if self.addGridSBtn.isChecked():
                 self.create_grid(layer, ll, 'ul')
-            if self.ui.addGridSWBtn.isChecked():
+            if self.addGridSWBtn.isChecked():
                 self.create_grid(layer, ll, 'ur')
 
         self.reset_add_grid_btns()
 
-        layer.blockSignals(False)
         layer.commitChanges()
+        layer.blockSignals(False)
+
         layer.setCacheImage(None)
         layer.triggerRepaint()
+        # trigger gui update manually instead of on layer.editingStopped
+        # otherwise, on Mac, cpu maxes out updating the gui many times
+        self.load_origin_major_grids()
 
-    @pyqtSlot(QAbstractButton)
-    def on_addGridRadioGrp_buttonClicked(self, btn):
-        self.reset_add_grid_btns()
-        origin = False
-        if btn is self.ui.addGridGridRadio:
-            self.ui.addGridIconLabel.setPixmap(
-                QPixmap(":/plugins/fossildigtools/icons/grid.svg"))
-        elif btn is self.ui.addGridOriginRadio:
-            self.ui.addGridIconLabel.setPixmap(
-                QPixmap(":/plugins/fossildigtools/icons/origin.svg"))
-            origin = True
-        self.set_grid_btns(origin)
+    @pyqtSlot()
+    def on_gridsRemoveAllBtn_clicked(self):
+        res = QMessageBox.warning(
+            self.parent(),
+            self.tr("Caution!"),
+            self.tr("Really delete ALL grids for current origin ?\n\n"
+                    "(operation can not be undone)"),
+            QMessageBox.Ok | QMessageBox.Cancel,
+            QMessageBox.Cancel)
+        if res != QMessageBox.Ok:
+            return
 
-        # disable buttons where grids already exist
-        self.update_grid_buttons()
+        self.delete_all_origin_grids()
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    toolwidget = FdtMainWidget()
-    toolwidget.show()
-    toolwidget.raise_()
-    toolwidget.activateWindow()
-    sys.exit(app.exec_())
+    pass
