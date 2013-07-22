@@ -18,6 +18,7 @@
         <file>icons/origin.svg</file>
         <file>icons/pinplot.svg</file>
         <file>icons/remove.svg</file>
+        <file>icons/remove-all.svg</file>
         <file>icons/settings.svg</file>
     </qresource>
 </RCC>
