@@ -234,9 +234,11 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             # otherwise, on Mac, cpu maxes out updating the gui many times
             layer.blockSignals(True)
             layer.startEditing()
+            layer.beginEditCommand("Delete features")
             for feat in feats:
                 layer.deleteFeature(feat.id())
             layer.commitChanges()
+            layer.endEditCommand()
             layer.blockSignals(False)
             layer.setCacheImage(None)
             layer.triggerRepaint()
@@ -663,6 +665,12 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.delete_features(self.grid_layer_id(), expstr)
         self.load_origin_major_grids()
 
+    def origin_has_grids(self):
+        # find both major and minor grids for current origin
+        expstr = ' "origin"={0} '.format(self.current_origin())
+        feats = self.get_features(self.grid_layer_id(), expstr)
+        return len(feats) > 0
+
     def delete_all_origin_grids(self):
         # find/delete both major and minor grids for current origin
         expstr = ' "origin"={0} '.format(self.current_origin())
@@ -732,7 +740,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         xyloc = self.grid_xyloc_from_origin(QgsPoint(x + g / 2, y + g / 2))
 
         # don't duplicate grids
-        # TODO: move to comparison of set of origin_major_grids_xylocs()
+        # TODO: maybe move to comparison of set of origin_major_grids_xylocs()
         if self.grid_xyloc_exists(xyloc):
             return
 
@@ -977,40 +985,35 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
 
     @pyqtSlot()
     def on_originPinRemoveBtn_clicked(self):
+        hasgrids = self.origin_has_grids()
         msgbx = QMessageBox(self.parent())
         msgbx.setIcon(QMessageBox.Warning)
         msgbx.setWindowTitle(self.tr("Caution!"))
         msgbx.setText(
-            self.tr("Really delete current origin pin?\n\n"))
-        msgbx.setDetailedText(self.tr(
-            "Deleting just pin will orphan any associated grids, "
-            "which will have to be manually deleted."))
+            self.tr("Really delete current origin pin?\n"))
+        msgbx.setInformativeText(
+            self.tr("(operation can not be undone)"))
+        if hasgrids:
+            msgbx.setDetailedText(self.tr(
+                "Deleting just pin will orphan any associated grids, "
+                "which will have to be manually deleted."))
         msgbx.setStandardButtons(QMessageBox.Cancel)
         delpin = msgbx.addButton(self.tr("Delete pin"),
                                  QMessageBox.ActionRole)
-        delgrids = msgbx.addButton(self.tr("Delete pin and grids"),
-                                   QMessageBox.ActionRole)
+        delgrids = None
+        if hasgrids:
+            delgrids = msgbx.addButton(self.tr("Delete pin and grids"),
+                                       QMessageBox.ActionRole)
         msgbx.setDefaultButton(QMessageBox.Cancel)
         msgbx.exec_()
-        btn = msgbx.buttonClicked()
+        btn = msgbx.clickedButton()
         if btn == QMessageBox.Cancel:
             return
         elif btn == delpin:
-            self.delete_feature(self.pin_layer_id(), self.current_origin_fid())
+            self.delete_current_origin()
         elif btn == delgrids:
             self.delete_all_origin_grids()
-
-        # res = QMessageBox.warning(
-        #     self.parent(),
-        #     self.tr("Caution!"),
-        #     self.tr("Really delete current origin pin?\n\n"
-        #             "Deleting just pin will orphan any associated grids, "
-        #             "which will have to be manually deleted."),
-        #     QMessageBox.Ok | QMessageBox.Cancel,
-        #     QMessageBox.Cancel)
-        # if res != QMessageBox.Ok:
-        #     return
-        # self.delete_feature(self.pin_layer_id(), self.current_origin_fid())
+            self.delete_current_origin()
 
     @pyqtSlot()
     def on_originPinGoToBtn_clicked(self):
@@ -1046,12 +1049,12 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         res = QMessageBox.warning(
             self.parent(),
             self.tr("Caution!"),
-            self.tr("Really delete selected directional pin ?"),
+            self.tr("Really delete selected directional pin?\n\n"
+                    "(operation can not be undone)"),
             QMessageBox.Ok | QMessageBox.Cancel,
             QMessageBox.Cancel)
         if res != QMessageBox.Ok:
             return
-
         self.delete_current_directional()
 
     @pyqtSlot()
@@ -1095,12 +1098,12 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         res = QMessageBox.warning(
             self.parent(),
             self.tr("Caution!"),
-            self.tr("Really delete current grid ?"),
+            self.tr("Really delete current grid?\n\n"
+                    "(operation can not be undone)"),
             QMessageBox.Ok | QMessageBox.Cancel,
             QMessageBox.Cancel)
         if res != QMessageBox.Ok:
             return
-
         self.delete_current_grid()
 
     @pyqtSlot()
@@ -1135,6 +1138,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
 
         layer.blockSignals(True)
         layer.startEditing()
+        layer.beginEditCommand("Add grids")
 
         if self.add_grids_ref_is_origin():
             p = self.current_origin_point()
@@ -1176,6 +1180,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.reset_add_grid_btns()
 
         layer.commitChanges()
+        layer.endEditCommand()
         layer.blockSignals(False)
 
         layer.setCacheImage(None)
@@ -1189,7 +1194,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         res = QMessageBox.warning(
             self.parent(),
             self.tr("Caution!"),
-            self.tr("Really delete ALL grids for current origin ?\n\n"
+            self.tr("Really delete ALL grids for current origin?\n\n"
                     "(operation can not be undone)"),
             QMessageBox.Ok | QMessageBox.Cancel,
             QMessageBox.Cancel)
