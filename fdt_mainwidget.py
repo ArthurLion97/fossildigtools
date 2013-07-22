@@ -129,6 +129,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             QIcon(":/plugins/fossildigtools/icons/zoom-grids.svg"),
             '', self)
         self.zoomGridsAct.setToolTip(self.tr('Zoom to grids extent'))
+        self.zoomGridsAct.triggered.connect(self.on_gridsZoomToAllBtn_clicked)
         self.tb.addAction(self.zoomGridsAct)
 
         self.pinPlotAct = QAction(
@@ -1202,6 +1203,28 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         # trigger gui update manually instead of on layer.editingStopped
         # otherwise, on Mac, cpu maxes out updating the gui many times
         self.load_origin_major_grids()
+
+    @pyqtSlot()
+    def on_gridsZoomToAllBtn_clicked(self):
+        feats = self.origin_major_grids()
+        if not feats:
+            return
+        rect = QgsRectangle()
+        rect.setMinimal()
+        for feat in feats:
+            r = feat.geometry().boundingBox()
+            rect.combineExtentWith(r)
+
+        # buffer it with minor grid
+        # TODO: make this a setting
+        mbuf = True
+        if mbuf:
+            g = self.minor_grid_m()
+            ll = QgsPoint(rect.xMinimum() - g, rect.yMinimum() - g)
+            ur = QgsPoint(rect.xMaximum() + g, rect.yMaximum() + g)
+            rect = QgsRectangle(ll, ur)
+
+        self.zoom_canvas(rect)
 
     @pyqtSlot()
     def on_gridsRemoveAllBtn_clicked(self):
