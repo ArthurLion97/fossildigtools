@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fdt_mainwidget.ui'
 #
-# Created: Tue Jul 23 14:51:35 2013
+# Created: Tue Jul 23 16:39:11 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -178,18 +178,18 @@ class Ui_MainWidget(object):
         self.offsetPinAddBtn.setIconSize(QtCore.QSize(20, 20))
         self.offsetPinAddBtn.setObjectName(_fromUtf8("offsetPinAddBtn"))
         self.verticalLayout_9.addWidget(self.offsetPinAddBtn)
-        self.directPinEditFrame_2 = QtGui.QFrame(self.directPinFrame)
-        self.directPinEditFrame_2.setObjectName(_fromUtf8("directPinEditFrame_2"))
-        self.verticalLayout_10 = QtGui.QVBoxLayout(self.directPinEditFrame_2)
+        self.offsetPinEditFrame = QtGui.QFrame(self.directPinFrame)
+        self.offsetPinEditFrame.setObjectName(_fromUtf8("offsetPinEditFrame"))
+        self.verticalLayout_10 = QtGui.QVBoxLayout(self.offsetPinEditFrame)
         self.verticalLayout_10.setMargin(0)
         self.verticalLayout_10.setObjectName(_fromUtf8("verticalLayout_10"))
-        self.offsetPinRemoveBtn = QtGui.QToolButton(self.directPinEditFrame_2)
+        self.offsetPinRemoveBtn = QtGui.QToolButton(self.offsetPinEditFrame)
         self.offsetPinRemoveBtn.setMaximumSize(QtCore.QSize(16777215, 24))
         self.offsetPinRemoveBtn.setIcon(icon1)
         self.offsetPinRemoveBtn.setIconSize(QtCore.QSize(20, 20))
         self.offsetPinRemoveBtn.setObjectName(_fromUtf8("offsetPinRemoveBtn"))
         self.verticalLayout_10.addWidget(self.offsetPinRemoveBtn)
-        self.offsetPinGoToBtn = QtGui.QToolButton(self.directPinEditFrame_2)
+        self.offsetPinGoToBtn = QtGui.QToolButton(self.offsetPinEditFrame)
         self.offsetPinGoToBtn.setMaximumSize(QtCore.QSize(16777215, 24))
         self.offsetPinGoToBtn.setIcon(icon2)
         self.offsetPinGoToBtn.setIconSize(QtCore.QSize(20, 20))
@@ -197,7 +197,7 @@ class Ui_MainWidget(object):
         self.verticalLayout_10.addWidget(self.offsetPinGoToBtn)
         spacerItem = QtGui.QSpacerItem(20, 0, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_10.addItem(spacerItem)
-        self.verticalLayout_9.addWidget(self.directPinEditFrame_2)
+        self.verticalLayout_9.addWidget(self.offsetPinEditFrame)
         self.gridLayout_6.addLayout(self.verticalLayout_9, 4, 2, 2, 1)
         self.verticalLayout_8 = QtGui.QVBoxLayout()
         self.verticalLayout_8.setSpacing(6)

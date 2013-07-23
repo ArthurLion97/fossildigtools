@@ -146,6 +146,13 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.zoomOutAct.triggered.connect(self.zoom_out)
         self.tb.addAction(self.zoomOutAct)
 
+        self.geoMagAct = QAction(
+            QIcon(":/plugins/fossildigtools/icons/geomag-pin.svg"),
+            '', self)
+        self.geoMagAct.setToolTip(
+            self.tr('Calculate geomagnetic declination for location'))
+        self.tb.addAction(self.geoMagAct)
+
         self.distToLocationAct = QAction(
             QIcon(":/plugins/fossildigtools/icons/distance-to-location.svg"),
             '', self)
