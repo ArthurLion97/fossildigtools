@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>473</width>
-    <height>628</height>
+    <width>338</width>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -98,8 +98,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>473</width>
-            <height>563</height>
+            <width>338</width>
+            <height>567</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -442,7 +442,7 @@
               <property name="margin">
                <number>6</number>
               </property>
-              <item row="3" column="0">
+              <item row="2" column="0">
                <widget class="QFrame" name="gridFrame">
                 <layout class="QGridLayout" name="gridLayout_3">
                  <property name="margin">
@@ -779,19 +779,10 @@
               <item row="0" column="0">
                <layout class="QGridLayout" name="gridLayout_5">
                 <property name="verticalSpacing">
-                 <number>0</number>
+                 <number>6</number>
                 </property>
-                <item row="0" column="1">
-                 <widget class="QComboBox" name="gridsCmbBx"/>
-                </item>
-                <item row="0" column="2">
+                <item row="1" column="1">
                  <widget class="QFrame" name="gridsEditFrame">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
                   <property name="frameShape">
                    <enum>QFrame::NoFrame</enum>
                   </property>
@@ -883,6 +874,16 @@
                   </layout>
                  </widget>
                 </item>
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="gridsCmbBx">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
                 <item row="0" column="0">
                  <widget class="QLabel" name="gridsIconLabel">
                   <property name="sizePolicy">
@@ -899,9 +900,131 @@
                   </property>
                  </widget>
                 </item>
+                <item row="0" column="2" rowspan="2">
+                 <widget class="QFrame" name="gridsGoToCornerFrame">
+                  <property name="frameShape">
+                   <enum>QFrame::NoFrame</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_7">
+                   <property name="margin">
+                    <number>0</number>
+                   </property>
+                   <property name="spacing">
+                    <number>6</number>
+                   </property>
+                   <item row="0" column="1">
+                    <widget class="QToolButton" name="gridsGoToUrBtn">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Remove grid</string>
+                     </property>
+                     <property name="text">
+                      <string>-</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="resources.qrc">
+                       <normaloff>:/plugins/fossildigtools/icons/goto-grid-ur.svg</normaloff>:/plugins/fossildigtools/icons/goto-grid-ur.svg</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QToolButton" name="gridsGoToUlBtn">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Remove grid</string>
+                     </property>
+                     <property name="text">
+                      <string>-</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="resources.qrc">
+                       <normaloff>:/plugins/fossildigtools/icons/goto-grid-ul.svg</normaloff>:/plugins/fossildigtools/icons/goto-grid-ul.svg</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QToolButton" name="gridsGoToLlBtn">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Remove grid</string>
+                     </property>
+                     <property name="text">
+                      <string>-</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="resources.qrc">
+                       <normaloff>:/plugins/fossildigtools/icons/goto-grid-ll.svg</normaloff>:/plugins/fossildigtools/icons/goto-grid-ll.svg</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QToolButton" name="gridsGoToLrBtn">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Remove grid</string>
+                     </property>
+                     <property name="text">
+                      <string>-</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="resources.qrc">
+                       <normaloff>:/plugins/fossildigtools/icons/goto-grid-lr.svg</normaloff>:/plugins/fossildigtools/icons/goto-grid-lr.svg</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
                </layout>
               </item>
-              <item row="4" column="0">
+              <item row="3" column="0">
                <widget class="QFrame" name="gridsAllFrame">
                 <layout class="QHBoxLayout" name="horizontalLayout_3">
                  <property name="margin">
@@ -1035,8 +1158,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>473</width>
-            <height>563</height>
+            <width>338</width>
+            <height>567</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">

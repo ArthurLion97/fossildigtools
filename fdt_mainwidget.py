@@ -462,6 +462,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.gridsCmbBx.blockSignals(True)
         self.gridsCmbBx.clear()
         self.gridsCmbBx.blockSignals(False)
+        self.gridsGoToCornerFrame.setEnabled(False)
         self.gridsEditFrame.setEnabled(False)
         self.gridFrame.setEnabled(False)
         self.gridsAllFrame.setEnabled(False)
@@ -672,6 +673,10 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         rect = self.current_grid_rect()
         return QgsPoint(rect.xMaximum(), rect.yMinimum())
 
+    def zoom_to_corner_pt(self, pt):
+        rect = self.rect_buf_point(pt, self.minor_grid_m())
+        self.zoom_canvas(rect)
+
     def delete_current_grid(self):
         # find/delete both major and minor grids for same location
         xyloc = self.grid_xyloc_from_origin(self.current_grid_center())
@@ -838,6 +843,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.addGridGridRadio.setEnabled(hasgrids)
         self.addGridGridRadio.setChecked(hasgrids)
         self.addGridOriginRadio.setChecked(not hasgrids)
+        self.gridsGoToCornerFrame.setEnabled(hasgrids)
         self.gridsEditFrame.setEnabled(hasgrids)
         self.gridsAllFrame.setEnabled(hasgrids)
         if hasgrids:
@@ -1108,6 +1114,22 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def on_gridsCmbBx_currentIndexChanged(self, indx):
         self.update_current_grid()
         self.update_grid_buttons()
+
+    @pyqtSlot()
+    def on_gridsGoToUlBtn_clicked(self):
+        self.zoom_to_corner_pt(self.current_grid_ul_point())
+
+    @pyqtSlot()
+    def on_gridsGoToUrBtn_clicked(self):
+        self.zoom_to_corner_pt(self.current_grid_ur_point())
+
+    @pyqtSlot()
+    def on_gridsGoToLlBtn_clicked(self):
+        self.zoom_to_corner_pt(self.current_grid_ll_point())
+
+    @pyqtSlot()
+    def on_gridsGoToLrBtn_clicked(self):
+        self.zoom_to_corner_pt(self.current_grid_lr_point())
 
     @pyqtSlot()
     def on_gridsEditBtn_clicked(self):

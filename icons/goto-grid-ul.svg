@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g display="none">
+	<rect display="inline" fill="none" width="24" height="24"/>
+	<g display="inline">
+		<polygon fill="#3D6478" points="15,15 13.917,2.295 10.184,7.088 5.344,2.248 2.516,5.078 7.355,9.918 2.582,13.629 		"/>
+		<polygon fill="#93B2C4" points="13.404,13.414 12.857,5.477 10.008,8.326 4.637,2.957 3.223,4.371 8.594,9.741 5.764,12.568 		"/>
+	</g>
+	<g display="inline">
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="19" y1="3" x2="19" y2="19"/>
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="19" y1="19" x2="3" y2="19"/>
+		<circle fill="#F7941E" stroke="#000000" stroke-width="0.7619" stroke-miterlimit="10" cx="19" cy="19" r="3"/>
+	</g>
+</g>
+<g display="none">
+	<rect display="inline" fill="none" width="24" height="24"/>
+	<g display="inline">
+		<polygon fill="#3D6478" points="9,15 21.705,13.917 16.912,10.184 21.752,5.344 18.922,2.516 14.082,7.355 10.371,2.582 		"/>
+		<polygon fill="#93B2C4" points="10.586,13.404 18.523,12.857 15.674,10.008 21.043,4.637 19.629,3.223 14.259,8.594 11.432,5.764 
+					"/>
+	</g>
+	<g display="inline">
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="21" y1="19" x2="5" y2="19"/>
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="5" y1="19" x2="5" y2="3"/>
+		<circle fill="#F7941E" stroke="#000000" stroke-width="0.7619" stroke-miterlimit="10" cx="5" cy="19" r="3"/>
+	</g>
+</g>
+<g display="none">
+	<rect display="inline" fill="none" width="24" height="24"/>
+	<g display="inline">
+		<polygon fill="#3D6478" points="15,9 2.295,10.083 7.088,13.816 2.248,18.656 5.078,21.484 9.918,16.645 13.629,21.418 		"/>
+		<polygon fill="#93B2C4" points="13.414,10.596 5.477,11.143 8.326,13.992 2.957,19.363 4.371,20.777 9.741,15.406 12.568,18.236 
+					"/>
+	</g>
+	<g display="inline">
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="3" y1="5" x2="19" y2="5"/>
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="19" y1="5" x2="19" y2="21"/>
+		<circle fill="#F7941E" stroke="#000000" stroke-width="0.7619" stroke-miterlimit="10" cx="19" cy="5" r="3"/>
+	</g>
+</g>
+<g>
+	<rect fill="none" width="24" height="24"/>
+	<g>
+		<polygon fill="#3D6478" points="9,9 10.083,21.705 13.816,16.912 18.656,21.752 21.484,18.922 16.645,14.082 21.418,10.371 		"/>
+		<polygon fill="#93B2C4" points="10.596,10.586 11.143,18.523 13.992,15.674 19.363,21.043 20.777,19.629 15.406,14.259 
+			18.236,11.432 		"/>
+	</g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="5" y1="21" x2="5" y2="5"/>
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="5" y1="5" x2="21" y2="5"/>
+		<circle fill="#F7941E" stroke="#000000" stroke-width="0.7619" stroke-miterlimit="10" cx="5" cy="5" r="3"/>
+	</g>
+</g>
+</svg>

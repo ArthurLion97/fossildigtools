@@ -12,6 +12,10 @@
         <file>icons/directional.svg</file>
         <file>icons/edit.svg</file>
         <file>icons/goto.svg</file>
+        <file>icons/goto-grid-ll.svg</file>
+        <file>icons/goto-grid-lr.svg</file>
+        <file>icons/goto-grid-ul.svg</file>
+        <file>icons/goto-grid-ur.svg</file>
         <file>icons/grid.svg</file>
         <file>icons/grid-major.svg</file>
         <file>icons/grid-minor.svg</file>
