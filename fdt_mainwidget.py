@@ -332,7 +332,8 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         layer = self.get_layer(lyrId)
         if layer and layer.geometryType() != QGis.Polygon:
             return False
-        attrs = ['pkuid', 'kind', 'x', 'y', 'minor', 'origin']
+        attrs = ['pkuid', 'kind', 'x', 'y',
+                 'minor', 'origin', 'aka']
         return self.valid_layer_attributes(layer, attrs)
 
     def valid_feature_layer(self, lid=None):
@@ -461,8 +462,9 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.gridsCmbBx.blockSignals(True)
         self.gridsCmbBx.clear()
         self.gridsCmbBx.blockSignals(False)
-        self.gridsRemoveBtn.setEnabled(False)
+        self.gridsEditFrame.setEnabled(False)
         self.gridFrame.setEnabled(False)
+        self.gridsAllFrame.setEnabled(False)
 
     def enable_plugin(self, enable):
         self.tabWidget.setEnabled(enable)
@@ -615,12 +617,6 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             lw.setData(Qt.UserRole, self.join_data(pin.id(), pin['pkuid']))
             self.directPinList.addItem(lw)
         self.directPinList.blockSignals(False)
-
-    def split_grid_name(self, data):
-        return data.split(', ')
-
-    def join_grid_name(self, a, b):
-        return "{0}, {1}".format(a, b)
 
     def update_current_grid(self):
         if self.gridsCmbBx.count() > 0:
@@ -842,15 +838,14 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.addGridGridRadio.setEnabled(hasgrids)
         self.addGridGridRadio.setChecked(hasgrids)
         self.addGridOriginRadio.setChecked(not hasgrids)
-        self.gridsRemoveBtn.setEnabled(hasgrids)
-        self.gridsGoToBtn.setEnabled(hasgrids)
-        self.gridsRemoveAllBtn.setEnabled(hasgrids)
+        self.gridsEditFrame.setEnabled(hasgrids)
+        self.gridsAllFrame.setEnabled(hasgrids)
         if hasgrids:
             # sort grids by x then y
             glist = []
             for grid in grids:
                 glist.append((grid.id(), grid['pkuid'],
-                              int(grid['x']), int(grid['y'])))
+                              int(grid['x']), int(grid['y']), grid['aka']))
             glist = sorted(glist, key=itemgetter(2, 3))
 
             self.gridsCmbBx.blockSignals(True)
@@ -862,7 +857,10 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             curindx = -1
             # populate grids combobox
             for (i, g) in enumerate(glist):
-                name = self.join_grid_name(str(g[2]), str(g[3]))
+                name = "{0}, {1}{2}".format(
+                    str(g[2]),
+                    str(g[3]),
+                    "   ({0})".format(g[4]) if g[4] else '')
                 self.gridsCmbBx.addItem(name, self.join_data(g[0], g[1]))
 
                 if (curgrid != "-1" and
@@ -1110,6 +1108,29 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def on_gridsCmbBx_currentIndexChanged(self, indx):
         self.update_current_grid()
         self.update_grid_buttons()
+
+    @pyqtSlot()
+    def on_gridsEditBtn_clicked(self):
+        feat = self.current_grid_feat()
+        ok = False
+        (aka, ok) = QInputDialog.getText(
+            self.parent(),
+            "AKA",
+            "Previous grid name (aka)",
+            QLineEdit.Normal,
+            feat['aka'])
+        if not ok:
+            return
+
+        layer = self.get_layer(self.grid_layer_id())
+        if not layer:
+            return
+        layer.startEditing()
+        feat["aka"] = aka
+        layer.updateFeature(feat)
+        layer.commitChanges()
+        layer.setCacheImage(None)
+        layer.triggerRepaint()
 
     @pyqtSlot()
     def on_gridsRemoveBtn_clicked(self):
