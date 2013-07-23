@@ -333,7 +333,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         if layer and layer.geometryType() != QGis.Polygon:
             return False
         attrs = ['pkuid', 'kind', 'x', 'y',
-                 'minor', 'origin', 'aka']
+                 'minor', 'origin', 'name']
         return self.valid_layer_attributes(layer, attrs)
 
     def valid_feature_layer(self, lid=None):
@@ -845,7 +845,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             glist = []
             for grid in grids:
                 glist.append((grid.id(), grid['pkuid'],
-                              int(grid['x']), int(grid['y']), grid['aka']))
+                              int(grid['x']), int(grid['y']), grid['name']))
             glist = sorted(glist, key=itemgetter(2, 3))
 
             self.gridsCmbBx.blockSignals(True)
@@ -1113,12 +1113,12 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def on_gridsEditBtn_clicked(self):
         feat = self.current_grid_feat()
         ok = False
-        (aka, ok) = QInputDialog.getText(
+        (name, ok) = QInputDialog.getText(
             self.parent(),
-            "AKA",
-            "Previous grid name (aka)",
+            "Grid name",
+            "Grid identification name",
             QLineEdit.Normal,
-            feat['aka'])
+            feat['name'])
         if not ok:
             return
 
@@ -1126,7 +1126,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         if not layer:
             return
         layer.startEditing()
-        feat["aka"] = aka
+        feat["name"] = name
         layer.updateFeature(feat)
         layer.commitChanges()
         layer.setCacheImage(None)
