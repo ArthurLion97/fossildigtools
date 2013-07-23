@@ -401,8 +401,8 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         return bool(self.proj.readNumEntry("fdt", "gridsBufferMajor", 1)[0])
 
     def major_grid_buf(self):
-        buffer = (2 * self.minor_grid_m()) if self.buffer_major_grid() else 0
-        return self.major_grid_m() + buffer
+        buf = (2 * self.minor_grid_m()) if self.buffer_major_grid() else 0
+        return self.major_grid_m() + buf
 
     def rect_buf_point(self, pt, size):
         return QgsRectangle(pt.x() - size / 2, pt.y() - size / 2,
