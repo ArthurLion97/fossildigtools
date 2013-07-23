@@ -10,6 +10,7 @@
         <file>icons/capturepin-directional.svg</file>
         <file>icons/capturepin-origin.svg</file>
         <file>icons/directional.svg</file>
+        <file>icons/distance-to-location.svg</file>
         <file>icons/edit.svg</file>
         <file>icons/goto.svg</file>
         <file>icons/goto-grid-ll.svg</file>
@@ -19,11 +20,14 @@
         <file>icons/grid.svg</file>
         <file>icons/grid-major.svg</file>
         <file>icons/grid-minor.svg</file>
+        <file>icons/offset.svg</file>
         <file>icons/origin.svg</file>
-        <file>icons/pinplot.svg</file>
+        <file>icons/pins-grids.svg</file>
         <file>icons/remove.svg</file>
         <file>icons/remove-all.svg</file>
         <file>icons/settings.svg</file>
         <file>icons/zoom-grids.svg</file>
+        <file>icons/zoom-in.svg</file>
+        <file>icons/zoom-out.svg</file>
     </qresource>
 </RCC>

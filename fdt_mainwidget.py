@@ -132,11 +132,26 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.zoomGridsAct.triggered.connect(self.on_gridsZoomToAllBtn_clicked)
         self.tb.addAction(self.zoomGridsAct)
 
-        self.pinPlotAct = QAction(
-            QIcon(":/plugins/fossildigtools/icons/pinplot.svg"),
+        self.zoomInAct = QAction(
+            QIcon(":/plugins/fossildigtools/icons/zoom-in.svg"),
             '', self)
-        self.pinPlotAct.setToolTip(self.tr('Plot point from pins'))
-        self.tb.addAction(self.pinPlotAct)
+        self.zoomInAct.setToolTip(self.tr('Zoom in'))
+        self.zoomInAct.triggered.connect(self.zoom_in)
+        self.tb.addAction(self.zoomInAct)
+
+        self.zoomOutAct = QAction(
+            QIcon(":/plugins/fossildigtools/icons/zoom-out.svg"),
+            '', self)
+        self.zoomOutAct.setToolTip(self.tr('Zoom out'))
+        self.zoomOutAct.triggered.connect(self.zoom_out)
+        self.tb.addAction(self.zoomOutAct)
+
+        self.distToLocationAct = QAction(
+            QIcon(":/plugins/fossildigtools/icons/distance-to-location.svg"),
+            '', self)
+        self.distToLocationAct.setToolTip(
+            self.tr('Calculate distances to map location'))
+        self.tb.addAction(self.distToLocationAct)
 
         spacer = QWidget(self)
         spacer.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Preferred)
@@ -369,6 +384,12 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def zoom_canvas(self, rect):
         self.canvas.setExtent(rect)
         self.canvas.refresh()
+
+    def zoom_in(self):
+        self.canvas.zoomIn()
+
+    def zoom_out(self):
+        self.canvas.zoomOut()
 
     def to_meters(self, size, unit):
         if unit == 'cm':
@@ -1052,19 +1073,19 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def on_directPinList_currentItemChanged(self, cur, prev):
         self.directPinEditFrame.setEnabled(cur is not None)
 
-    @pyqtSlot()
-    def on_directPinAddBtn_clicked(self):
-        pinDlg = FdtPinDialog(self, self.iface, 'directional')
-        # pinDlg.accepted.connect(self.load_pins)
-        pinDlg.show()
-
-    @pyqtSlot()
-    def on_directPinEditBtn_clicked(self):
+    @pyqtSlot("QListWidgetItem *")
+    def on_directPinList_itemDoubleClicked(self, itm):
         feat = self.current_directional_feat()
         if feat.isValid():
             pinDlg = FdtPinDialog(self, self.iface, 'directional', feat)
             # pinDlg.accepted.connect(self.load_pins)
             pinDlg.show()
+
+    @pyqtSlot()
+    def on_directPinAddBtn_clicked(self):
+        pinDlg = FdtPinDialog(self, self.iface, 'directional')
+        # pinDlg.accepted.connect(self.load_pins)
+        pinDlg.show()
 
     @pyqtSlot()
     def on_directPinRemoveBtn_clicked(self):

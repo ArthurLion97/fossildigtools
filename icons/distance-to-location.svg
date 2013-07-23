@@ -2,11 +2,11 @@
 <!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <svg version="1.0"
-	 id="svg5692" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" inkscape:export-ydpi="90" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:export-xdpi="90" inkscape:export-filename="/mnt/home1/robert/svn/graphics/trunk/toolbar-icons/24x24/label-rotate.png" sodipodi:docname="mActionRotateLabel.svg" inkscape:version="0.48.2 r9819"
+	 id="svg5692" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" inkscape:export-filename="/mnt/home1/robert/svn/graphics/trunk/toolbar-icons/24x24/label-rotate.png" inkscape:export-xdpi="90" inkscape:export-ydpi="90" xmlns:svg="http://www.w3.org/2000/svg" sodipodi:docname="mActionRotateLabel.svg" inkscape:version="0.48.2 r9819" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px"
 	 viewBox="13.258 -2.144 24 24" enable-background="new 13.258 -2.144 24 24" xml:space="preserve">
-<line fill="none" stroke="#828282" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="17.758" y1="8.192" x2="31.379" y2="10.581"/>
-<line fill="none" stroke="#828282" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="31.379" y1="10.581" x2="17.844" y2="20.043"/>
+<line fill="none" stroke="#828282" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="18.355" y1="7.793" x2="31.977" y2="10.181"/>
+<line fill="none" stroke="#828282" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="31.977" y1="10.181" x2="18.441" y2="19.638"/>
 <g>
 	<g>
 		<path fill="#FFFFFF" d="M17.762,8.832c-0.321,0-0.613-0.108-0.801-0.296c-0.13-0.13-0.198-0.287-0.197-0.454l-0.001-4.364
@@ -68,8 +68,10 @@
 </g>
 <g>
 	
-		<line fill="none" stroke="#404040" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="34.311" y1="13.926" x2="28.447" y2="7.234"/>
+		<line fill="none" stroke="#404040" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="35.382" y1="13.226" x2="29.521" y2="6.534"/>
 	
-		<line fill="none" stroke="#404040" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="28.447" y1="13.926" x2="34.311" y2="7.234"/>
+		<line fill="none" stroke="#404040" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="29.521" y1="13.225" x2="35.382" y2="6.534"/>
 </g>
+<polygon display="none" fill="#828282" stroke="#828282" stroke-width="0.9114" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+	22.494,3.816 28.138,9.785 22.494,15.754 "/>
 </svg>
