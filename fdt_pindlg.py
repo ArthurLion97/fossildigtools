@@ -28,17 +28,7 @@ from qgis.gui import *
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from Ui_fdt_pindlg import Ui_PinDialog
-
-
-class FdtPinTool(QgsMapToolEmitPoint):
-    mouseReleased = pyqtSignal()
-
-    def __init__(self, canvas):
-        QgsMapToolEmitPoint.__init__(self, canvas)
-
-    def canvasReleaseEvent(self, e):
-        QgsMapToolEmitPoint.canvasReleaseEvent(self, e)
-        self.mouseReleased.emit()
+from fdt_emitpoint import FdtEmitPointTool
 
 
 class FdtPinDialog(QDialog, Ui_PinDialog):
@@ -67,11 +57,9 @@ class FdtPinDialog(QDialog, Ui_PinDialog):
         self.pinYDblSpinBx.valueChanged.connect(self.check_values)
         self.pinSetByLineEdit.textChanged.connect(self.check_values)
 
-        self.pinTool = FdtPinTool(self.canvas)
+        self.pinTool = FdtEmitPointTool(self.canvas, self.capturePinBtn)
         self.pinTool.canvasClicked[QgsPoint,Qt.MouseButton].connect(
             self.place_pin)
-        self.pinTool.mouseReleased.connect(self.reset_tool)
-        self.set_prev_tool()
 
         self.buttonBox.clicked[QAbstractButton].connect(self.dialog_action)
         self.restoreGeometry(self.p.settings.value(
@@ -85,6 +73,8 @@ class FdtPinDialog(QDialog, Ui_PinDialog):
         self.p.settings.setValue("/pinDialog/geometry", self.saveGeometry())
 
     def closeEvent(self, e):
+        self.pinTool.deactivate()
+        del self.pinTool
         self.save_geometry()
         QDialog.closeEvent(self, e)
 
@@ -195,14 +185,6 @@ class FdtPinDialog(QDialog, Ui_PinDialog):
         else:
             self.close()
 
-    @pyqtSlot(bool)
-    def on_capturePinBtn_clicked(self, chkd):
-        self.set_prev_tool()
-        if not chkd:
-            self.reset_tool()
-            return
-        self.canvas.setMapTool(self.pinTool)
-
     def offset_origin_coords(self, offset=(0.0, 0.0)):
         dist = self.p.to_meters(self.fromOriginDistDblSpnBx.value(),
                                 self.fromOriginUnitsCmbBx.currentText())
@@ -237,21 +219,8 @@ class FdtPinDialog(QDialog, Ui_PinDialog):
         self.pinXDblSpinBx.setValue(point.x())
         self.pinYDblSpinBx.setValue(point.y())
 
-        if self.capturePinBtn.isCheckable():
-            self.capturePinBtn.setChecked(False)
-
         self.raise_()
         self.activateWindow()
-
-    def set_prev_tool(self):
-        if self.canvas.mapTool() != self.pinTool:
-            self.prevTool = self.canvas.mapTool()
-        if not self.prevTool:  # default to pan tool
-            self.iface.actionPan().trigger()
-            self.prevTool = self.canvas.mapTool()
-
-    def reset_tool(self):
-        self.canvas.setMapTool(self.prevTool)
 
 
 if __name__ == "__main__":
