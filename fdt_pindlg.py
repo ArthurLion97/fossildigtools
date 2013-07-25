@@ -102,6 +102,8 @@ class FdtPinDialog(QDialog, Ui_PinDialog):
         name = ""
         x = 0.0
         y = 0.0
+        elev = 0.0
+        elevu = 0
         info = ""
         setter = ""
         date = QDate.currentDate().toString("yyyy/MM/dd")
@@ -112,6 +114,12 @@ class FdtPinDialog(QDialog, Ui_PinDialog):
             name = self.feat["name"]
             x = point.x()
             y = point.y()
+            h = self.feat["elevation"]
+            if h is not None:
+                elev = h
+            u = self.feat["elevunit"]
+            if u is not None:
+                elevu = u
             info = self.feat["description"]
             setter = self.feat["setter"]
             date = self.feat["date"]
@@ -121,6 +129,8 @@ class FdtPinDialog(QDialog, Ui_PinDialog):
         self.pinOriginLineEdit.setText(originname)
         self.pinXDblSpinBx.setValue(x)
         self.pinYDblSpinBx.setValue(y)
+        self.pinElevDblSpnBx.setValue(elev)
+        self.pinElevUnitsCmbBx.setCurrentIndex(elevu)
         self.pinInfoTextEdit.setPlainText(info)
         self.pinSetByLineEdit.setText(setter)
         self.pinDateEdit.setDate(QDate.fromString(date, "yyyy/MM/dd"))
@@ -142,6 +152,8 @@ class FdtPinDialog(QDialog, Ui_PinDialog):
 
         feat["name"] = self.pinNameLineEdit.text()
         feat["origin"] = -1 if self.origin else self.originfeat['pkuid']
+        feat["elevation"] = self.pinElevDblSpnBx.value()
+        feat["elevunit"] = self.pinElevUnitsCmbBx.currentIndex()
         feat["description"] = self.pinInfoTextEdit.toPlainText()
         feat["setter"] = self.pinSetByLineEdit.text()
         feat["date"] = self.pinDateEdit.date().toString("yyyy/MM/dd")

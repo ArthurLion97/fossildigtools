@@ -341,8 +341,8 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         layer = self.get_layer(lyrId)
         if layer and layer.geometryType() != QGis.Point:
             return False
-        attrs = ['pkuid', 'kind', 'name', 'date',
-                 'setter', 'description', 'origin']
+        attrs = ['pkuid', 'kind', 'name', 'date', 'setter',
+                 'description', 'origin', 'elevation', 'elevunit']
         return self.valid_layer_attributes(layer, attrs)
 
     def valid_grid_layer(self, lid=None):
