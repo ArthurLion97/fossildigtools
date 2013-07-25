@@ -33,6 +33,7 @@ from PyQt4.QtGui import *
 from Ui_fdt_mainwidget import Ui_MainWidget
 from fdt_settingsdlg import FdtSettingsDialog
 from fdt_pindlg import FdtPinDialog
+from fdt_geomagdlg import FdtGeoMagDialog
 
 PYDEV_DIR = '/Users/larrys/QGIS/PluginProjects/fossildigtools/pydev'
 if not PYDEV_DIR in sys.path:
@@ -151,6 +152,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             '', self)
         self.geoMagAct.setToolTip(
             self.tr('Calculate geomagnetic declination for location'))
+        self.geoMagAct.triggered.connect(self.open_geomag_dlg)
         self.tb.addAction(self.geoMagAct)
 
         self.distToLocationAct = QAction(
@@ -1009,6 +1011,15 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             self.addGridWBtn.setEnabled((x - mx, y) not in xylocs)
             self.addGridSBtn.setEnabled((x, y - my) not in xylocs)
 
+    @pyqtSlot()
+    def open_geomag_dlg(self):
+        feat = self.current_origin_feat()
+        if not feat.isValid():
+            feat = None
+        geoMagDlg = FdtGeoMagDialog(self, self.iface, feat)
+        geoMagDlg.show()
+
+    @pyqtSlot()
     def open_settings_dlg(self):
         settingsDlg = FdtSettingsDialog(self, self.iface, self.settings)
         settingsDlg.exec_()

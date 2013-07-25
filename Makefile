@@ -35,7 +35,7 @@ PY_FILES = fossildigtools.py fossildigtoolsdialog.py __init__.py
 
 EXTRAS = icon.png metadata.txt
 
-UI_FILES = Ui_fdt_mainwidget.py Ui_fdt_pindlg.py Ui_fdt_settingsdlg.py
+UI_FILES = Ui_fdt_mainwidget.py Ui_fdt_pindlg.py Ui_fdt_settingsdlg.py Ui_fdt_geomagdlg.py
 
 RESOURCE_FILES = resources_rc.py
 
