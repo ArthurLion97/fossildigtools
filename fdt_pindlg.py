@@ -85,14 +85,18 @@ class FdtPinDialog(QDialog, Ui_PinDialog):
         if self.origin:
             self.pinOriginLabel.setVisible(False)
             self.pinOriginLineEdit.setVisible(False)
-            self.fromOriginFrame.setVisible(False)
+            self.calcFrame.setVisible(False)
             self.capturePinBtn.setIcon(
                 QIcon(":/plugins/fossildigtools/icons/"
                       "capturepin-origin.svg"))
         else:  # directional
             self.pinOriginLabel.setVisible(True)
             self.pinOriginLineEdit.setVisible(True)
-            self.fromOriginFrame.setVisible(True)
+            self.calcFrame.setVisible(True)
+            self.calcTabWidget.setTabEnabled(
+                self.calcTabWidget.indexOf(self.calcOffset), False)
+            self.calcTabWidget.setTabEnabled(
+                self.calcTabWidget.indexOf(self.calcAzimuth), False)
             originname = self.originfeat['name']
             kindtxt = self.tr("Directional")
             self.capturePinBtn.setIcon(
