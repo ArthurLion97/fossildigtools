@@ -106,7 +106,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
 
         # track projects and layer changes
         self.iface.projectRead.connect(self.check_plugin_ready)
-        self.iface.newProjectCreated.connect(self.invalid_project)
+        self.iface.newProjectCreated.connect(self.new_project_created)
 
         # ensure any highlights are removed on subsequent refreshes
         self.canvas.mapCanvasRefreshed.connect(self.delete_highlights)
@@ -464,11 +464,17 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             self.invalid_project()
 
     @pyqtSlot()
-    def invalid_project(self):
+    def invalid_project(self, new=False):
         self.active = False  # must come first
-        self.remove_layer_connections()
+        if self.layerconections and not new:
+            self.remove_layer_connections()
+        self.layerconections = False
         self.clear_plugin()
         self.enable_plugin(False)
+
+    @pyqtSlot()
+    def new_project_created(self):
+        self.invalid_project(True)
 
     def init_plugin(self):
         if self.active:
