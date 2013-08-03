@@ -140,7 +140,7 @@ class FdtPinDialog(QDialog, Ui_PinDialog):
         self.pinDateEdit.setDate(QDate.fromString(date, "yyyy/MM/dd"))
 
     def save_values(self):
-        pinLyr = self.p.get_layer(self.p.pin_layer_id())
+        pinLyr = self.p.pin_layer()
         if not pinLyr:
             return
         pinLyr.startEditing()

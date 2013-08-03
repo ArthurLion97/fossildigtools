@@ -195,10 +195,10 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         return "{0}{1}{2}".format(a, self.datadelim, b)
 
     def get_layer(self, layerid):
-        return QgsMapLayerRegistry.instance().mapLayer(layerid)
+        return QgsMapLayerRegistry.instance().mapLayer(str(layerid))
 
     def get_feature(self, layerid, featid):
-        layer = self.get_layer(str(layerid))
+        layer = self.get_layer(layerid)
         if not layer:
             return None
         req = QgsFeatureRequest().setFilterFid(featid)
@@ -207,7 +207,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         return feat
 
     def get_features(self, layerid, expstr, itr=False):
-        layer = self.get_layer(str(layerid))
+        layer = self.get_layer(layerid)
         if not layer:
             return []
         exp = QgsExpression(expstr)
@@ -238,7 +238,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         return self.get_features(layerid, expstr, True)
 
     def get_features_query_iter(self, layerid, expstr):
-        layer = self.get_layer(str(layerid))
+        layer = self.get_layer(layerid)
         if not layer:
             return []
         q = (query(layer).where(expstr))
@@ -301,6 +301,8 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
 
     def add_highlight(self, layerid, geom, color):
         layer = self.get_layer(layerid)
+        if not layer:
+            return
         hl = QgsHighlight(self.canvas, geom, layer)
         self.highlights.append(hl)
         hl.setWidth(0)
@@ -327,6 +329,15 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def feature_layer_id(self):
         return self.proj.readEntry("fdt", "featuresLayerId", "")[0]
 
+    def pin_layer(self):
+        return self.get_layer(self.pin_layer_id())
+
+    def grid_layer(self):
+        return self.get_layer(self.grid_layer_id())
+
+    def feature_layer(self):
+        return self.get_layer(self.feature_layer_id())
+
     def valid_layer_attributes(self, lyr, attrs):
         flds = lyr.pendingFields()
         for attr in attrs:
@@ -341,7 +352,9 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         if lyrId == "" or lyrId not in self.splayers:
             return False
         layer = self.get_layer(lyrId)
-        if layer and layer.geometryType() != QGis.Point:
+        if not layer:
+            return False
+        if layer.geometryType() != QGis.Point:
             return False
         attrs = ['pkuid', 'kind', 'name', 'date', 'setter',
                  'description', 'origin', 'elevation', 'elevunit']
@@ -354,7 +367,9 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         if lyrId == "" or lyrId not in self.splayers:
             return False
         layer = self.get_layer(lyrId)
-        if layer and layer.geometryType() != QGis.Polygon:
+        if not layer:
+            return False
+        if layer.geometryType() != QGis.Polygon:
             return False
         attrs = ['pkuid', 'kind', 'x', 'y',
                  'minor', 'origin', 'name']
@@ -468,7 +483,6 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.active = False  # must come first
         if self.layerconections and not new:
             self.remove_layer_connections()
-        self.layerconections = False
         self.clear_plugin()
         self.enable_plugin(False)
 
@@ -513,13 +527,15 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         if self.layerconections:
             return
 
-        actions = {self.pin_layer_id(): self.load_pins,
-                   self.grid_layer_id(): self.load_origin_major_grids}
-        for layerid, method in actions.iteritems():
-            layer = self.get_layer(layerid)
-            if layer:
-                layer.editingStopped.connect(method)
-                layer.updatedFields.connect(self.check_plugin_ready)
+        pinlyr = self.pin_layer()
+        if pinlyr:
+            pinlyr.editingStopped.connect(self.load_pins)
+            pinlyr.updatedFields.connect(self.check_plugin_ready)
+
+        gridlyr = self.grid_layer()
+        if gridlyr:
+            gridlyr.editingStopped.connect(self.load_origin_major_grids)
+            gridlyr.updatedFields.connect(self.check_plugin_ready)
 
         self.layerconections = True
 
@@ -527,13 +543,29 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         if not self.layerconections:
             return
 
-        actions = {self.pin_layer_id(): self.load_pins,
-                   self.grid_layer_id(): self.load_origin_major_grids}
-        for layerid, method in actions.iteritems():
-            layer = self.get_layer(layerid)
-            if layer:
-                layer.editingStopped.disconnect(method)
-                layer.updatedFields.disconnect(self.check_plugin_ready)
+        pinlyr = self.pin_layer()
+        if pinlyr:
+            try:
+                pinlyr.editingStopped.disconnect(self.load_pins)
+            except TypeError:  # connection didn't exist
+                pass
+            try:
+                pinlyr.updatedFields.disconnect(self.check_plugin_ready)
+            except TypeError:  # connection didn't exist
+                pass
+
+        gridlyr = self.grid_layer()
+        if gridlyr:
+            try:
+                gridlyr.editingStopped.disconnect(self.load_origin_major_grids)
+            except TypeError:  # connection didn't exist
+                pass
+            try:
+                gridlyr.updatedFields.disconnect(self.check_plugin_ready)
+            except TypeError:  # connection didn't exist
+                pass
+
+        self.layerconections = False
 
     @pyqtSlot()
     def load_pins(self):
@@ -1189,7 +1221,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         if not ok:
             return
 
-        layer = self.get_layer(self.grid_layer_id())
+        layer = self.grid_layer()
         if not layer:
             return
         layer.startEditing()
@@ -1238,7 +1270,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def on_gridsAddBtn_clicked(self):
         if not self.add_grids_has_checked():
             return
-        layer = self.get_layer(self.grid_layer_id())
+        layer = self.grid_layer()
         if not layer:
             return
 
