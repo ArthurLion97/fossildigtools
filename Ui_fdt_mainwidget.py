@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fdt_mainwidget.ui'
 #
-# Created: Tue Jul 23 16:39:11 2013
+# Created: Tue Aug  6 16:24:50 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -49,7 +49,6 @@ class Ui_MainWidget(object):
         self.tabWidget.setStyleSheet(_fromUtf8("QTabWidget::pane {\n"
 "  border-top: 1px inset #C2C7CB;\n"
 "  position: absolute;\n"
-"  top: -0.5em;\n"
 "  padding-top: 6px;}"))
         self.tabWidget.setDocumentMode(False)
         self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
@@ -63,7 +62,7 @@ class Ui_MainWidget(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 361, 667))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 361, 669))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayout_3 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setMargin(6)
@@ -455,7 +454,6 @@ class Ui_MainWidget(object):
         self.gridsGoToCornerFrame.setObjectName(_fromUtf8("gridsGoToCornerFrame"))
         self.gridLayout_7 = QtGui.QGridLayout(self.gridsGoToCornerFrame)
         self.gridLayout_7.setMargin(0)
-        self.gridLayout_7.setSpacing(6)
         self.gridLayout_7.setObjectName(_fromUtf8("gridLayout_7"))
         self.gridsGoToUrBtn = QtGui.QToolButton(self.gridsGoToCornerFrame)
         self.gridsGoToUrBtn.setMaximumSize(QtCore.QSize(16777215, 24))
@@ -538,7 +536,7 @@ class Ui_MainWidget(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName(_fromUtf8("scrollArea_2"))
         self.scrollAreaWidgetContents_2 = QtGui.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 376, 656))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 376, 657))
         self.scrollAreaWidgetContents_2.setObjectName(_fromUtf8("scrollAreaWidgetContents_2"))
         self.verticalLayout_5 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_5.setMargin(6)

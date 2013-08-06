@@ -181,7 +181,6 @@
                    <string notr="true">QTabWidget::pane {
   border-top: 1px inset #C2C7CB;
   position: absolute;
-  top: -0.5em;
   padding-top: 6px;}</string>
                   </property>
                   <property name="currentIndex">

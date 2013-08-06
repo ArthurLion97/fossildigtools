@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fdt_pindlg.ui'
 #
-# Created: Wed Jul 24 23:24:13 2013
+# Created: Tue Aug  6 16:26:48 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -114,7 +114,6 @@ class Ui_PinDialog(object):
         self.calcTabWidget.setStyleSheet(_fromUtf8("QTabWidget::pane {\n"
 "  border-top: 1px inset #C2C7CB;\n"
 "  position: absolute;\n"
-"  top: -0.5em;\n"
 "  padding-top: 6px;}"))
         self.calcTabWidget.setObjectName(_fromUtf8("calcTabWidget"))
         self.calcOrigin = QtGui.QWidget()

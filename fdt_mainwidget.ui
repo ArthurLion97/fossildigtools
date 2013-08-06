@@ -55,7 +55,6 @@
       <string notr="true">QTabWidget::pane {
   border-top: 1px inset #C2C7CB;
   position: absolute;
-  top: -0.5em;
   padding-top: 6px;}</string>
      </property>
      <property name="currentIndex">
@@ -99,7 +98,7 @@
             <x>0</x>
             <y>0</y>
             <width>361</width>
-            <height>667</height>
+            <height>669</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1081,9 +1080,6 @@
                    <property name="margin">
                     <number>0</number>
                    </property>
-                   <property name="spacing">
-                    <number>6</number>
-                   </property>
                    <item row="0" column="1">
                     <widget class="QToolButton" name="gridsGoToUrBtn">
                      <property name="maximumSize">
@@ -1328,7 +1324,7 @@
             <x>0</x>
             <y>0</y>
             <width>376</width>
-            <height>656</height>
+            <height>657</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
