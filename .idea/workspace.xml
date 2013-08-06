@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ebe4c01-3712-4255-8951-2984b107c88b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ui_fdt_mainwidget.py" afterPath="$PROJECT_DIR$/Ui_fdt_mainwidget.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fdt_mainwidget.ui" afterPath="$PROJECT_DIR$/fdt_mainwidget.ui" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fdt_mainwidget.py" afterPath="$PROJECT_DIR$/fdt_mainwidget.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -11,9 +11,9 @@
     <ignored path="fossildigtools.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375476482366" ignored="false" />
-    <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375488832108" ignored="false" />
+    <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375822317050" ignored="false" />
     <file path="/a.xml" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373926347581" ignored="false" />
-    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375484475449" ignored="false" />
+    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375822664479" ignored="false" />
     <file path="/make.sh" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373989914665" ignored="false" />
     <file path="/start_script.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374005131444" ignored="false" />
     <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375484302231" ignored="false" />
@@ -37,6 +37,7 @@
     <file path="/dlg_create_table.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375509253127" ignored="false" />
     <file path="/data_model.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375508310582" ignored="false" />
     <file path="/Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/ui/ui_DlgTableProperties.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375495849997" ignored="false" />
+    <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/python/plugins/db_manager/db_plugins/spatialite/plugin.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375750128367" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,20 +57,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="291" column="1" selection-start="10469" selection-end="10469" vertical-scroll-proportion="-1.9310344">
-              <folding />
+            <state line="42" column="19" selection-start="1643" selection-end="1643" vertical-scroll-proportion="0.7306273">
+              <folding>
+                <element signature="e#1117#1127#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fdt_settingsdlg.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="fdt_settingsdlg.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fdt_settingsdlg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="46" selection-start="173" selection-end="173" vertical-scroll-proportion="0.082585275">
-              <folding />
+            <state line="22" column="0" selection-start="1118" selection-end="1118" vertical-scroll-proportion="-13.413794">
+              <folding>
+                <element signature="e#1118#1141#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -77,8 +82,10 @@
       <file leaf-file-name="fdt_pindlg.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="154" column="39" selection-start="5767" selection-end="5767" vertical-scroll-proportion="-14.862069">
-              <folding />
+            <state line="154" column="39" selection-start="5767" selection-end="5767" vertical-scroll-proportion="-115.82758">
+              <folding>
+                <element signature="e#1117#1127#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -129,20 +136,20 @@
         <option value="$USER_HOME$/.qgis2/python/plugins/freehandEditing/freehandediting.py" />
         <option value="$USER_HOME$/Dropbox-Personal/Dropbox/QGIS/fossildigtools/DonleyTrics/sketch.py" />
         <option value="$PROJECT_DIR$/fdt_pindlg.py" />
-        <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
         <option value="$PROJECT_DIR$/../../github.com/build/output/python/plugins/db_manager/db_plugins/data_model.py" />
         <option value="/Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/db_plugins/data_model.py" />
         <option value="/Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/dlg_create_table.py" />
         <option value="$PROJECT_DIR$/../../github.com/Quantum-GIS/python/plugins/db_manager/dlg_create_table.py" />
         <option value="$PROJECT_DIR$/../../github.com/Quantum-GIS/python/plugins/db_manager/db_plugins/data_model.py" />
+        <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="46" />
+    <option name="x" value="111" />
     <option name="y" value="22" />
-    <option name="width" value="1945" />
-    <option name="height" value="1296" />
+    <option name="width" value="1725" />
+    <option name="height" value="1266" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -222,14 +229,14 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="188" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="197" />
     <property name="options.splitter.main.proportions" value="0.18523581" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="188" />
     <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="188" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../github.com/Quantum-GIS/python/plugins/db_manager/db_plugins/data_model.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="205" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1113" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1113" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1113" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="205" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="197" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -279,19 +286,6 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="PyRemoteDebugConfigurationType" factoryName="Python Remote Debug">
-      <module name="" />
-      <option name="PORT" value="0" />
-      <option name="HOST" value="null" />
-      <PathMappingSettings>
-        <option name="pathMappings">
-          <list />
-        </option>
-      </PathMappingSettings>
-      <option name="REDIRECT_OUTPUT" value="true" />
-      <option name="SUSPEND_AFTER_CONNECT" value="true" />
-      <method />
-    </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -301,7 +295,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="" />
+      <module name="fossildigtools" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
@@ -313,6 +307,19 @@
       <option name="PUREUNITTEST" value="true" />
       <option name="PARAMS" value="" />
       <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PyRemoteDebugConfigurationType" factoryName="Python Remote Debug">
+      <module name="" />
+      <option name="PORT" value="0" />
+      <option name="HOST" value="null" />
+      <PathMappingSettings>
+        <option name="pathMappings">
+          <list />
+        </option>
+      </PathMappingSettings>
+      <option name="REDIRECT_OUTPUT" value="true" />
+      <option name="SUSPEND_AFTER_CONNECT" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -405,15 +412,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="46" y="22" width="1945" height="1296" extended-state="0" />
+    <frame x="111" y="22" width="1725" height="1266" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32784313" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32851064" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25673535" sideWeight="0.67148936" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19704174" sideWeight="0.73323053" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30603707" sideWeight="0.73323053" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3272147" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25908828" sideWeight="0.50039905" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923368" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -423,6 +429,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32851064" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -491,19 +498,49 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/geomag/geomag.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomag/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="30" selection-start="540" selection-end="540" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../plugin_editor/editor/editor_window.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1648" column="0" selection-start="67654" selection-end="67654" vertical-scroll-proportion="0.020122485" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../github.com/build/output/python/plugins/db_manager/db_plugins/data_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="228" column="13" selection-start="6630" selection-end="6630" vertical-scroll-proportion="0.69911504" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../github.com/build/output/python/plugins/db_manager/db_plugins/spatialite/connector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="404" column="33" selection-start="12004" selection-end="12005" vertical-scroll-proportion="0.82123893" />
+      </provider>
+    </entry>
+    <entry file="file:///Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/dlg_create_table.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="33" selection-start="2338" selection-end="2338" vertical-scroll-proportion="0.6633752" />
+      </provider>
+    </entry>
+    <entry file="file:///Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/db_plugins/data_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="232" column="55" selection-start="6730" selection-end="6730" vertical-scroll-proportion="0.7769911" />
+      </provider>
+    </entry>
+    <entry file="file:///Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/db_plugins/plugin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="933" column="6" selection-start="29716" selection-end="29716" vertical-scroll-proportion="0.068141595" />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/PyQt4/QtGui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17167" column="8" selection-start="665939" selection-end="665939" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../github.com/Quantum-GIS/python/plugins/db_manager/db_plugins/data_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="192" column="42" selection-start="5426" selection-end="5426" vertical-scroll-proportion="0.45044246" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../github.com/Quantum-GIS/python/plugins/db_manager/dlg_create_table.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="97" column="0" selection-start="3313" selection-end="3313" vertical-scroll-proportion="-0.073608615" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Dropbox-Personal/Dropbox/QGIS/fossildigtools/DonleyTrics/sketch.py">
@@ -513,87 +550,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fdt_geomagdlg.py">
+    <entry file="file://$PROJECT_DIR$/fdt_settingsdlg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="495" selection-end="495" vertical-scroll-proportion="0.22134733">
-          <folding />
+        <state line="22" column="0" selection-start="1118" selection-end="1118" vertical-scroll-proportion="-13.413794">
+          <folding>
+            <element signature="e#1118#1141#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="154" column="39" selection-start="5767" selection-end="5767" vertical-scroll-proportion="-14.862069">
+        <state line="154" column="39" selection-start="5767" selection-end="5767" vertical-scroll-proportion="-115.82758">
+          <folding>
+            <element signature="e#1117#1127#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources.qrc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="35" selection-start="865" selection-end="865" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../github.com/build/output/python/plugins/db_manager/db_plugins/data_model.py">
+    <entry file="file://$PROJECT_DIR$/fdt_emitpoint.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="228" column="13" selection-start="6630" selection-end="6630" vertical-scroll-proportion="0.69911504">
+        <state line="17" column="53" selection-start="934" selection-end="934" vertical-scroll-proportion="0.31826568">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../github.com/build/output/python/plugins/db_manager/db_plugins/spatialite/connector.py">
+    <entry file="file://$PROJECT_DIR$/fdt_geomagdlg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="404" column="33" selection-start="12004" selection-end="12005" vertical-scroll-proportion="0.82123893">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/dlg_create_table.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="33" selection-start="2338" selection-end="2338" vertical-scroll-proportion="0.6633752">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/db_plugins/data_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="232" column="55" selection-start="6730" selection-end="6730" vertical-scroll-proportion="0.7769911">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/db_plugins/plugin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="933" column="6" selection-start="29716" selection-end="29716" vertical-scroll-proportion="0.068141595">
+        <state line="11" column="0" selection-start="495" selection-end="495" vertical-scroll-proportion="0.19649446">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="291" column="1" selection-start="10469" selection-end="10469" vertical-scroll-proportion="-1.9310344">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/PyQt4/QtGui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17167" column="8" selection-start="665939" selection-end="665939" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../github.com/Quantum-GIS/python/plugins/db_manager/db_plugins/data_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="192" column="42" selection-start="5426" selection-end="5426" vertical-scroll-proportion="0.45044246">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../github.com/Quantum-GIS/python/plugins/db_manager/dlg_create_table.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="0" selection-start="3313" selection-end="3313" vertical-scroll-proportion="-0.073608615">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fdt_settingsdlg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="46" selection-start="173" selection-end="173" vertical-scroll-proportion="0.082585275">
-          <folding />
+        <state line="42" column="19" selection-start="1643" selection-end="1643" vertical-scroll-proportion="0.7306273">
+          <folding>
+            <element signature="e#1117#1127#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

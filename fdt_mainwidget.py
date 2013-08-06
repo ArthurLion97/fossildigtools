@@ -35,10 +35,13 @@ from fdt_settingsdlg import FdtSettingsDialog
 from fdt_pindlg import FdtPinDialog
 from fdt_geomagdlg import FdtGeoMagDialog
 
-PYDEV_DIR = '/Users/larrys/QGIS/PluginProjects/fossildigtools/pydev'
-if not PYDEV_DIR in sys.path:
-    sys.path.insert(2, PYDEV_DIR)
-import pydevd
+PVDEV = False
+try:
+    # conditional for when pydev is stripped for release
+    from fossildigtools import pydevd
+    PVDEV = True
+except ImportError:
+    pass
 
 
 class FdtMainWidget(QWidget, Ui_MainWidget):
@@ -117,6 +120,8 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             connect(self.layers_to_be_removed)
 
     def pydev(self):
+        if not PVDEV:
+            return
         try:  # or it crashes QGIS if connection to debug server unavailable
             pydevd.settrace('localhost',
                             port=53100,
