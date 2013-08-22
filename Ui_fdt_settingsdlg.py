@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fdt_settingsdlg.ui'
 #
-# Created: Mon Jul 22 13:08:03 2013
+# Created: Wed Aug 21 18:04:56 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -36,7 +36,7 @@ class Ui_SettingsDialog(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 308, 382))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 293, 411))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setMargin(6)
@@ -69,6 +69,12 @@ class Ui_SettingsDialog(object):
         self.featuresCmbBx = QtGui.QComboBox(self.groupBox)
         self.featuresCmbBx.setObjectName(_fromUtf8("featuresCmbBx"))
         self.gridLayout.addWidget(self.featuresCmbBx, 2, 1, 1, 1)
+        self.sketchLabel = QtGui.QLabel(self.groupBox)
+        self.sketchLabel.setObjectName(_fromUtf8("sketchLabel"))
+        self.gridLayout.addWidget(self.sketchLabel, 3, 0, 1, 1)
+        self.sketchCmbBx = QtGui.QComboBox(self.groupBox)
+        self.sketchCmbBx.setObjectName(_fromUtf8("sketchCmbBx"))
+        self.gridLayout.addWidget(self.sketchCmbBx, 3, 1, 1, 1)
         self.verticalLayout_2.addWidget(self.groupBox)
         self.squaresGrpBx = QgsCollapsibleGroupBox(self.scrollAreaWidgetContents)
         self.squaresGrpBx.setObjectName(_fromUtf8("squaresGrpBx"))
@@ -161,6 +167,7 @@ class Ui_SettingsDialog(object):
         self.gridsLabel.setText(_translate("SettingsDialog", "Grids", None))
         self.pinsLabel.setText(_translate("SettingsDialog", "Pins", None))
         self.featuresLabel.setText(_translate("SettingsDialog", "Features", None))
+        self.sketchLabel.setText(_translate("SettingsDialog", "Sketch", None))
         self.squaresGrpBx.setTitle(_translate("SettingsDialog", "Grid squares", None))
         self.label_3.setText(_translate("SettingsDialog", "Major and minor grids must be set, with major grid divisible by minor. ", None))
         self.label_2.setText(_translate("SettingsDialog", "Units", None))

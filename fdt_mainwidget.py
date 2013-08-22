@@ -38,7 +38,7 @@ from fdt_geomagdlg import FdtGeoMagDialog
 PVDEV = False
 try:
     # conditional for when pydev is stripped for release
-    from fossildigtools import pydevd
+    from .pydev import pydevd
     PVDEV = True
 except ImportError:
     pass
@@ -61,6 +61,9 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.curgrid = "{0}{1}{0}".format("-1", self.datadelim)
         self.layerconections = False
         self.init_bad_value_stylesheets()
+
+        self.formonicon = ":/plugins/fossildigtools/icons/feature-form-on.svg"
+        self.formofficon = ":/plugins/fossildigtools/icons/feature-form-off.svg"
 
         self.redhlcolor = QColor(225, 0, 0)
         self.bluehlcolor = QColor(0, 0, 225)
@@ -119,6 +122,12 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         QgsMapLayerRegistry.instance().layersWillBeRemoved["QStringList"].\
             connect(self.layers_to_be_removed)
 
+        # ensure feature form is hidden for sketch layer
+        self.featformopensetting = \
+            "/qgis/digitizing/disable_enter_attribute_values_dialog"
+        self.toggle_feature_form_icon(self.feat_form_setting())
+        self.canvas.mapCanvasRefreshed.connect(self.update_feature_form_icon)
+
     def pydev(self):
         if not PVDEV:
             return
@@ -171,12 +180,22 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         spacer.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Preferred)
         self.tb.addWidget(spacer)
 
+        self.featFormAct = QAction(QIcon(self.formonicon), '', self)
+        self.featFormAct.setToolTip(self.tr('Toggle opening feature form'))
+        self.featFormAct.triggered[bool].connect(
+            self.toggle_feature_form_setting)
+        self.featFormAct.setCheckable(True)
+        self.tb.addAction(self.featFormAct)
+
         self.settingsAct = QAction(
             QIcon(":/plugins/fossildigtools/icons/settings.svg"),
             '', self)
         self.settingsAct.setToolTip(self.tr('Settings'))
         self.settingsAct.triggered.connect(self.open_settings_dlg)
         self.tb.addAction(self.settingsAct)
+
+    def feat_form_setting(self):
+        return self.qgsettings.value(self.featformopensetting, False, type=bool)
 
     def is_spatialite_layer(self, layer):
         return (layer.type() == QgsMapLayer.VectorLayer and
@@ -334,6 +353,9 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def feature_layer_id(self):
         return self.proj.readEntry("fdt", "featuresLayerId", "")[0]
 
+    def sketch_layer_id(self):
+        return self.proj.readEntry("fdt", "sketchLayerId", "")[0]
+
     def pin_layer(self):
         return self.get_layer(self.pin_layer_id())
 
@@ -342,6 +364,9 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
 
     def feature_layer(self):
         return self.get_layer(self.feature_layer_id())
+
+    def sketch_layer(self):
+        return self.get_layer(self.sketch_layer_id())
 
     def valid_layer_attributes(self, lyr, attrs):
         flds = lyr.pendingFields()
@@ -385,6 +410,20 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
 
 #        lyrId = self.features_layer_id()
 
+    def valid_sketch_layer(self, lid=None):
+        if lid == "invalid":
+            return False
+        lyrId = lid if lid else self.sketch_layer_id()
+        if lyrId == "" or lyrId not in self.splayers:
+            return False
+        layer = self.get_layer(lyrId)
+        if not layer:
+            return False
+        if layer.geometryType() != QGis.Line:
+            return False
+        attrs = ['pkuid', 'origin']
+        return self.valid_layer_attributes(layer, attrs)
+
     @pyqtSlot("QList<QgsMapLayer *>")
     def layers_added(self, layers):
         check = False
@@ -406,9 +445,12 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             self.check_plugin_ready()
 
     def check_linked_layers(self):
-        return (self.valid_pin_layer() and
-                self.valid_grid_layer() and
-                self.valid_feature_layer())
+        return (
+            self.valid_pin_layer() and
+            self.valid_grid_layer() and
+            self.valid_feature_layer() and
+            self.valid_sketch_layer()
+        )
 
     def zoom_canvas(self, rect):
         self.canvas.setExtent(rect)
@@ -1067,6 +1109,25 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         settingsDlg = FdtSettingsDialog(self, self.iface, self.settings)
         settingsDlg.exec_()
         self.check_plugin_ready()
+
+    @pyqtSlot()
+    def update_feature_form_icon(self):
+        # for when canvas is refreshed after app settings update
+        suppress = self.feat_form_setting()
+        chkd = self.featFormAct.isChecked()
+        if suppress != chkd:
+            self.toggle_feature_form_icon(suppress)
+
+    @pyqtSlot(bool)
+    def toggle_feature_form_setting(self, chkd):
+        self.qgsettings.setValue(self.featformopensetting, chkd)
+        self.toggle_feature_form_icon(chkd)
+
+    @pyqtSlot(bool)
+    def toggle_feature_form_icon(self, suppress):
+        icon = self.formofficon if suppress else self.formonicon
+        self.featFormAct.setIcon(QIcon(icon))
+        self.featFormAct.setChecked(suppress)
 
     @pyqtSlot(int)
     def on_originPinCmbBx_currentIndexChanged(self, indx):

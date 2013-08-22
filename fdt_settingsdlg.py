@@ -40,13 +40,20 @@ class FdtSettingsDialog(QDialog, Ui_SettingsDialog):
         # set up the user interface from Designer.
         self.setupUi(self)
 
-        self.lyrCmbxs = [self.pinsCmbBx, self.gridsCmbBx, self.featuresCmbBx]
+        self.lyrCmbxs = [
+            self.pinsCmbBx,
+            self.gridsCmbBx,
+            self.featuresCmbBx,
+            self.sketchCmbBx
+        ]
         self.pinsCmbBx.currentIndexChanged[int].\
             connect(self.validate_pins_combobox)
         self.gridsCmbBx.currentIndexChanged[int].\
             connect(self.validate_grids_combobox)
         self.featuresCmbBx.currentIndexChanged[int].\
             connect(self.validate_features_combobox)
+        self.sketchCmbBx.currentIndexChanged[int]. \
+            connect(self.validate_sketch_combobox)
 
         self.populate_comboboxes()
 
@@ -87,6 +94,8 @@ class FdtSettingsDialog(QDialog, Ui_SettingsDialog):
             self.gridsCmbBx.findData(self.parent.grid_layer_id()))
         self.featuresCmbBx.setCurrentIndex(
             self.featuresCmbBx.findData(self.parent.feature_layer_id()))
+        self.sketchCmbBx.setCurrentIndex(
+            self.sketchCmbBx.findData(self.parent.sketch_layer_id()))
 
         self.gridsUnitCmdBx.setCurrentIndex(self.parent.grid_unit_index())
         self.gridsMajorSpnBx.setValue(self.parent.major_grid())
@@ -101,6 +110,8 @@ class FdtSettingsDialog(QDialog, Ui_SettingsDialog):
             self.gridsCmbBx.itemData(self.gridsCmbBx.currentIndex()))
         self.proj.writeEntry("fdt", "featuresLayerId",
             self.featuresCmbBx.itemData(self.featuresCmbBx.currentIndex()))
+        self.proj.writeEntry("fdt", "sketchLayerId",
+            self.sketchCmbBx.itemData(self.sketchCmbBx.currentIndex()))
 
         self.proj.writeEntry("fdt", "gridSquaresUnit",
                              self.gridsUnitCmdBx.currentIndex())
@@ -132,10 +143,19 @@ class FdtSettingsDialog(QDialog, Ui_SettingsDialog):
         self.featuresLabel.setStyleSheet(self.combobox_stylesheet(check))
         return check
 
+    def validate_sketch_combobox(self):
+        lyrId = self.sketchCmbBx.itemData(self.sketchCmbBx.currentIndex())
+        check = (self.parent.valid_sketch_layer(lyrId))
+        self.sketchLabel.setStyleSheet(self.combobox_stylesheet(check))
+        return check
+
     def check_layer_comboboxes(self):
-        return (self.validate_pins_combobox() and
-                self.validate_grids_combobox() and
-                self.validate_features_combobox())
+        return (
+            self.validate_pins_combobox() and
+            self.validate_grids_combobox() and
+            self.validate_features_combobox() and
+            self.validate_sketch_combobox()
+        )
 
     def check_grid_squares(self):
         check = self.parent.valid_squares(self.gridsMajorSpnBx.value(),

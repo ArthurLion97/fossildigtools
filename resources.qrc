@@ -12,6 +12,8 @@
         <file>icons/directional.svg</file>
         <file>icons/distance-to-location.svg</file>
         <file>icons/edit.svg</file>
+        <file>icons/feature-form-off.svg</file>
+        <file>icons/feature-form-on.svg</file>
         <file>icons/geomag-pin.svg</file>
         <file>icons/goto.svg</file>
         <file>icons/goto-grid-ll.svg</file>

@@ -42,8 +42,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>308</width>
-        <height>382</height>
+        <width>293</width>
+        <height>411</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -95,6 +95,16 @@
           </item>
           <item row="2" column="1">
            <widget class="QComboBox" name="featuresCmbBx"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="sketchLabel">
+            <property name="text">
+             <string>Sketch</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="sketchCmbBx"/>
           </item>
          </layout>
         </widget>
