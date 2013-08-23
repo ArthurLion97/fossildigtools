@@ -26,7 +26,6 @@ from operator import itemgetter
 
 from qgis.core import *
 from qgis.gui import *
-from query import *
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -261,12 +260,12 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def get_features_iter(self, layerid, expstr):
         return self.get_features(layerid, expstr, True)
 
-    def get_features_query_iter(self, layerid, expstr):
-        layer = self.get_layer(layerid)
-        if not layer:
-            return []
-        q = (query(layer).where(expstr))
-        return q()
+    # def get_features_query_iter(self, layerid, expstr):
+    #     layer = self.get_layer(layerid)
+    #     if not layer:
+    #         return []
+    #     q = (query(layer).where(expstr))
+    #     return q()
 
     def delete_feature(self, layerid, featid):
         layer = self.get_layer(layerid)
@@ -368,61 +367,43 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
     def sketch_layer(self):
         return self.get_layer(self.sketch_layer_id())
 
-    def valid_layer_attributes(self, lyr, attrs):
-        flds = lyr.pendingFields()
+    def valid_layer_attributes(self, layer, attrs):
+        flds = layer.pendingFields()
         for attr in attrs:
             if flds.indexFromName(attr) == -1:
                 return False
         return True
 
-    def valid_pin_layer(self, lid=None):
+    def valid_layer(self, defaultid, geomtype, attrs, lid=None):
         if lid == "invalid":
             return False
-        lyrId = lid if lid else self.pin_layer_id()
+        lyrId = lid if lid else defaultid
         if lyrId == "" or lyrId not in self.splayers:
             return False
         layer = self.get_layer(lyrId)
         if not layer:
             return False
-        if layer.geometryType() != QGis.Point:
+        if layer.geometryType() != geomtype:
             return False
+        return self.valid_layer_attributes(layer, attrs)
+
+    def valid_pin_layer(self, lid=None):
         attrs = ['pkuid', 'kind', 'name', 'date', 'setter',
                  'description', 'origin', 'elevation', 'elevunit']
-        return self.valid_layer_attributes(layer, attrs)
+        return self.valid_layer(self.pin_layer_id(), QGis.Point, attrs, lid)
 
     def valid_grid_layer(self, lid=None):
-        if lid == "invalid":
-            return False
-        lyrId = lid if lid else self.grid_layer_id()
-        if lyrId == "" or lyrId not in self.splayers:
-            return False
-        layer = self.get_layer(lyrId)
-        if not layer:
-            return False
-        if layer.geometryType() != QGis.Polygon:
-            return False
-        attrs = ['pkuid', 'kind', 'x', 'y',
-                 'minor', 'origin', 'name']
-        return self.valid_layer_attributes(layer, attrs)
+        attrs = ['pkuid', 'kind', 'x', 'y', 'minor', 'origin', 'name']
+        return self.valid_layer(self.grid_layer_id(), QGis.Polygon, attrs, lid)
 
     def valid_feature_layer(self, lid=None):
-        return True
-
-#        lyrId = self.features_layer_id()
+        attrs = ['pkuid', 'number', 'origin', 'grid', 'units', 'added']
+        return self.valid_layer(self.feature_layer_id(),
+                                QGis.Polygon, attrs, lid)
 
     def valid_sketch_layer(self, lid=None):
-        if lid == "invalid":
-            return False
-        lyrId = lid if lid else self.sketch_layer_id()
-        if lyrId == "" or lyrId not in self.splayers:
-            return False
-        layer = self.get_layer(lyrId)
-        if not layer:
-            return False
-        if layer.geometryType() != QGis.Line:
-            return False
         attrs = ['pkuid', 'origin']
-        return self.valid_layer_attributes(layer, attrs)
+        return self.valid_layer(self.sketch_layer_id(), QGis.Line, attrs, lid)
 
     @pyqtSlot("QList<QgsMapLayer *>")
     def layers_added(self, layers):
