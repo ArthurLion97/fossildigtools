@@ -172,14 +172,14 @@ class FdtGeoMagDialog(QDialog, Ui_GeoMagDialog):
         gmdec = geomag.declination(wgspt.y(), wgspt.x(), elev)
         nb = self.calculate_mag_bearing(0, gmdec)
         eb = self.calculate_mag_bearing(90, gmdec)
-        wb = self.calculate_mag_bearing(180, gmdec)
-        sb = self.calculate_mag_bearing(270, gmdec)
+        sb = self.calculate_mag_bearing(180, gmdec)
+        wb = self.calculate_mag_bearing(270, gmdec)
 
         self.decCurrentDblSpinBox.setValue(gmdec)
         self.decNBearingDblSpnBx.setValue(nb)
         self.decEBearingDblSpnBx.setValue(eb)
-        self.decWBearingDblSpnBx.setValue(wb)
         self.decSBearingDblSpnBx.setValue(sb)
+        self.decWBearingDblSpnBx.setValue(wb)
 
 if __name__ == "__main__":
     pass
