@@ -27,7 +27,7 @@ from qgis.gui import *
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from Ui_fdt_pindlg import Ui_PinDialog
+from ui.Ui_fdt_pindlg import Ui_PinDialog
 from fdt_emitpoint import FdtEmitPointTool
 
 

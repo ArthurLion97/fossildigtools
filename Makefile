@@ -20,67 +20,83 @@
 # CONFIGURATION
 PLUGIN_UPLOAD = $(CURDIR)/plugin_upload.py
 
-# Makefile for a PyQGIS plugin
+# Makefile for a P.qgis2 plugin
 
 # translation
-SOURCES = fossildigtools.py ui_fossildigtools.py __init__.py fossildigtoolsdialog.py
+SOURCES = fossildigtools.py __init__.py fossildigtoolsdialog.py
 #TRANSLATIONS = i18n/fossildigtools_en.ts
 TRANSLATIONS =
 
 # global
-
 PLUGINNAME = fossildigtools
+PLUGIN_DIR = $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
 
-PY_FILES = fossildigtools.py fossildigtoolsdialog.py __init__.py
+PY_FILES = __init__.py \
+fdt_emitpoint.py \
+fdt_geomagdlg.py \
+fdt_mainwidget.py \
+fdt_pindlg.py \
+fdt_settingsdlg.py \
+fdt_utils.py \
+fossildigtools.py
 
-EXTRAS = icon.png metadata.txt
+EXTRAS = icon.png \
+metadata.txt \
+geomag
 
-UI_FILES = Ui_fdt_mainwidget.py Ui_fdt_pindlg.py Ui_fdt_settingsdlg.py Ui_fdt_geomagdlg.py
-
-RESOURCE_FILES = resources_rc.py
+RESOURCE_FILES =
 
 HELP = help/build/html
 
 default: compile
 
-compile: $(UI_FILES) $(RESOURCE_FILES)
+compile: uifiles $(RESOURCE_FILES)
+
+# make ui subdir
+uifiles:
+	$(MAKE) -C ui
 
 %_rc.py : %.qrc
 	/usr/local/bin/pyrcc4 -o $*_rc.py  $<
-
-Ui_%.py : %.ui
-	/usr/local/bin/pyuic4 -o Ui_$*.py $<
 
 %.qm : %.ts
 	/usr/bin/lrelease $<
 
 # The deploy  target only works on unix like operating system where
 # the Python plugin directory is located at:
-# $HOME/.qgis/python/plugins
-deploy: compile doc transcompile
-	mkdir -p $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	cp -vf $(PY_FILES) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	cp -vf $(UI_FILES) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	cp -vf $(RESOURCE_FILES) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	cp -vf $(EXTRAS) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	cp -vfr i18n $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	cp -vfr $(HELP) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)/help
+# $HOME/.qgis2/python/plugins
+# deploy: compile doc transcompile
+deploy: compile deploy-uifiles
+	mkdir -p $(PLUGIN_DIR)
+	cp -vf $(PY_FILES) $(PLUGIN_DIR)
+	cp -vRf $(EXTRAS) $(PLUGIN_DIR)
+	mkdir -p $(PLUGIN_DIR)/icons
+	cp -vf $(CURDIR)/icons/*.svg $(PLUGIN_DIR)/icons
+
+# 	cp -vf $(RESOURCE_FILES) $(PLUGIN_DIR)
+#	cp -vfr i18n $(PLUGIN_DIR)
+#	cp -vfr $(HELP) $(PLUGIN_DIR)/help
+
+# deploy ui subdir
+deploy-uifiles:
+	$(MAKE) deploy -C ui
 
 # The dclean target removes compiled python files from plugin directory
-# also delets any .svn entry
+# also deletes any .git entries
 dclean:
-	find $(HOME)/.qgis/python/plugins/$(PLUGINNAME) -iname "*.pyc" -delete
-	find $(HOME)/.qgis/python/plugins/$(PLUGINNAME) -iname ".svn" -prune -exec rm -Rf {} \;
+	find $(PLUGIN_DIR) -iname "*.pyc" -delete
+	find $(PLUGIN_DIR) -iname ".git" -prune -exec rm -Rf {} \;
 
 # The derase deletes deployed plugin
 derase:
-	rm -Rf $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
+	rm -Rf $(PLUGIN_DIR)
 
 # The zip target deploys the plugin and creates a zip file with the deployed
-# content. You can then upload the zip file on http://plugins.qgis.org
+# content. You can then upload the zip file on http://plugins.qgis2.org
 zip: deploy dclean
 	rm -f $(PLUGINNAME).zip
-	cd $(HOME)/.qgis/python/plugins; zip -9r $(CURDIR)/$(PLUGINNAME).zip $(PLUGINNAME)
+	cd $(HOME)/.qgis2/python/plugins && zip -9r $(CURDIR)/$(PLUGINNAME).zip $(PLUGINNAME)
+	mv -f $(PLUGINNAME).zip $(HOME)/Dropbox-Personal/Dropbox/QGIS/fossildigtools
 
 # Create a zip package of the plugin named $(PLUGINNAME).zip.
 # This requires use of git (your plugin development directory must be a
@@ -110,7 +126,7 @@ transclean:
 	rm -f i18n/*.qm
 
 clean:
-	rm $(UI_FILES) $(RESOURCE_FILES)
+	rm $(RESOURCE_FILES)
 
 # build documentation with sphinx
 doc:

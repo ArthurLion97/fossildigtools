@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/plugins/fossildigtools" >
+        <file>../icon.png</file>
+        <file>../icons/add.svg</file>
+        <file>../icons/arrange-lower.svg</file>
+        <file>../icons/arrange-raise.svg</file>
+        <file>../icons/arrange-to-bottom.svg</file>
+        <file>../icons/arrange-to-top.svg</file>
+        <file>../icons/bone.svg</file>
+        <file>../icons/capturepin-directional.svg</file>
+        <file>../icons/capturepin-origin.svg</file>
+        <file>../icons/directional.svg</file>
+        <file>../icons/distance-to-location.svg</file>
+        <file>../icons/edit.svg</file>
+        <file>../icons/feature-form-off.svg</file>
+        <file>../icons/feature-form-on.svg</file>
+        <file>../icons/geomag-pin.svg</file>
+        <file>../icons/goto.svg</file>
+        <file>../icons/goto-grid-ll.svg</file>
+        <file>../icons/goto-grid-lr.svg</file>
+        <file>../icons/goto-grid-ul.svg</file>
+        <file>../icons/goto-grid-ur.svg</file>
+        <file>../icons/grid.svg</file>
+        <file>../icons/grid-major.svg</file>
+        <file>../icons/grid-minor.svg</file>
+        <file>../icons/offset.svg</file>
+        <file>../icons/origin.svg</file>
+        <file>../icons/pins-grids.svg</file>
+        <file>../icons/remove.svg</file>
+        <file>../icons/remove-all.svg</file>
+        <file>../icons/settings.svg</file>
+        <file>../icons/zoom-grids.svg</file>
+        <file>../icons/zoom-in.svg</file>
+        <file>../icons/zoom-out.svg</file>
+    </qresource>
+</RCC>

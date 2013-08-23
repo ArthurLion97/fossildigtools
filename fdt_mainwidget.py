@@ -29,10 +29,12 @@ from qgis.gui import *
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from Ui_fdt_mainwidget import Ui_MainWidget
+from ui.Ui_fdt_mainwidget import Ui_MainWidget
 from fdt_settingsdlg import FdtSettingsDialog
 from fdt_pindlg import FdtPinDialog
 from fdt_geomagdlg import FdtGeoMagDialog
+
+import ui.resources_rc
 
 PVDEV = False
 try:

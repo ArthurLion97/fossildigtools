@@ -19,15 +19,16 @@
  *                                                                         *
  ***************************************************************************/
 """
-# Import the PyQt and QGIS libraries
+
+import os.path
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from qgis.core import *
-# Initialize Qt resources from file resources.py
-import resources_rc
-# Import the code for the dialog
+
+import ui.resources_rc
+
 from fdt_mainwidget import FdtMainWidget
-import os.path
 
 
 class FossilDigTools:

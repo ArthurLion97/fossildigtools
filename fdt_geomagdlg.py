@@ -28,7 +28,7 @@ from qgis.gui import *
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from Ui_fdt_geomagdlg import Ui_GeoMagDialog
+from ui.Ui_fdt_geomagdlg import Ui_GeoMagDialog
 from fdt_emitpoint import FdtEmitPointTool
 
 

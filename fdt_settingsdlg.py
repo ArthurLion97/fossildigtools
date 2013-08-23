@@ -25,7 +25,7 @@ from qgis.gui import *
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from Ui_fdt_settingsdlg import Ui_SettingsDialog
+from ui.Ui_fdt_settingsdlg import Ui_SettingsDialog
 
 
 class FdtSettingsDialog(QDialog, Ui_SettingsDialog):
