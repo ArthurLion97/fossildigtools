@@ -44,4 +44,6 @@ deploy:
 	cp -vRf $(PY_FILES) $(PLUGIN_UIDIR)
 	cp -vf $(CURDIR)/Ui_*.py $(PLUGIN_UIDIR)
 	cp -vf $(CURDIR)/*_rc.py $(PLUGIN_UIDIR)
+	mkdir -p $(PLUGIN_UIDIR)/icons
+	cp -vf $(CURDIR)/icons/*.svg $(PLUGIN_UIDIR)/icons
 

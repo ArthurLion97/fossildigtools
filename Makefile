@@ -70,8 +70,6 @@ deploy: compile deploy-uifiles
 	mkdir -p $(PLUGIN_DIR)
 	cp -vf $(PY_FILES) $(PLUGIN_DIR)
 	cp -vRf $(EXTRAS) $(PLUGIN_DIR)
-	mkdir -p $(PLUGIN_DIR)/icons
-	cp -vf $(CURDIR)/icons/*.svg $(PLUGIN_DIR)/icons
 
 # 	cp -vf $(RESOURCE_FILES) $(PLUGIN_DIR)
 #	cp -vfr i18n $(PLUGIN_DIR)
