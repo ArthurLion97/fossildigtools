@@ -68,6 +68,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
 
         self.redhlcolor = QColor(225, 0, 0)
         self.bluehlcolor = QColor(0, 0, 225)
+        self.circleradius = 5
         self.circlesegments = 32
         self.removehighlightsmilli = 2000
         self.highlights = []
@@ -306,21 +307,32 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         if feats:
             self.delete_features(layerid, feats)
 
+    def circle_geometry(self, pt, radius=0, segments=0, mapunits=True):
+        """
+        Draw a circle at a canvas point
 
-    def circle_geometry(self, pt, radius=0, segments=0):
-        # radius in mm
+        :type pt: qgis.core.QgsPoint
+        :param pt: canvas point, in layer crs
+        :param radius: cicle radius, considered in mm
+        :type segments: int
+        :param segments: number of segments usually divisible by 8, e.g. 32
+        :type mapunits: bool
+        :param mapunits: whether the radius should be considered in map units
+        :return: QgsGeometry of type QGis.Polygon
+        """
         if not radius:
-            radius = 5
-        ctx = self.canvas.mapRenderer().rendererContext()
-        # mm (converted to map pixels, then to meters)
-        r = radius * ctx.scaleFactor() * ctx.mapToPixel().mapUnitsPerPixel()
+            radius = self.circleradius  # default of 5 mm for this project
+        if mapunits:
+            ctx = self.canvas.mapRenderer().rendererContext()
+            # mm (converted to map pixels, then to map units)
+            radius *= ctx.scaleFactor() * ctx.mapToPixel().mapUnitsPerPixel()
         if not segments:
-            segments = self.circlesegments
+            segments = self.circlesegments  # usually divisible by 8, e.g. 32
         pts = []
         for i in range(segments):
             theta = i * (2.0 * math.pi / segments)
-            p = QgsPoint(pt.x() + r * math.cos(theta),
-                         pt.y() + r * math.sin(theta))
+            p = QgsPoint(pt.x() + radius * math.cos(theta),
+                         pt.y() + radius * math.sin(theta))
             pts.append(p)
         return QgsGeometry.fromPolygon([pts])
 
