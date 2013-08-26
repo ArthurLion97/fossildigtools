@@ -94,6 +94,20 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QToolButton" name="identBtn">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources.qrc">
+         <normaloff>:/fdt/icons/bone.svg</normaloff>:/fdt/icons/bone.svg</iconset>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::InstantPopup</enum>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -115,7 +129,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

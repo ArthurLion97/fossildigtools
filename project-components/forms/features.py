@@ -16,6 +16,8 @@ try:
 except ImportError:
     pass
 
+import resources_rc
+
 # during dev of script leave attribute active: will reload module of form open
 DEBUGMODE = True
 
@@ -55,6 +57,8 @@ class CustomForm(QObject):
         """:type : PyQt4.QtGui.QComboBox"""
         self.identCmbBx = self.dlg.findChild(QComboBox, "identify")
         """:type : PyQt4.QtGui.QComboBox"""
+        self.identBtn = self.dlg.findChild(QToolButton, "identBtn")
+        """:type : PyQt4.QtGui.QToolButton"""
         self.origin = self.dlg.findChild(QLineEdit, "origin")
         """:type : PyQt4.QtGui.QLineEdit"""
 
@@ -81,6 +85,7 @@ class CustomForm(QObject):
         # buttonBox.accepted.connect(validate)
         # buttonBox.rejected.connect(self.dlg.reject)
 
+        self.updateGUI()
         self.nextPrimaryKey()
         self.populateGenusComboBox()
         self.populateIdentifyComboBox()  # must come after genus cmbbx populate
@@ -90,6 +95,9 @@ class CustomForm(QObject):
         # post-populate connections
         self.genusCmbBx.currentIndexChanged[int].connect(
             self.populateIdentifyComboBox)
+
+    def updateGUI(self):
+        self.identBtn.setIcon(QIcon(':/fdt/icons/bone.svg'))
 
     def nextPrimaryKey(self):
         # don't increment existing number
@@ -122,6 +130,10 @@ class CustomForm(QObject):
     def populateGenusComboBox(self):
         self.genusCmbBx.clear()
         model = self.genusCmbBx.model()
+        self._addModelItem(model, '')
+        self._addModelItem(model, 'N/A')
+        self._addModelItem(model, 'Unknown')
+        self._addModelSeparator(model)
         for genus, ident in GENUSINDENTS.iteritems():
             self._addModelItem(model, genus, data=ident)
         assert model.rowCount() > 0, 'No rows in genus-ident model'
@@ -134,37 +146,40 @@ class CustomForm(QObject):
 
     @pyqtSlot(int)
     def populateIdentifyComboBox(self, indx=-1):
-        # print 'populateIdentifyComboBox: entered'
         curtxt = self.identCmbBx.currentText()
         self.identCmbBx.clear()
 
         curindent = self.currentGenusIdent()
-        if not curindent:  # reset any existing attr value
+        if curindent is None:  # reset any existing attr value
             self.identCmbBx.lineEdit().setText(curtxt)
-            raise Exception('Missing identify file for current genus')
+            print 'Missing identify file for current genus'
+            return
 
         identfile = os.path.join(IDENTSDIR, curindent)
         if not os.path.exists(identfile):
             if curtxt:  # reset any existing attr value
                 self.identCmbBx.lineEdit().setText(curtxt)
             raise IOError('Missing identify file: ' + identfile)
-            # return
 
         model = self.identCmbBx.model()
 
         with open(identfile, 'r') as f:
+            prevwastitle = False
             for line in f:
                 istitle = line.count('###')
                 if istitle:
                     line = line.replace('###', '')
                     self._addModelItem(model, line.strip(),
                                        title=istitle, enabled=False)
+                    prevwastitle = True
                     continue
                 isheader = line.count('---')
                 if isheader:
-                    self._addModelSeparator(model)
+                    if not prevwastitle:
+                        self._addModelSeparator(model)
                     line = line.replace('---', '')
                 self._addModelItem(model, line.strip(), header=isheader)
+                prevwastitle = False
         assert model.rowCount() > 0, 'No rows in identify model'
 
         if curtxt:  # reset any existing attr value

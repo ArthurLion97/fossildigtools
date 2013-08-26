@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/fdt" >
+        <file>icons/bone.svg</file>
+    </qresource>
+</RCC>
