@@ -1,0 +1,2 @@
+Triceratops: tric-ident-vals.txt
+Tyrannosaurus: trex-ident-vals.txt

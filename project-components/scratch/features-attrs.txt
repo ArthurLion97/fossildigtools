@@ -1,0 +1,45 @@
+0  pkuid  integer  N
+
+1  number  integer  N
+
+2  identify  text  Y
+
+3  grid  text  Y
+
+4  block_id  text  Y
+
+5  left_right  text  Y
+
+6  associated  integer  Y
+
+7  with_bone  integer  Y
+
+8  counts  integer  Y
+
+9  ontogeny  text  Y
+
+10  genus  text  Y
+
+11  percent  integer  Y
+
+12  preservation  text  Y
+
+13  packaging  text  Y
+
+14  units  text  N
+
+15  length  real  Y
+
+16  width  real  Y
+
+17  breadth  real  Y
+
+18  added  text  N
+
+19  geometry  MULTIPOLYGON  Y
+
+20  origin  integer  N  -1
+
+20  fragment  integer  Y
+
+20  z_order  integer  Y 0

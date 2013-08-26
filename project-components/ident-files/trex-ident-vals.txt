@@ -1,0 +1,215 @@
+###Tyrannosaurus###
+---Skull---
+Premaxilla
+Maxilla
+Nasal
+Postorbital
+Lacrymal
+Squamosal
+Jugal
+Quadratojugal
+Quadrate
+---Palate---
+Palatine
+Ectopterygoid
+Pterygoid
+Epipterygoid
+Vomer
+---Braincase---
+Frontal
+Laterosphenoid
+Prootic
+Exoccipital - Opisthotic
+?Parasphenoid
+Parietal
+Basisphenoid
+Supraoccipital
+Basioccipital
+---Lower Jaw---
+Dentary
+Surangular
+Coronoid
+Splenial
+Angular
+Prearticular
+Articular
+---Neck---
+Atlas
+Axis
+Cervical Vert 3
+Cervical Rib 3
+Cervical Vert 4
+Cervical Rib 4
+Cervical Vert 5
+Cervical Rib 5
+Cervical Vert 6
+Cervical Rib 6
+Cervical Vert 7
+Cervical Rib 7
+Cervical Vert 8
+Cervical Rib 8
+Cervical Vert 9
+Cervical Rib 9
+Cervical Vert 10
+Cervical Rib 10
+---Torso---
+Dorsal Vert 1
+Dorsal Rib 1
+Dorsal Vert 2
+Dorsal Rib 2
+Dorsal Vert 3
+Dorsal Rib 3
+Dorsal Vert 4
+Dorsal Rib 4
+Dorsal Vert 5
+Dorsal Rib 5
+Dorsal Vert 6
+Dorsal Rib 6
+Dorsal Vert 7
+Dorsal Rib 7
+Dorsal Vert 8
+Dorsal Rib 8
+Dorsal Vert 9
+Dorsal Rib 9
+Dorsal Vert 10
+Dorsal Rib 10
+Dorsal Vert 11
+Dorsal Rib 11
+Dorsal Vert 12
+Dorsal Rib 12
+Dorsal Vert 13
+Dorsal Rib 13
+Sacral Verts 1-5
+---Tail---
+Caudal Vert 1
+Chevron 1
+Caudal Vert 2
+Chevron 2
+Caudal Vert 3
+Chevron 3
+Caudal Vert 4
+Chevron 4
+Caudal Vert 5
+Chevron 5
+Caudal Vert 6
+Chevron 6
+Caudal Vert 7
+Chevron 7
+Caudal Vert 8
+Chevron 8
+Caudal Vert 9
+Chevron 9
+Caudal Vert 10
+Chevron 10
+Caudal Vert 11
+Chevron 11
+Caudal Vert 12
+Chevron 12
+Caudal Vert 13
+Chevron 13
+Caudal Vert 14
+Chevron 14
+Caudal Vert 15
+Chevron 15
+Caudal Vert 16
+Chevron 16
+Caudal Vert 17
+Chevron 17
+Caudal Vert 18
+Chevron 18
+Caudal Vert 19
+Chevron 19
+Caudal Vert 20
+Chevron 20
+Caudal Vert 21
+Chevron 21
+Caudal Vert 22
+Chevron 22
+Caudal Vert 23
+Chevron 23
+Caudal Vert 24
+Chevron 24
+Caudal Vert 25
+Chevron 25
+Caudal Vert 26
+Chevron 26
+Caudal Vert 27
+Chevron 27
+Caudal Vert 28
+Chevron 28
+Caudal Vert 29
+Chevron 29
+Caudal Vert 30
+Chevron 30
+Caudal Vert 31
+Chevron 31
+Caudal Vert 32
+Chevron 32
+Caudal Vert 33
+Chevron 33
+Caudal Vert 34
+Chevron 34
+Caudal Vert 35
+Chevron 35
+Caudal Vert 36
+Chevron 36
+Caudal Vert 37
+Chevron 37
+Caudal Vert 38
+Chevron 38
+Caudal Vert 39
+Chevron 39
+Caudal Vert 40
+Chevron 40
+Caudal Vert 41
+Caudal Vert 42
+Caudal Vert 43
+Caudal Vert 44
+Caudal Vert 45
+---Pectoral Arch---
+Furcula
+Scapula
+Coracoid
+Humerus
+Radius
+Ulna
+Carpal
+---Hand (Manus)---
+Metacarpal I
+Manus Phalange I 1
+Manus Phalange I 2
+Metacarpal II
+Manus Phalange II 1
+Manus Phalange II 2
+Manus Phalange II 3
+Metacarpal III
+---Pelvic Arch---
+Ilium
+Ischium
+Pubis
+Femur
+Tibia
+Fibula
+Calcaneum
+Astragalus
+Tarsal
+---Foot (Pes)---
+Metatarsal I
+Pes Phalange I 1
+Pes Phalange I 2
+Metatarsal II
+Pes Phalange II 1
+Pes Phalange II 2
+Pes Phalange II 3
+Metatarsal III
+Pes Phalange III 1
+Pes Phalange III 2
+Pes Phalange III 3
+Pes Phalange III 4
+Metatarsal IV
+Pes Phalange IV 1
+Pes Phalange IV 2
+Pes Phalange IV 3
+Pes Phalange IV 4
+Pes Phalange IV 5
+Pes Phalange V 5
