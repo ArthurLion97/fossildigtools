@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/fdt" >
         <file>icons/bone.svg</file>
+        <file>icons/locked.svg</file>
+        <file>icons/unlocked.svg</file>
     </qresource>
 </RCC>
