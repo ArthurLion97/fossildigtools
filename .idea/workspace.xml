@@ -13,7 +13,7 @@
     <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375476482366" ignored="false" />
     <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377131609601" ignored="false" />
     <file path="/a.xml" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373926347581" ignored="false" />
-    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377626507773" ignored="false" />
+    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377629219510" ignored="false" />
     <file path="/make.sh" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373989914665" ignored="false" />
     <file path="/start_script.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1376426245988" ignored="false" />
     <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377221984456" ignored="false" />
@@ -80,7 +80,16 @@
       <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1484" column="27" selection-start="52245" selection-end="52264" vertical-scroll-proportion="0.58431953">
+            <state line="1273" column="50" selection-start="45291" selection-end="45291" vertical-scroll-proportion="0.6141844">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fdt_pindlg.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="142" column="8" selection-start="5308" selection-end="6422" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -89,7 +98,7 @@
       <file leaf-file-name="features.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="194" column="35" selection-start="7270" selection-end="7270" vertical-scroll-proportion="-14.4827585">
+            <state line="383" column="8" selection-start="13730" selection-end="13856" vertical-scroll-proportion="-6.862069">
               <folding>
                 <element signature="e#1#10#0" expanded="true" />
               </folding>
@@ -149,8 +158,8 @@
         <option value="$PROJECT_DIR$/project-components/forms/Ui_identify_dlg.py" />
         <option value="$PROJECT_DIR$/fossildigtools.py" />
         <option value="$PROJECT_DIR$/project-components/forms/resources.qrc" />
-        <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
         <option value="$PROJECT_DIR$/project-components/forms/features.py" />
+        <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
       </list>
     </option>
   </component>
@@ -613,11 +622,6 @@
         <state line="33" column="0" selection-start="1346" selection-end="1346" vertical-scroll-proportion="-2.8114035" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="147" column="52" selection-start="5516" selection-end="5516" vertical-scroll-proportion="3.4122808" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fdt_settingsdlg.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="22" selection-start="1164" selection-end="1164" vertical-scroll-proportion="-3.0526316" />
@@ -688,9 +692,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="142" column="8" selection-start="5308" selection-end="6422" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="194" column="35" selection-start="7270" selection-end="7270" vertical-scroll-proportion="-14.4827585">
+        <state line="383" column="8" selection-start="13730" selection-end="13856" vertical-scroll-proportion="-6.862069">
           <folding>
             <element signature="e#1#10#0" expanded="true" />
           </folding>
@@ -699,7 +710,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1484" column="27" selection-start="52245" selection-end="52264" vertical-scroll-proportion="0.58431953">
+        <state line="1273" column="50" selection-start="45291" selection-end="45291" vertical-scroll-proportion="0.6141844">
           <folding />
         </state>
       </provider>

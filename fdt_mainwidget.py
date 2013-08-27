@@ -1244,6 +1244,58 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.add_highlight(self.pin_layer_id(), geom2, self.bluehlcolor)
         # self.remove_highlights()
 
+    def _changeFeatureZOrder(self, up=True, maxi=False):
+        """
+        :type up: bool
+        :type maxi: bool
+        """
+        layer = self.feature_layer()
+        """:type: qgis.core.QgsVectorLayer"""
+        if self.iface.activeLayer() != layer:
+            # notify user
+            return
+        if not layer.isEditable():
+            # notify user
+            return
+
+        if not maxi:
+            for feat in self.selected_features():
+                z = feat["z_order"]
+                layer.startEditing()
+                feat["z_order"] = int(z) + (1 if up else -1)
+                layer.updateFeature(feat)
+                # layer.commitChanges()
+                layer.setCacheImage(None)
+                layer.triggerRepaint()
+        #
+        # zmin, zmax = 1, 1
+        # if maxi:
+        #     zlist = self.uniqueAllValsSorted(layer, 'z_order')
+        #     # print 'zlist: ' + zlist.__repr__()
+        #     zlist = map(int, zlist)
+        #     zmin = min(zlist)
+        #     zmax = max(zlist)
+        #
+        # d = (zmax if up else -zmin)
+
+
+
+    @pyqtSlot()
+    def on_arrangeRaiseBtn_clicked(self):
+        self._changeFeatureZOrder(up=True)
+
+    @pyqtSlot()
+    def on_arrangeLowerBtn_clicked(self):
+        self._changeFeatureZOrder(up=False)
+
+    @pyqtSlot()
+    def on_arrangeToTopBtn_clicked(self):
+        self._changeFeatureZOrder(up=True, maxi=True)
+
+    @pyqtSlot()
+    def on_arrangeToBottomBtn_clicked(self):
+        self._changeFeatureZOrder(up=False, maxi=True)
+
     @pyqtSlot()
     def on_attributesOpenFormBtn_clicked(self):
         for f in self.selected_features():
@@ -1468,7 +1520,9 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         for fmap in cattrvals.itervalues():
             for i, v in fmap.iteritems():
                 if i == indx and not hasattr(v, 'isNull'):  # nix QPyNullVariant
-                    identvals.add(v)
+                    val = str(v)
+                    if val and val != 'None':
+                        identvals.add(val)
 
         # print 'uniqueUncomittedVals: ' + list(identvals).__repr__()
         return identvals

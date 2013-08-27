@@ -58,7 +58,7 @@
   padding-top: 6px;}</string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -1324,7 +1324,7 @@
             <x>0</x>
             <y>0</y>
             <width>376</width>
-            <height>657</height>
+            <height>648</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -1382,6 +1382,9 @@
               </item>
               <item row="0" column="2">
                <widget class="QToolButton" name="arrangeToTopBtn">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="toolTip">
                  <string>Move to top</string>
                 </property>
@@ -1402,6 +1405,9 @@
               </item>
               <item row="0" column="3">
                <widget class="QToolButton" name="arrangeToBottomBtn">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="toolTip">
                  <string>Move to bottom</string>
                 </property>
