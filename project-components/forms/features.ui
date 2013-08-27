@@ -29,11 +29,11 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="identTab">
       <attribute name="title">
-       <string>Identify</string>
+       <string>Identification</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="margin">
@@ -144,7 +144,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_2">
+                  <widget class="QPushButton" name="numLockBtn">
                    <property name="maximumSize">
                     <size>
                      <width>20</width>

@@ -3,9 +3,11 @@ import os
 import sys
 import csv
 # import inspect
+from datetime import datetime
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+from sip import *
 from qgis.core import *
 import qgis.utils as utils
 from pyspatialite import dbapi2 as db
@@ -40,35 +42,18 @@ GENERALIDENT = os.path.join(IDENTSDIR, 'general-ident-vals.txt')
 
 class CustomForm(QObject):
 
-    def __init__(self, dialog, layer, featureid):
+    def __init__(self, dialog, layer, feature):
         """
         :type dialog: PyQt4.QtGui.QDialog
         :type layer: qgis.core.QgsVectorLayer
-        :type featureid: int
+        :type feature: qgis.core.QgsFeature
         """
         QObject.__init__(self)
 
         self.dlg = dialog
         self.layer = layer
-        self.featid = featureid
+        self.feat = feature
         self.projdir = PROJDIR
-
-        self.pkuidLEdit = self.dlg.findChild(QLineEdit, "pkuid")
-        """:type : PyQt4.QtGui.QLineEdit"""
-        self.pkuidLEdit.setVisible(False)
-
-        self.numLEdit = self.dlg.findChild(QLineEdit, "number")
-        """:type : PyQt4.QtGui.QLineEdit"""
-        self.genusCmbBx = self.dlg.findChild(QComboBox, "genus")
-        """:type : PyQt4.QtGui.QComboBox"""
-        self.identCmbBx = self.dlg.findChild(QComboBox, "identify")
-        """:type : PyQt4.QtGui.QComboBox"""
-        self.identBtn = self.dlg.findChild(QToolButton, "identBtn")
-        """:type : PyQt4.QtGui.QToolButton"""
-        # self.identBtnMenu = QMenu(self.dlg)
-        # self.identBtn.setMenu(self.identBtnMenu)
-        self.origin = self.dlg.findChild(QLineEdit, "origin")
-        """:type : PyQt4.QtGui.QLineEdit"""
 
         self.iface = utils.iface
         """:type : qgis.gui.QgisInterface"""
@@ -82,25 +67,73 @@ class CustomForm(QObject):
         except:
             pass
 
-        # bogart button box connections with custom slots
+        # Identification tab
+        self.numLEdit = self.dlg.findChild(QLineEdit, "number")
+        """:type : PyQt4.QtGui.QLineEdit"""
+        self.numLockBtn = self.dlg.findChild(QPushButton, "numLockBtn")
+        """:type : PyQt4.QtGui.QPushButton"""
+        self.pkLEdit = self.dlg.findChild(QLineEdit, "pkuid")
+        """:type : PyQt4.QtGui.QLineEdit"""
+        self.blockIdCmbBx = self.dlg.findChild(QComboBox, "block_id")
+        """:type : PyQt4.QtGui.QComboBox"""
+        self.genusCmbBx = self.dlg.findChild(QComboBox, "genus")
+        """:type : PyQt4.QtGui.QComboBox"""
+        self.identCmbBx = self.dlg.findChild(QComboBox, "identify")
+        """:type : PyQt4.QtGui.QComboBox"""
+        self.identBtn = self.dlg.findChild(QToolButton, "identBtn")
+        """:type : PyQt4.QtGui.QToolButton"""
+        self.lrCmbBx = self.dlg.findChild(QComboBox, "left_right")
+        """:type : PyQt4.QtGui.QComboBox"""
+        self.fragChkBx = self.dlg.findChild(QCheckBox, "fragment")
+        """:type : PyQt4.QtGui.QCheckBox"""
+        self.wBoneSpnBx = self.dlg.findChild(QSpinBox, "with_bone")
+        """:type : PyQt4.QtGui.QSpinBox"""
+        self.wBoneBtn = self.dlg.findChild(QToolButton, "withBoneBtn")
+        """:type : PyQt4.QtGui.QToolButton"""
+        self.ontgyCmbBx = self.dlg.findChild(QComboBox, "ontogeny")
+        """:type : PyQt4.QtGui.QComboBox"""
+
+        # Attributes tab
+        self.origNameLEdit = self.dlg.findChild(QLineEdit, "originName")
+        """:type : PyQt4.QtGui.QLineEdit"""
+        self.origLEdit = self.dlg.findChild(QLineEdit, "origin")
+        """:type : PyQt4.QtGui.QLineEdit"""
+        self.gridCmbBx = self.dlg.findChild(QComboBox, "grid")
+        """:type : PyQt4.QtGui.QComboBox"""
+        self.zOrderSpnBx = self.dlg.findChild(QSpinBox, "z_order")
+        """:type : PyQt4.QtGui.QSpinBox"""
+        self.assocChkBx = self.dlg.findChild(QCheckBox, "associated")
+        """:type : PyQt4.QtGui.QCheckBox"""
+        self.complSpnBx = self.dlg.findChild(QSpinBox, "percent")
+        """:type : PyQt4.QtGui.QSpinBox"""
+        self.countsChkBx = self.dlg.findChild(QCheckBox, "counts")
+        """:type : PyQt4.QtGui.QCheckBox"""
+        self.prsrvCmbBx = self.dlg.findChild(QComboBox, "preservation")
+        """:type : PyQt4.QtGui.QComboBox"""
+        self.lenDSpnBx = self.dlg.findChild(QDoubleSpinBox, "length")
+        """:type : PyQt4.QtGui.QDoubleSpinBox"""
+        self.wdthDSpnBx = self.dlg.findChild(QDoubleSpinBox, "width")
+        """:type : PyQt4.QtGui.QDoubleSpinBox"""
+        self.dpthDSpnBx = self.dlg.findChild(QDoubleSpinBox, "depth")
+        """:type : PyQt4.QtGui.QDoubleSpinBox"""
+        self.unitsCmbBx = self.dlg.findChild(QComboBox, "units")
+        """:type : PyQt4.QtGui.QComboBox"""
+
+        # Notes tab
+        self.notesPTEdit = self.dlg.findChild(QPlainTextEdit, "notes")
+        """:type : PyQt4.QtGui.QPlainTextEdit"""
+        self.pkgCmbBx = self.dlg.findChild(QComboBox, "packaging")
+        """:type : PyQt4.QtGui.QComboBox"""
+        self.addLEdit = self.dlg.findChild(QLineEdit, "added")
+        """:type : PyQt4.QtGui.QLineEdit"""
+        self.modLEdit = self.dlg.findChild(QLineEdit, "modified")
+        """:type : PyQt4.QtGui.QLineEdit"""
+
+        # bogart button box connections for custom slots
         self.buttonBox = self.dlg.findChild(QDialogButtonBox, "buttonBox")
         """:type : PyQt4.QtGui.QDialogButtonBox"""
 
-        # disconnect signal QGIS has wired up for the dialog to the button box
-        # buttonBox.accepted.disconnect(self.dlg.accept)
-        #
-        # wire up our own signals
-        # buttonBox.accepted.connect(validate)
-        # buttonBox.rejected.connect(self.dlg.reject)
-
         self.setupGui()
-        self.nextPrimaryKey()
-        self.populateGenusComboBox()
-        # must come after genus cmbbx populate
-        self.updateIdentifyListButton()
-        self.populateIdentifyComboBox()
-
-        self.setCurrentOrigin()
 
         # post-populate connections
         self.genusCmbBx.currentIndexChanged[int].connect(
@@ -108,44 +141,150 @@ class CustomForm(QObject):
 
         self.identBtn.clicked.connect(self.showIdentSelector)
 
+        # disconnect signal QGIS has wired up for the dialog to the button box
+        # self.buttonBox.accepted.disconnect(self.dlg.accept)
+        #
+        # wire up our own signals
+        # self.buttonBox.accepted.connect(validate)
+        # self.buttonBox.rejected.connect(self.dlg.reject)
+
     def setupGui(self):
+        self.nextPrimaryKey()
+        self.populateGeneralUniqueComboBoxes()
+        self.populateGenusComboBox()
+        # must come after populateGenusComboBox
+        self.updateIdentifyListButton()
+        self.populateIdentifyComboBox()
+
+        self.setCurrentOrigin()
+        self.populateGridComboBox()
+        self.setZOrder()
+
+        self.setDateTimes()
+
+        self.numLEdit.setEnabled(False)
+        self.origNameLEdit.setEnabled(False)
+        self.pkLEdit.setVisible(False)
+        self.origLEdit.setVisible(False)
+
+        self.addLEdit.setEnabled(False)
+        self.modLEdit.setEnabled(False)
+
         if not self.layer.isEditable():
+            self.numLockBtn.setVisible(False)
             self.identBtn.setVisible(False)
+            self.wBoneBtn.setVisible(False)
             return
+        self.numLockBtn.setIcon(QIcon(':/fdt/icons/locked.svg'))
         self.identBtn.setIcon(QIcon(':/fdt/icons/bone.svg'))
+        self.wBoneBtn.setIcon(QIcon(':/fdt/icons/bone.svg'))
 
-    def nextPrimaryKey(self):
-        # don't increment existing number
-        if self.pkuidLEdit.text():
+    def uniqueExistingVals(self, field):
+        """
+        :type field: str
+        :returns: set of str values
+        """
+        indx = self.layer.fieldNameIndex(field)
+        vals = self.layer.dataProvider().uniqueValues(indx)
+        cleanvals = []
+        for v in vals:
+            val = str(v)
+            if val and val != 'None':
+                cleanvals.append(val)
+        identvals = set(cleanvals)
+        # print 'uniqueExistingVals: ' + list(identvals).__repr__()
+        return identvals
+
+    def uniqueUncomittedVals(self, field):
+        """
+        :type field: str
+        :returns: set of str values
+        """
+        if not self.layer.isEditable():
             return
-        # pre-populate pkuid with next incremented primary key
-        dp = self.layer.dataProvider()
-        ds = QgsDataSourceURI(dp.dataSourceUri())
-
-        # connect to layer's parent database
-        conn = db.connect(ds.database())
-        cur = conn.cursor()
-
-        sql = 'SELECT "seq" FROM "sqlite_sequence"' \
-              'WHERE name = "{0}"'.format(ds.table())
-        rs = cur.execute(sql)
-        if not rs:
-            return
-        pkuid = list(rs)[0][0]
-        # print "pkuid: {0}".format(pkuid)
-
+        indx = self.layer.fieldNameIndex(field)
         eb = self.layer.editBuffer()
-        addedf = len(eb.addedFeatures()) if self.layer.isEditable() else 0
-        # print "addedf: {0}".format(addedf)
 
-        nextId = (pkuid + addedf + 1)
-        self.pkuidLEdit.setText(str(nextId))
-        # print "pkuid + addedf + 1: {0}".format(nextId)
+        # from newly added features
+        addedf = eb.addedFeatures()
+        identvals = set()
+        # print addedf
+        for f in addedf.itervalues():
+            val = str(f[indx])
+            if val:
+                identvals.add(val)
 
-        self.numLEdit.setText(str(nextId))
+        # from changed values of existing, but edited features
+        # {featureid: {fieldindx: value}}
+        cattrvals = eb.changedAttributeValues()
+        """:type: dict"""
+        # which feature was edited is not important
+        for fmap in cattrvals.itervalues():
+            for i, v in fmap.iteritems():
+                if i == indx and not hasattr(v, 'isNull'):  # nix QPyNullVariant
+                    identvals.add(v)
+
+        # print 'uniqueUncomittedVals: ' + list(identvals).__repr__()
+        return identvals
+
+    def setToSortedList(self, aset):
+        vals = []
+        for val in sorted(list(aset), key=lambda s: s.lower()):
+            val = val.strip()
+            if val and val != 'None':
+                vals.append(val)
+        # print 'setToSortedList: ' + vals.__repr__()
+        return vals
+
+    def uniqueAllValsSorted(self, field):
+        """
+        :type field: str
+        :returns: list of sorted str values
+        """
+        allvals = set()
+        evals = self.uniqueExistingVals(field)
+        if evals is not None:
+            allvals.update(evals)
+        uvals = self.uniqueUncomittedVals(field)
+        if uvals is not None:
+            allvals.update(uvals)
+        # print 'uniqueAllValsSorted: ' + list(allvals).__repr__()
+        return self.setToSortedList(allvals)
+
+    def populateUniqueComboBox(self, cmbx, field, topitems=None):
+        """
+        :type topitems: list
+        :type cmbx: PyQt4.QtGui.QComboBox
+        :type field: str
+        """
+        curtxt = cmbx.currentText()
+        model = cmbx.model()
+        """:type: QStandardItemModel"""
+
+        if topitems is not None and len(topitems) > 0:
+            for val in topitems:
+                self._addModelItem(model, val)
+            self._addModelSeparator(model)
+
+        for val in self.uniqueAllValsSorted(field.strip()):
+            self._addModelItem(model, val)
+
+        if curtxt:  # reset any existing attr value
+            cmbx.lineEdit().setText(curtxt)
+
+    def populateGeneralUniqueComboBoxes(self):
+        cmbxs = [
+            (self.blockIdCmbBx, 'block_id', None),
+            (self.ontgyCmbBx, 'ontogeny', None),
+            (self.prsrvCmbBx, 'preservation', None),
+            (self.pkgCmbBx, 'packaging', None)
+        ]
+        for c in cmbxs:
+            self.populateUniqueComboBox(c[0], c[1], c[2])
 
     def populateGenusComboBox(self):
         curtxt = self.genusCmbBx.currentText()
+        """:type: str"""
         self.genusCmbBx.clear()
 
         model = self.genusCmbBx.model()
@@ -157,7 +296,7 @@ class CustomForm(QObject):
         assert model.rowCount() > 0, 'No rows in genus-ident model'
 
         indx = self.genusCmbBx.findText(GENUSPREF)
-        if curtxt:
+        if curtxt and not self._isNull(curtxt):
             indx = self.genusCmbBx.findText(curtxt)
         if indx != -1:
             self.genusCmbBx.setCurrentIndex(indx)
@@ -168,6 +307,19 @@ class CustomForm(QObject):
     @pyqtSlot()
     def updateIdentifyListButton(self):
         self.identBtn.setEnabled(self.currentGenusIdent() is not None)
+
+    @pyqtSlot(int)
+    def populateIdentifyComboBox(self, indx=-1):
+        # add general idents
+        if GENERALIDENT and not os.path.exists(GENERALIDENT):
+            raise IOError('Missing general identify file: ' + GENERALIDENT)
+
+        lines = []
+        with open(GENERALIDENT, 'r') as f:
+            for line in f:
+                lines.append(line.strip())
+
+        self.populateUniqueComboBox(self.identCmbBx, 'identify', lines)
 
     @pyqtSlot()
     def showIdentSelector(self):
@@ -206,48 +358,6 @@ class CustomForm(QObject):
             ident = model.itemFromIndex(identview.currentIndex())
             self.identCmbBx.setEditText(ident.text())
 
-    @pyqtSlot(int)
-    def populateIdentifyComboBox(self, indx=-1):
-        curtxt = self.identCmbBx.currentText()
-
-        # add general idents
-        if not os.path.exists(GENERALIDENT):
-            raise IOError('Missing general identify file: ' + GENERALIDENT)
-
-        model = self.identCmbBx.model()
-        """:type: QStandardItemModel"""
-
-        with open(GENERALIDENT, 'r') as f:
-            for line in f:
-                self._addModelItem(model, line.strip())
-        if model.rowCount() > 0:
-            self._addModelSeparator(model)
-
-        identvals = set()
-        indx = self.layer.fieldNameIndex('identify')
-        # get unique values from uncomitted edits
-        eb = self.layer.editBuffer()
-        addedf = eb.addedFeatures() if self.layer.isEditable() else {}
-        # print addedf
-        for f in addedf.itervalues():
-            val = str(f[indx])
-            if val:
-                identvals.add(val)
-
-        # get unique values for existing ident vals
-
-        vals = set(self.layer.dataProvider().uniqueValues(indx))
-        identvals.update(vals)
-        # print sorted(list(identvals)).__repr__()
-
-        for val in sorted(list(identvals), key=lambda s: s.lower()):
-            val = val.strip()
-            if val and val != 'None':
-                self._addModelItem(model, val.strip())
-
-        if curtxt:  # reset any existing attr value
-            self.identCmbBx.lineEdit().setText(curtxt)
-
     def _addModelItem(self, model, name,
                       flags=None, data=None,
                       enabled=True, icon=None,
@@ -264,12 +374,6 @@ class CustomForm(QObject):
         if header:
             item.setForeground(QColor(Qt.blue))
             # setting font doesn't work ???
-            # # update font
-            # f = item.font()
-            # f.setBold(header)
-            # # f.setItalic(header)
-            # f.setUnderline(header)
-            # item.setFont(f)
         if title:
             item.setForeground(QColor(Qt.red))
 
@@ -280,18 +384,92 @@ class CustomForm(QObject):
         item.setData('separator', role=Qt.AccessibleDescriptionRole)
         model.appendRow(item)
 
+    def nextPrimaryKey(self):
+        # don't increment existing number
+        if self.pkLEdit.text():
+            return
+            # pre-populate pkuid with next incremented primary key
+        dp = self.layer.dataProvider()
+        ds = QgsDataSourceURI(dp.dataSourceUri())
+
+        # connect to layer's parent database
+        conn = db.connect(ds.database())
+        cur = conn.cursor()
+
+        sql = 'SELECT "seq" FROM "sqlite_sequence"' \
+              'WHERE name = "{0}"'.format(ds.table())
+        rs = cur.execute(sql)
+        if not rs:
+            return
+        pkuid = list(rs)[0][0]
+        # print "pkuid: {0}".format(pkuid)
+
+        eb = self.layer.editBuffer()
+        addedf = len(eb.addedFeatures()) if self.layer.isEditable() else 0
+        # print "addedf: {0}".format(addedf)
+
+        nextId = (pkuid + addedf + 1)
+        self.pkLEdit.setText(str(nextId))
+        # print "pkuid + addedf + 1: {0}".format(nextId)
+
+        self.numLEdit.setText(str(nextId))
+
     def setCurrentOrigin(self):
         if self.fdtwidget is None:
             return
         # print 'setCurrentOrigin entered'
         orgf = self.fdtwidget.current_origin_feat()
         orgname = orgf['name']
-        self.origin.setText(orgname)
+        self.origNameLEdit.setText(orgname)
+
+    def populateGridComboBox(self):
+        curtxt = self.gridCmbBx.currentText()
+        if not self.feat:
+            return
+        frect = self.feat.geometry().boundingBox()
+
+        req = QgsFeatureRequest()
+        req.setFilterRect(frect)
+        feats = list(self.fdtwidget.grid_layer().getFeatures(req))
+        # """:type: qgis.core.QgsFeatureIterator"""
+        if len(feats) < 0:
+            return
+
+        model = self.gridCmbBx.model()
+        for f in feats:
+            if f['kind'] == 'major':
+                self._addModelItem(model, '{0},{1}'.format(f['x'], f['y']))
+
+        if curtxt:
+            self.gridCmbBx.lineEdit().setText(curtxt)
+
+    def setZOrder(self):
+        if self.zOrderSpnBx.value() != 0:
+            return
+        zlist = self.uniqueAllValsSorted('z_order')
+        # print 'zlist: ' + zlist.__repr__()
+        maxval = max(map(int, zlist))
+        self.zOrderSpnBx.setValue(maxval + 1)
+
+    def setDateTimes(self):
+        if not self.layer.isEditable():
+            return
+
+        now = datetime.now()
+        now = now.replace(microsecond=0)
+        stamp = now.isoformat(' ')
+
+        if self._isNull(self.addLEdit.text()):
+            self.addLEdit.setText(stamp)
+        self.modLEdit.setText(stamp)
+
+    def _isNull(self, txt):
+        return txt.lower().strip() == 'null'
 
     def validate(self):
         self.dlg.accept()
         # # Make sure that the name field isn't empty.
-        # if not self.pkuidLEdit.text().length() > 0:
+        # if not self.pkLEdit.text().length() > 0:
         #     msgBox = QMessageBox()
         #     msgBox.setText("Name field can not be null.")
         #     msgBox.exec_()

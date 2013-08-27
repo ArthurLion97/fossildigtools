@@ -57,7 +57,7 @@
     <property key="labeling/fontWordSpacing" value="0"/>
     <property key="labeling/formatNumbers" value="false"/>
     <property key="labeling/isExpression" value="false"/>
-    <property key="labeling/labelOffsetInMapUnits" value="true"/>
+    <property key="labeling/labelOffsetInMapUnits" value="false"/>
     <property key="labeling/labelPerPart" value="false"/>
     <property key="labeling/leftDirectionSymbol" value="&lt;"/>
     <property key="labeling/limitNumLabels" value="false"/>
@@ -71,7 +71,7 @@
     <property key="labeling/namedStyle" value="Regular"/>
     <property key="labeling/obstacle" value="true"/>
     <property key="labeling/placeDirectionSymbol" value="0"/>
-    <property key="labeling/placement" value="0"/>
+    <property key="labeling/placement" value="1"/>
     <property key="labeling/placementFlags" value="0"/>
     <property key="labeling/plussign" value="false"/>
     <property key="labeling/preserveRotation" value="true"/>
@@ -139,7 +139,7 @@
   <blendMode>0</blendMode>
   <featureBlendMode>0</featureBlendMode>
   <layerTransparency>0</layerTransparency>
-  <displayfield>pkuid</displayfield>
+  <displayfield>z_order</displayfield>
   <label>0</label>
   <labelattributes>
     <label fieldname="" text="Label"/>
@@ -170,7 +170,7 @@
     <edittype labelontop="0" editable="1" type="5" min="0" step="1" name="depth" max="2000"/>
     <edittype labelontop="0" editable="1" unchecked="0" type="7" checked="1" name="fragment"/>
     <edittype labelontop="0" editable="1" type="0" name="genus"/>
-    <edittype labelontop="0" editable="1" type="0" name="grid"/>
+    <edittype labelontop="0" editable="1" type="2" name="grid"/>
     <edittype labelontop="0" editable="1" type="0" name="identify"/>
     <edittype labelontop="0" editable="1" type="3" name="left_right">
       <valuepair key="" value=""/>
@@ -194,7 +194,7 @@
     </edittype>
     <edittype labelontop="0" editable="1" type="5" min="0" step="1" name="width" max="2000"/>
     <edittype labelontop="0" editable="1" type="5" min="0" step="1" name="with_bone" max="9999"/>
-    <edittype labelontop="0" editable="1" type="5" min="0" step="1" name="z_order" max="0"/>
+    <edittype labelontop="0" editable="1" type="5" min="-2000" step="1" name="z_order" max="2000"/>
   </edittypes>
   <editform>./forms/features.ui</editform>
   <editforminit>forms.features.formOpen</editforminit>
