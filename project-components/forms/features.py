@@ -17,6 +17,7 @@ except ImportError:
     pass
 
 import resources_rc
+from Ui_identify_dlg import Ui_IdentDialog
 
 # during dev of script leave attribute active: will reload module of form open
 DEBUGMODE = True
@@ -34,6 +35,7 @@ with open(os.path.join(IDENTSDIR, 'genus-idents.txt'), 'rb') as f:
     reader = csv.reader(f, delimiter=':', quoting=csv.QUOTE_NONE)
     for row in reader:
         GENUSINDENTS[row[0].strip()] = row[1].strip()
+GENERALIDENT = os.path.join(IDENTSDIR, 'general-ident-vals.txt')
 
 
 class CustomForm(QObject):
@@ -53,12 +55,18 @@ class CustomForm(QObject):
 
         self.pkuidLEdit = self.dlg.findChild(QLineEdit, "pkuid")
         """:type : PyQt4.QtGui.QLineEdit"""
+        self.pkuidLEdit.setVisible(False)
+
+        self.numLEdit = self.dlg.findChild(QLineEdit, "number")
+        """:type : PyQt4.QtGui.QLineEdit"""
         self.genusCmbBx = self.dlg.findChild(QComboBox, "genus")
         """:type : PyQt4.QtGui.QComboBox"""
         self.identCmbBx = self.dlg.findChild(QComboBox, "identify")
         """:type : PyQt4.QtGui.QComboBox"""
         self.identBtn = self.dlg.findChild(QToolButton, "identBtn")
         """:type : PyQt4.QtGui.QToolButton"""
+        # self.identBtnMenu = QMenu(self.dlg)
+        # self.identBtn.setMenu(self.identBtnMenu)
         self.origin = self.dlg.findChild(QLineEdit, "origin")
         """:type : PyQt4.QtGui.QLineEdit"""
 
@@ -85,18 +93,25 @@ class CustomForm(QObject):
         # buttonBox.accepted.connect(validate)
         # buttonBox.rejected.connect(self.dlg.reject)
 
-        self.updateGUI()
+        self.setupGui()
         self.nextPrimaryKey()
         self.populateGenusComboBox()
-        self.populateIdentifyComboBox()  # must come after genus cmbbx populate
+        # must come after genus cmbbx populate
+        self.updateIdentifyListButton()
+        self.populateIdentifyComboBox()
 
         self.setCurrentOrigin()
 
         # post-populate connections
         self.genusCmbBx.currentIndexChanged[int].connect(
-            self.populateIdentifyComboBox)
+            self.updateIdentifyListButton)
 
-    def updateGUI(self):
+        self.identBtn.clicked.connect(self.showIdentSelector)
+
+    def setupGui(self):
+        if not self.layer.isEditable():
+            self.identBtn.setVisible(False)
+            return
         self.identBtn.setIcon(QIcon(':/fdt/icons/bone.svg'))
 
     def nextPrimaryKey(self):
@@ -127,10 +142,13 @@ class CustomForm(QObject):
         self.pkuidLEdit.setText(str(nextId))
         # print "pkuid + addedf + 1: {0}".format(nextId)
 
+        self.numLEdit.setText(str(nextId))
+
     def populateGenusComboBox(self):
+        curtxt = self.genusCmbBx.currentText()
         self.genusCmbBx.clear()
+
         model = self.genusCmbBx.model()
-        self._addModelItem(model, '')
         self._addModelItem(model, 'N/A')
         self._addModelItem(model, 'Unknown')
         self._addModelSeparator(model)
@@ -138,49 +156,94 @@ class CustomForm(QObject):
             self._addModelItem(model, genus, data=ident)
         assert model.rowCount() > 0, 'No rows in genus-ident model'
 
-        self.genusCmbBx.setCurrentIndex(
-            self.genusCmbBx.findText(GENUSPREF))
+        indx = self.genusCmbBx.findText(GENUSPREF)
+        if curtxt:
+            indx = self.genusCmbBx.findText(curtxt)
+        if indx != -1:
+            self.genusCmbBx.setCurrentIndex(indx)
 
     def currentGenusIdent(self):
         return self.genusCmbBx.itemData(self.genusCmbBx.currentIndex())
 
-    @pyqtSlot(int)
-    def populateIdentifyComboBox(self, indx=-1):
-        curtxt = self.identCmbBx.currentText()
-        self.identCmbBx.clear()
+    @pyqtSlot()
+    def updateIdentifyListButton(self):
+        self.identBtn.setEnabled(self.currentGenusIdent() is not None)
 
+    @pyqtSlot()
+    def showIdentSelector(self):
         curindent = self.currentGenusIdent()
         if curindent is None:  # reset any existing attr value
-            self.identCmbBx.lineEdit().setText(curtxt)
             print 'Missing identify file for current genus'
             return
 
         identfile = os.path.join(IDENTSDIR, curindent)
         if not os.path.exists(identfile):
-            if curtxt:  # reset any existing attr value
-                self.identCmbBx.lineEdit().setText(curtxt)
             raise IOError('Missing identify file: ' + identfile)
 
-        model = self.identCmbBx.model()
+        model = QStandardItemModel()
+        title = ''
 
         with open(identfile, 'r') as f:
-            prevwastitle = False
             for line in f:
-                istitle = line.count('###')
-                if istitle:
-                    line = line.replace('###', '')
-                    self._addModelItem(model, line.strip(),
-                                       title=istitle, enabled=False)
-                    prevwastitle = True
+                if line.count('###'):
+                    title = line.replace('###', '').strip()
                     continue
                 isheader = line.count('---')
                 if isheader:
-                    if not prevwastitle:
-                        self._addModelSeparator(model)
                     line = line.replace('---', '')
                 self._addModelItem(model, line.strip(), header=isheader)
-                prevwastitle = False
         assert model.rowCount() > 0, 'No rows in identify model'
+
+        identdlg = QDialog(self.dlg)
+        identdlg.ui = Ui_IdentDialog()
+        identdlg.ui.setupUi(identdlg)
+        identdlg.ui.genusLabel.setText(title)
+        identview = identdlg.ui.identListView
+        """:type: PyQt4.QtGui.QListView"""
+        identview.setModel(model)
+        identview.doubleClicked.connect(identdlg.accept)
+        if identdlg.exec_():
+            ident = model.itemFromIndex(identview.currentIndex())
+            self.identCmbBx.setEditText(ident.text())
+
+    @pyqtSlot(int)
+    def populateIdentifyComboBox(self, indx=-1):
+        curtxt = self.identCmbBx.currentText()
+
+        # add general idents
+        if not os.path.exists(GENERALIDENT):
+            raise IOError('Missing general identify file: ' + GENERALIDENT)
+
+        model = self.identCmbBx.model()
+        """:type: QStandardItemModel"""
+
+        with open(GENERALIDENT, 'r') as f:
+            for line in f:
+                self._addModelItem(model, line.strip())
+        if model.rowCount() > 0:
+            self._addModelSeparator(model)
+
+        identvals = set()
+        indx = self.layer.fieldNameIndex('identify')
+        # get unique values from uncomitted edits
+        eb = self.layer.editBuffer()
+        addedf = eb.addedFeatures() if self.layer.isEditable() else {}
+        # print addedf
+        for f in addedf.itervalues():
+            val = str(f[indx])
+            if val:
+                identvals.add(val)
+
+        # get unique values for existing ident vals
+
+        vals = set(self.layer.dataProvider().uniqueValues(indx))
+        identvals.update(vals)
+        # print sorted(list(identvals)).__repr__()
+
+        for val in sorted(list(identvals), key=lambda s: s.lower()):
+            val = val.strip()
+            if val and val != 'None':
+                self._addModelItem(model, val.strip())
 
         if curtxt:  # reset any existing attr value
             self.identCmbBx.lineEdit().setText(curtxt)
@@ -220,7 +283,7 @@ class CustomForm(QObject):
     def setCurrentOrigin(self):
         if self.fdtwidget is None:
             return
-        print 'setCurrentOrigin entered'
+        # print 'setCurrentOrigin entered'
         orgf = self.fdtwidget.current_origin_feat()
         orgname = orgf['name']
         self.origin.setText(orgname)
