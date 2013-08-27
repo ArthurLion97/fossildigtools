@@ -334,9 +334,9 @@ class CustomForm(QObject):
         sql = 'SELECT "seq" FROM "sqlite_sequence"' \
               'WHERE name = "{0}"'.format(ds.table())
         rs = cur.execute(sql)
-        if not rs:
-            return
-        pkuid = list(rs)[0][0]
+        pkuid = 0
+        if list(rs):
+            pkuid = list(rs)[0][0]
         # print "pkuid: {0}".format(pkuid)
 
         eb = self.layer.editBuffer()
@@ -383,7 +383,7 @@ class CustomForm(QObject):
             return
         zlist = self.uniqueAllValsSorted('z_order')
         # print 'zlist: ' + zlist.__repr__()
-        maxval = max(map(int, zlist))
+        maxval = 0 if not zlist else max(map(int, zlist))
         self.zOrderSpnBx.setValue(maxval + 1)
 
     def setDateTimes(self):
