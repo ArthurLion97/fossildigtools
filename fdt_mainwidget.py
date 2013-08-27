@@ -307,13 +307,14 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         if feats:
             self.delete_features(layerid, feats)
 
-    def circle_geometry(self, pt, radius=0, segments=0, mapunits=True):
+    def circle_geometry(self, pt, radius=0, segments=0, mapunits=False):
         """
         Draw a circle at a canvas point
 
         :type pt: qgis.core.QgsPoint
         :param pt: canvas point, in layer crs
-        :param radius: cicle radius, considered in mm
+        :type radius: float
+        :param radius: cicle radius, considered in layer map units
         :type segments: int
         :param segments: number of segments usually divisible by 8, e.g. 32
         :type mapunits: bool
@@ -321,10 +322,10 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         :return: QgsGeometry of type QGis.Polygon
         """
         if not radius:
-            radius = self.circleradius  # default of 5 mm for this project
-        if mapunits:
+            radius = self.circleradius  # default of 5 for this project
+        if not mapunits:
             ctx = self.canvas.mapRenderer().rendererContext()
-            # mm (converted to map pixels, then to map units)
+            # as mm (converted to map pixels, then to map units)
             radius *= ctx.scaleFactor() * ctx.mapToPixel().mapUnitsPerPixel()
         if not segments:
             segments = self.circlesegments  # usually divisible by 8, e.g. 32
