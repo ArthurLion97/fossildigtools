@@ -96,3 +96,6 @@ class FossilDigTools:
 
     def toggleDockWidget(self):
         self.dockWidget.setVisible(not self.dockWidget.isVisible())
+
+    def toolsWidget(self):
+        return self.toolswidget
