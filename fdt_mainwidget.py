@@ -1423,6 +1423,81 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
 
         self.delete_all_origin_grids()
 
+    def uniqueExistingVals(self, layer, field):
+        """
+        :type: layer: qgis.core.QgsVectorLayer
+        :type field: str
+        :returns: set of str values
+        """
+        indx = layer.fieldNameIndex(field)
+        vals = layer.dataProvider().uniqueValues(indx)
+        cleanvals = []
+        for v in vals:
+            val = str(v)
+            if val and val != 'None':
+                cleanvals.append(val)
+        identvals = set(cleanvals)
+        # print 'uniqueExistingVals: ' + list(identvals).__repr__()
+        return identvals
+
+    def uniqueUncomittedVals(self, layer, field):
+        """
+        :type: layer: qgis.core.QgsVectorLayer
+        :type field: str
+        :returns: set of str values
+        """
+        if not layer.isEditable():
+            return
+        indx = layer.fieldNameIndex(field)
+        eb = layer.editBuffer()
+
+        # from newly added features
+        addedf = eb.addedFeatures()
+        identvals = set()
+        # print addedf
+        for f in addedf.itervalues():
+            val = str(f[indx])
+            if val:
+                identvals.add(val)
+
+        # from changed values of existing, but edited features
+        # {featureid: {fieldindx: value}}
+        cattrvals = eb.changedAttributeValues()
+        """:type: dict"""
+        # which feature was edited is not important
+        for fmap in cattrvals.itervalues():
+            for i, v in fmap.iteritems():
+                if i == indx and not hasattr(v, 'isNull'):  # nix QPyNullVariant
+                    identvals.add(v)
+
+        # print 'uniqueUncomittedVals: ' + list(identvals).__repr__()
+        return identvals
+
+    def setToSortedList(self, aset):
+        vals = []
+        for val in sorted(list(aset), key=lambda s: s.lower()):
+            val = val.strip()
+            if val and val != 'None':
+                vals.append(val)
+            # print 'setToSortedList: ' + vals.__repr__()
+        return vals
+
+    def uniqueAllValsSorted(self, layer, field):
+        """
+        :type: layer: qgis.core.QgsVectorLayer
+        :type field: str
+        :returns: list of sorted str values
+        """
+        allvals = set()
+        evals = self.uniqueExistingVals(layer, field)
+        if evals is not None:
+            allvals.update(evals)
+        uvals = self.uniqueUncomittedVals(layer, field)
+        if uvals is not None:
+            allvals.update(uvals)
+            # print 'uniqueAllValsSorted: ' + list(allvals).__repr__()
+        return self.setToSortedList(allvals)
+
 
 if __name__ == "__main__":
     pass

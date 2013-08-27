@@ -13,7 +13,7 @@
     <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375476482366" ignored="false" />
     <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377131609601" ignored="false" />
     <file path="/a.xml" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373926347581" ignored="false" />
-    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377563208039" ignored="false" />
+    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377626507773" ignored="false" />
     <file path="/make.sh" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373989914665" ignored="false" />
     <file path="/start_script.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1376426245988" ignored="false" />
     <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377221984456" ignored="false" />
@@ -56,7 +56,7 @@
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/test_qgspallabeling_tests.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377471576009" ignored="false" />
     <file path="/qgis_local_server.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377492193138" ignored="false" />
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/qgis_local_server_spawn/flup_fcgi_client.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377491929955" ignored="false" />
-    <file path="/features.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377626045454" ignored="false" />
+    <file path="/features.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377626581736" ignored="false" />
     <file path="/csv_test.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377528354385" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,19 +77,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="225" column="4" selection-start="8434" selection-end="8711" vertical-scroll-proportion="-6.8965516">
+            <state line="1484" column="27" selection-start="52245" selection-end="52264" vertical-scroll-proportion="0.58431953">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="features.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="features.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="445" column="24" selection-start="15807" selection-end="15807" vertical-scroll-proportion="4.1336584">
+            <state line="194" column="35" selection-start="7270" selection-end="7270" vertical-scroll-proportion="-14.4827585">
               <folding>
                 <element signature="e#1#10#0" expanded="true" />
               </folding>
@@ -146,10 +146,10 @@
         <option value="$PROJECT_DIR$/Makefile" />
         <option value="$USER_HOME$/Dropbox-Personal/Dropbox/QGIS/fossildigtools/DonleyTrics/scratch/csv_test.py" />
         <option value="$USER_HOME$/Dropbox-Personal/Dropbox/QGIS/fossildigtools/DonleyTrics/forms/features.py" />
-        <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
         <option value="$PROJECT_DIR$/project-components/forms/Ui_identify_dlg.py" />
         <option value="$PROJECT_DIR$/fossildigtools.py" />
         <option value="$PROJECT_DIR$/project-components/forms/resources.qrc" />
+        <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
         <option value="$PROJECT_DIR$/project-components/forms/features.py" />
       </list>
     </option>
@@ -521,7 +521,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32698414" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25908828" sideWeight="0.50039905" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923368" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27530748" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27530748" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -663,13 +663,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="225" column="4" selection-start="8434" selection-end="8711" vertical-scroll-proportion="-6.8965516">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scratch/query_test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="26" selection-start="359" selection-end="361" vertical-scroll-proportion="-15.172414">
@@ -697,10 +690,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="445" column="24" selection-start="15807" selection-end="15807" vertical-scroll-proportion="4.1336584">
+        <state line="194" column="35" selection-start="7270" selection-end="7270" vertical-scroll-proportion="-14.4827585">
           <folding>
             <element signature="e#1#10#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1484" column="27" selection-start="52245" selection-end="52264" vertical-scroll-proportion="0.58431953">
+          <folding />
         </state>
       </provider>
     </entry>

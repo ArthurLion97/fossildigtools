@@ -179,77 +179,12 @@ class CustomForm(QObject):
         self.identBtn.setIcon(QIcon(':/fdt/icons/bone.svg'))
         self.wBoneBtn.setIcon(QIcon(':/fdt/icons/bone.svg'))
 
-    def uniqueExistingVals(self, field):
-        """
-        :type field: str
-        :returns: set of str values
-        """
-        indx = self.layer.fieldNameIndex(field)
-        vals = self.layer.dataProvider().uniqueValues(indx)
-        cleanvals = []
-        for v in vals:
-            val = str(v)
-            if val and val != 'None':
-                cleanvals.append(val)
-        identvals = set(cleanvals)
-        # print 'uniqueExistingVals: ' + list(identvals).__repr__()
-        return identvals
-
-    def uniqueUncomittedVals(self, field):
-        """
-        :type field: str
-        :returns: set of str values
-        """
-        if not self.layer.isEditable():
-            return
-        indx = self.layer.fieldNameIndex(field)
-        eb = self.layer.editBuffer()
-
-        # from newly added features
-        addedf = eb.addedFeatures()
-        identvals = set()
-        # print addedf
-        for f in addedf.itervalues():
-            val = str(f[indx])
-            if val:
-                identvals.add(val)
-
-        # from changed values of existing, but edited features
-        # {featureid: {fieldindx: value}}
-        cattrvals = eb.changedAttributeValues()
-        """:type: dict"""
-        # which feature was edited is not important
-        for fmap in cattrvals.itervalues():
-            for i, v in fmap.iteritems():
-                if i == indx and not hasattr(v, 'isNull'):  # nix QPyNullVariant
-                    identvals.add(v)
-
-        # print 'uniqueUncomittedVals: ' + list(identvals).__repr__()
-        return identvals
-
-    def setToSortedList(self, aset):
-        vals = []
-        for val in sorted(list(aset), key=lambda s: s.lower()):
-            val = val.strip()
-            if val and val != 'None':
-                vals.append(val)
-        # print 'setToSortedList: ' + vals.__repr__()
-        return vals
-
     def uniqueAllValsSorted(self, field):
         """
         :type field: str
         :returns: list of sorted str values
         """
-        allvals = set()
-        evals = self.uniqueExistingVals(field)
-        if evals is not None:
-            allvals.update(evals)
-        uvals = self.uniqueUncomittedVals(field)
-        if uvals is not None:
-            allvals.update(uvals)
-        # print 'uniqueAllValsSorted: ' + list(allvals).__repr__()
-        return self.setToSortedList(allvals)
+        return self.fdtwidget.uniqueAllValsSorted(self.layer, field)
 
     def populateUniqueComboBox(self, cmbx, field, topitems=None):
         """
