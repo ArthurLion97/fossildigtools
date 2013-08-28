@@ -1360,6 +1360,46 @@
                 </property>
                </widget>
               </item>
+              <item row="0" column="3">
+               <widget class="QToolButton" name="arrangeToBottomBtn">
+                <property name="toolTip">
+                 <string>Move to bottom</string>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/plugins/fossildigtools/icons/arrange-to-bottom.svg</normaloff>:/plugins/fossildigtools/icons/arrange-to-bottom.svg</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>20</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QToolButton" name="arrangeToTopBtn">
+                <property name="toolTip">
+                 <string>Move to top</string>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/plugins/fossildigtools/icons/arrange-to-top.svg</normaloff>:/plugins/fossildigtools/icons/arrange-to-top.svg</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>20</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="1">
                <widget class="QToolButton" name="arrangeLowerBtn">
                 <property name="toolTip">
@@ -1380,49 +1420,16 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="2">
-               <widget class="QToolButton" name="arrangeToTopBtn">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="toolTip">
-                 <string>Move to top</string>
+              <item row="1" column="0" colspan="4">
+               <widget class="QLabel" name="label_3">
+                <property name="styleSheet">
+                 <string notr="true">QLabel {font-style: italic}</string>
                 </property>
                 <property name="text">
-                 <string>...</string>
+                 <string>Note: changes will be committed</string>
                 </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/fossildigtools/icons/arrange-to-top.svg</normaloff>:/plugins/fossildigtools/icons/arrange-to-top.svg</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>20</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="3">
-               <widget class="QToolButton" name="arrangeToBottomBtn">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="toolTip">
-                 <string>Move to bottom</string>
-                </property>
-                <property name="text">
-                 <string>...</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/fossildigtools/icons/arrange-to-bottom.svg</normaloff>:/plugins/fossildigtools/icons/arrange-to-bottom.svg</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>20</width>
-                  <height>20</height>
-                 </size>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>

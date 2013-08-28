@@ -1249,36 +1249,45 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         :type up: bool
         :type maxi: bool
         """
+        if not self.active_feature_layer():
+            return
         layer = self.feature_layer()
         """:type: qgis.core.QgsVectorLayer"""
-        if self.iface.activeLayer() != layer:
-            # notify user
-            return
         if not layer.isEditable():
-            # notify user
+            self.msg_bar(self.tr("Feature layer is not editable"),
+                         QgsMessageBar.INFO)
             return
 
-        if not maxi:
-            for feat in self.selected_features():
-                z = feat["z_order"]
-                layer.startEditing()
-                feat["z_order"] = int(z) + (1 if up else -1)
-                layer.updateFeature(feat)
-                # layer.commitChanges()
-                layer.setCacheImage(None)
-                layer.triggerRepaint()
-        #
-        # zmin, zmax = 1, 1
-        # if maxi:
-        #     zlist = self.uniqueAllValsSorted(layer, 'z_order')
-        #     # print 'zlist: ' + zlist.__repr__()
-        #     zlist = map(int, zlist)
-        #     zmin = min(zlist)
-        #     zmax = max(zlist)
-        #
-        # d = (zmax if up else -zmin)
+        sel = self.selected_features()
+        if not sel:
+            self.msg_bar(self.tr("Nothing selected"), QgsMessageBar.INFO)
+            return
 
+        # sort by z_order
+        selfeats = sorted(sel, key=lambda x: x['z_order'])
 
+        zm = 0
+        # TODO: make this work for max/min after removal of selected feats' z
+        if maxi:
+            zlist = self.uniqueAllValsSorted(layer, 'z_order')
+            # print 'zlist: ' + zlist.__repr__()
+            if zlist:  # else may be first feature
+                zlist = map(int, zlist)
+                zm = max(zlist) if up else min(zlist)
+
+        # if to-top/-bottom add/subtract enumeration from max/min
+        selen = len(selfeats)
+        for i, feat in enumerate(selfeats):
+            k = i + 1 if up else selen - i
+            z = zm if zm else int(feat["z_order"])
+            d = 1 if not maxi else k
+            feat["z_order"] = z + (d if up else -d)
+            layer.updateFeature(feat)
+            layer.commitChanges()
+            layer.setCacheImage(None)
+            layer.triggerRepaint()
+            # leave editable for further ordering
+            layer.startEditing()
 
     @pyqtSlot()
     def on_arrangeRaiseBtn_clicked(self):
