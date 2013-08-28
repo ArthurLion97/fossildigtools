@@ -137,6 +137,8 @@ class CustomForm(QObject):
         self.setupGui()
 
         # post-populate connections
+        self.numLockBtn.toggled.connect(self._toggleNumLEdit)
+
         self.genusCmbBx.currentIndexChanged[int].connect(
             self.updateIdentifyListButton)
 
@@ -406,9 +408,6 @@ class CustomForm(QObject):
             self.addLEdit.setText(stamp)
         self.modLEdit.setText(stamp)
 
-    def _isNull(self, txt):
-        return txt.lower().strip() == 'null'
-
     def validate(self):
         self.dlg.accept()
         # # Make sure that the name field isn't empty.
@@ -419,6 +418,15 @@ class CustomForm(QObject):
         # else:
         #     # Return the form as accpeted to QGIS.
         #     self.dlg.accept()
+
+    @pyqtSlot(bool)
+    def _toggleNumLEdit(self, chkd):
+        icon = QIcon(':/fdt/icons/{0}locked.svg'.format('un' if chkd else ''))
+        self.numLockBtn.setIcon(icon)
+        self.numLEdit.setEnabled(chkd)
+
+    def _isNull(self, txt):
+        return txt.lower().strip() == 'null'
 
     def _getControl(self, name, control_type=QWidget):
         """

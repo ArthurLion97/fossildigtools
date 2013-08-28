@@ -160,12 +160,18 @@
                  </item>
                  <item>
                   <widget class="QToolButton" name="numLockBtn">
+                   <property name="styleSheet">
+                    <string notr="true">QToolButton { background-color: rgba(255, 255, 255, 0) }</string>
+                   </property>
                    <property name="text">
                     <string/>
                    </property>
                    <property name="icon">
                     <iconset resource="resources.qrc">
                      <normaloff>:/fdt/icons/locked.svg</normaloff>:/fdt/icons/locked.svg</iconset>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>

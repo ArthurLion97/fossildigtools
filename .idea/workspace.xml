@@ -56,7 +56,7 @@
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/test_qgspallabeling_tests.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377471576009" ignored="false" />
     <file path="/qgis_local_server.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377492193138" ignored="false" />
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/qgis_local_server_spawn/flup_fcgi_client.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377491929955" ignored="false" />
-    <file path="/features.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377661974285" ignored="false" />
+    <file path="/features.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377662602903" ignored="false" />
     <file path="/csv_test.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377528354385" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,10 +77,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1104" column="71" selection-start="39080" selection-end="39093" vertical-scroll-proportion="-10.103448">
+            <state line="1106" column="33" selection-start="39156" selection-end="39156" vertical-scroll-proportion="0.38522726">
               <folding />
             </state>
           </provider>
@@ -104,10 +104,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="features.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="features.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="156" column="29" selection-start="5785" selection-end="5785" vertical-scroll-proportion="0.7647727">
+            <state line="429" column="0" selection-start="14930" selection-end="14930" vertical-scroll-proportion="-16.068966">
               <folding />
             </state>
           </provider>
@@ -666,13 +666,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1104" column="71" selection-start="39080" selection-end="39093" vertical-scroll-proportion="-10.103448">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fossildigtools.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="104" column="0" selection-start="3901" selection-end="3901" vertical-scroll-proportion="0.0">
@@ -689,7 +682,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="29" selection-start="5785" selection-end="5785" vertical-scroll-proportion="0.7647727">
+        <state line="429" column="0" selection-start="14930" selection-end="14930" vertical-scroll-proportion="-16.068966">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1106" column="33" selection-start="39156" selection-end="39156" vertical-scroll-proportion="0.38522726">
           <folding />
         </state>
       </provider>
