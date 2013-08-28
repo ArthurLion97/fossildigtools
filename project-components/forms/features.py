@@ -68,69 +68,69 @@ class CustomForm(QObject):
             pass
 
         # Identification tab
-        self.numLEdit = self.dlg.findChild(QLineEdit, "number")
+        self.numLEdit = self._getControl("number")
         """:type : PyQt4.QtGui.QLineEdit"""
-        self.numLockBtn = self.dlg.findChild(QPushButton, "numLockBtn")
-        """:type : PyQt4.QtGui.QPushButton"""
-        self.pkLEdit = self.dlg.findChild(QLineEdit, "pkuid")
-        """:type : PyQt4.QtGui.QLineEdit"""
-        self.blockIdCmbBx = self.dlg.findChild(QComboBox, "block_id")
-        """:type : PyQt4.QtGui.QComboBox"""
-        self.genusCmbBx = self.dlg.findChild(QComboBox, "genus")
-        """:type : PyQt4.QtGui.QComboBox"""
-        self.identCmbBx = self.dlg.findChild(QComboBox, "identify")
-        """:type : PyQt4.QtGui.QComboBox"""
-        self.identBtn = self.dlg.findChild(QToolButton, "identBtn")
+        self.numLockBtn = self._getControl("numLockBtn")
         """:type : PyQt4.QtGui.QToolButton"""
-        self.lrCmbBx = self.dlg.findChild(QComboBox, "left_right")
+        self.pkLEdit = self._getControl("pkuid")
+        """:type : PyQt4.QtGui.QLineEdit"""
+        self.blockIdCmbBx = self._getControl("block_id")
         """:type : PyQt4.QtGui.QComboBox"""
-        self.fragChkBx = self.dlg.findChild(QCheckBox, "fragment")
+        self.genusCmbBx = self._getControl("genus")
+        """:type : PyQt4.QtGui.QComboBox"""
+        self.identCmbBx = self._getControl("identify")
+        """:type : PyQt4.QtGui.QComboBox"""
+        self.identBtn = self._getControl("identBtn")
+        """:type : PyQt4.QtGui.QToolButton"""
+        self.lrCmbBx = self._getControl("left_right")
+        """:type : PyQt4.QtGui.QComboBox"""
+        self.fragChkBx = self._getControl("fragment")
         """:type : PyQt4.QtGui.QCheckBox"""
-        self.wBoneSpnBx = self.dlg.findChild(QSpinBox, "with_bone")
+        self.wBoneSpnBx = self._getControl("with_bone")
         """:type : PyQt4.QtGui.QSpinBox"""
-        self.wBoneBtn = self.dlg.findChild(QToolButton, "withBoneBtn")
+        self.wBoneBtn = self._getControl("withBoneBtn")
         """:type : PyQt4.QtGui.QToolButton"""
-        self.ontgyCmbBx = self.dlg.findChild(QComboBox, "ontogeny")
+        self.ontgyCmbBx = self._getControl("ontogeny")
         """:type : PyQt4.QtGui.QComboBox"""
 
         # Attributes tab
-        self.origNameLEdit = self.dlg.findChild(QLineEdit, "originName")
+        self.origNameLEdit = self._getControl("originName")
         """:type : PyQt4.QtGui.QLineEdit"""
-        self.origLEdit = self.dlg.findChild(QLineEdit, "origin")
+        self.origLEdit = self._getControl("origin")
         """:type : PyQt4.QtGui.QLineEdit"""
-        self.gridCmbBx = self.dlg.findChild(QComboBox, "grid")
+        self.gridCmbBx = self._getControl("grid")
         """:type : PyQt4.QtGui.QComboBox"""
-        self.zOrderSpnBx = self.dlg.findChild(QSpinBox, "z_order")
+        self.zOrderSpnBx = self._getControl("z_order")
         """:type : PyQt4.QtGui.QSpinBox"""
-        self.assocChkBx = self.dlg.findChild(QCheckBox, "associated")
+        self.assocChkBx = self._getControl("associated")
         """:type : PyQt4.QtGui.QCheckBox"""
-        self.complSpnBx = self.dlg.findChild(QSpinBox, "percent")
+        self.complSpnBx = self._getControl("percent")
         """:type : PyQt4.QtGui.QSpinBox"""
-        self.countsChkBx = self.dlg.findChild(QCheckBox, "counts")
+        self.countsChkBx = self._getControl("counts")
         """:type : PyQt4.QtGui.QCheckBox"""
-        self.prsrvCmbBx = self.dlg.findChild(QComboBox, "preservation")
+        self.prsrvCmbBx = self._getControl("preservation")
         """:type : PyQt4.QtGui.QComboBox"""
-        self.lenDSpnBx = self.dlg.findChild(QDoubleSpinBox, "length")
+        self.lenDSpnBx = self._getControl("length")
         """:type : PyQt4.QtGui.QDoubleSpinBox"""
-        self.wdthDSpnBx = self.dlg.findChild(QDoubleSpinBox, "width")
+        self.wdthDSpnBx = self._getControl("width")
         """:type : PyQt4.QtGui.QDoubleSpinBox"""
-        self.dpthDSpnBx = self.dlg.findChild(QDoubleSpinBox, "depth")
+        self.dpthDSpnBx = self._getControl("depth")
         """:type : PyQt4.QtGui.QDoubleSpinBox"""
-        self.unitsCmbBx = self.dlg.findChild(QComboBox, "units")
+        self.unitsCmbBx = self._getControl("units")
         """:type : PyQt4.QtGui.QComboBox"""
 
         # Notes tab
-        self.notesPTEdit = self.dlg.findChild(QPlainTextEdit, "notes")
+        self.notesPTEdit = self._getControl("notes")
         """:type : PyQt4.QtGui.QPlainTextEdit"""
-        self.pkgCmbBx = self.dlg.findChild(QComboBox, "packaging")
+        self.pkgCmbBx = self._getControl("packaging")
         """:type : PyQt4.QtGui.QComboBox"""
-        self.addLEdit = self.dlg.findChild(QLineEdit, "added")
+        self.addLEdit = self._getControl("added")
         """:type : PyQt4.QtGui.QLineEdit"""
-        self.modLEdit = self.dlg.findChild(QLineEdit, "modified")
+        self.modLEdit = self._getControl("modified")
         """:type : PyQt4.QtGui.QLineEdit"""
 
         # bogart button box connections for custom slots
-        self.buttonBox = self.dlg.findChild(QDialogButtonBox, "buttonBox")
+        self.buttonBox = self._getControl("buttonBox")
         """:type : PyQt4.QtGui.QDialogButtonBox"""
 
         self.setupGui()
@@ -215,7 +215,7 @@ class CustomForm(QObject):
             (self.pkgCmbBx, 'packaging', None)
         ]
         for c in cmbxs:
-            self.populateUniqueComboBox(c[0], c[1], c[2])
+            self.populateUniqueComboBox(*c)
 
     def populateGenusComboBox(self):
         curtxt = self.genusCmbBx.currentText()
@@ -412,10 +412,16 @@ class CustomForm(QObject):
         #     # Return the form as accpeted to QGIS.
         #     self.dlg.accept()
 
+    def _getControl(self, name, control_type=QWidget):
+        """
+        Return a control from the dialog using its name
+        """
+        return self.dlg.findChild(control_type, name)
+
 
 def formOpen(dialog, layer, featureid):
-    global cf  # have to raise the scope so dialog's widget signals can connect
-    cf = CustomForm(dialog, layer, featureid)
-    dialog.destroyed.connect(cf.deleteLater)
+    # global cf  # have to raise the scope so dialog's widget signals can connect
+    return CustomForm(dialog, layer, featureid)
+    # dialog.destroyed.connect(cf.deleteLater)
 
 

@@ -10,10 +10,10 @@
     </list>
     <ignored path="fossildigtools.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375476482366" ignored="false" />
+    <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377648835040" ignored="false" />
     <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377131609601" ignored="false" />
     <file path="/a.xml" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373926347581" ignored="false" />
-    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377629219510" ignored="false" />
+    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377660090449" ignored="false" />
     <file path="/make.sh" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373989914665" ignored="false" />
     <file path="/start_script.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1376426245988" ignored="false" />
     <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377221984456" ignored="false" />
@@ -56,9 +56,8 @@
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/test_qgspallabeling_tests.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377471576009" ignored="false" />
     <file path="/qgis_local_server.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377492193138" ignored="false" />
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/qgis_local_server_spawn/flup_fcgi_client.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377491929955" ignored="false" />
-    <file path="/features.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377646578852" ignored="false" />
+    <file path="/features.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377656813480" ignored="false" />
     <file path="/csv_test.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377528354385" ignored="false" />
-    <file path="$PROJECT_DIR$/ui/Ui_fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377631220840" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,10 +77,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1382" column="15" selection-start="48523" selection-end="48523" vertical-scroll-proportion="0.0">
+            <state line="1272" column="50" selection-start="45242" selection-end="45242" vertical-scroll-proportion="0.37272727">
               <folding />
             </state>
           </provider>
@@ -96,10 +95,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="features.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="features.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="337" column="20" selection-start="12301" selection-end="12301" vertical-scroll-proportion="0.6072607">
+            <state line="213" column="52" selection-start="7531" selection-end="7531" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -137,8 +136,8 @@
         <option value="$PROJECT_DIR$/project-components/forms/Ui_identify_dlg.py" />
         <option value="$PROJECT_DIR$/fossildigtools.py" />
         <option value="$PROJECT_DIR$/project-components/forms/resources.qrc" />
-        <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
         <option value="$PROJECT_DIR$/project-components/forms/features.py" />
+        <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
       </list>
     </option>
   </component>
@@ -290,7 +289,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="188" />
     <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Dropbox-Personal/Dropbox/QGIS/fossildigtools/DonleyTrics/forms" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../freehandEditing" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="205" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1113" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1113" />
@@ -500,18 +499,18 @@
     <frame x="4" y="22" width="2556" height="1418" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1006" y="630" width="708" height="281" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32784313" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17651758" sideWeight="0.72552043" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20118026" sideWeight="0.7246925" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20087859" sideWeight="0.72552043" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32698414" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25908828" sideWeight="0.50039905" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923368" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27447957" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1006" y="630" width="708" height="281" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32690826" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -613,12 +612,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/resources.qrc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="44" selection-start="213" selection-end="213" vertical-scroll-proportion="0.12679163" />
+        <state line="5" column="44" selection-start="213" selection-end="213" vertical-scroll-proportion="0.12679163">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/PyQt4/QtGui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22205" column="12" selection-start="851853" selection-end="851853" vertical-scroll-proportion="0.60375494" />
+        <state line="22205" column="12" selection-start="851853" selection-end="851853" vertical-scroll-proportion="0.60375494">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fossildigtools.py">
@@ -661,21 +664,21 @@
     </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/qgis/core.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10536" column="8" selection-start="410703" selection-end="410703" vertical-scroll-proportion="8.432907">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1382" column="15" selection-start="48523" selection-end="48523" vertical-scroll-proportion="0.0">
+        <state line="22086" column="20" selection-start="878965" selection-end="878965" vertical-scroll-proportion="0.1015625">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="337" column="20" selection-start="12301" selection-end="12301" vertical-scroll-proportion="0.6072607">
+        <state line="213" column="52" selection-start="7531" selection-end="7531" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1272" column="50" selection-start="45242" selection-end="45242" vertical-scroll-proportion="0.37272727">
           <folding />
         </state>
       </provider>
