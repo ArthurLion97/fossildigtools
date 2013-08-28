@@ -131,6 +131,16 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         # refresh may be caused by applying app options dialog
         self.canvas.mapCanvasRefreshed.connect(self.update_feature_form_icon)
 
+        # for now, disable offset pins
+        offseton = False
+        self.offsetPinIconLabel.setVisible(offseton)
+        self.offsetPinLabel.setVisible(offseton)
+        self.offsetPinList.setVisible(offseton)
+        self.offsetPinAddBtn.setVisible(offseton)
+        self.offsetPinEditFrame.setVisible(offseton)
+
+        self.distToLocationAct.setVisible(offseton)
+
     def pydev(self):
         if not PVDEV:
             return
