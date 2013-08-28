@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
+    <width>460</width>
     <height>332</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>460</width>
+    <height>320</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Feature Attributes</string>
@@ -36,7 +42,16 @@
        <string>Identification</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -52,8 +67,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>440</width>
-            <height>255</height>
+            <width>442</width>
+            <height>249</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -144,22 +159,13 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="numLockBtn">
-                   <property name="maximumSize">
-                    <size>
-                     <width>20</width>
-                     <height>20</height>
-                    </size>
-                   </property>
+                  <widget class="QToolButton" name="numLockBtn">
                    <property name="text">
                     <string/>
                    </property>
                    <property name="icon">
                     <iconset resource="resources.qrc">
                      <normaloff>:/fdt/icons/locked.svg</normaloff>:/fdt/icons/locked.svg</iconset>
-                   </property>
-                   <property name="flat">
-                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -459,11 +465,23 @@
        <string>Attributes</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
         <widget class="QScrollArea" name="scrollArea_2">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -472,8 +490,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>438</width>
-            <height>253</height>
+            <width>442</width>
+            <height>249</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -802,7 +820,16 @@
        <string>Notes</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_6">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -818,8 +845,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>440</width>
-            <height>255</height>
+            <width>442</width>
+            <height>249</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_7">
