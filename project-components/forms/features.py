@@ -58,14 +58,15 @@ class CustomForm(QObject):
         self.iface = utils.iface
         """:type : qgis.gui.QgisInterface"""
 
-        # self.fdtwidget = \
-        #     self.iface.mainWindow().findChild(QWidget, "FDT_MainWidget")
         self.fdtwidget = None
+        self.settings = None
         try:
             self.fdtwidget = utils.plugins['fossildigtools'].toolsWidget()
             """:type : fdt_mainwidget.FdtMainWidget"""
+            self.settings = utils.plugins['fossildigtools'].pluginSettings()
+            """:type : PyQt4.QtCore.QSettings"""
         except:
-            pass
+            raise Exception('Fossil Dig Tools plugin not active')
 
         # Identification tab
         self.numLEdit = self._getControl("number")
@@ -141,12 +142,19 @@ class CustomForm(QObject):
 
         self.identBtn.clicked.connect(self.showIdentSelector)
 
-        # disconnect signal QGIS has wired up for the dialog to the button box
+        # # disconnect signal QGIS has wired up for the dialog to the button box
         # self.buttonBox.accepted.disconnect(self.dlg.accept)
         #
-        # wire up our own signals
-        # self.buttonBox.accepted.connect(validate)
-        # self.buttonBox.rejected.connect(self.dlg.reject)
+        # # wire up our own signals
+        # self.buttonBox.accepted.connect(self.dialogAccept)
+        # self.buttonBox.rejected.connect(self.dialogReject)
+
+        self.dlg.accepted.connect(self._saveGeometry)
+        self.dlg.rejected.connect(self._saveGeometry)
+        self.dlg.restoreGeometry(self.settings.value(
+            "/featForm/geometry",
+            QByteArray(),
+            type=QByteArray))
 
     def setupGui(self):
         self.nextPrimaryKey()
@@ -417,6 +425,10 @@ class CustomForm(QObject):
         Return a control from the dialog using its name
         """
         return self.dlg.findChild(control_type, name)
+
+    @pyqtSlot()
+    def _saveGeometry(self):
+        self.settings.setValue("/featForm/geometry", self.dlg.saveGeometry())
 
 
 def formOpen(dialog, layer, featureid):

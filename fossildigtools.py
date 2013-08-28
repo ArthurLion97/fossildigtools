@@ -99,3 +99,6 @@ class FossilDigTools:
 
     def toolsWidget(self):
         return self.toolswidget
+
+    def pluginSettings(self):
+        return self.settings

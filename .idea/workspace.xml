@@ -13,14 +13,14 @@
     <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377648835040" ignored="false" />
     <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377131609601" ignored="false" />
     <file path="/a.xml" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373926347581" ignored="false" />
-    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377660090449" ignored="false" />
+    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377660794389" ignored="false" />
     <file path="/make.sh" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373989914665" ignored="false" />
     <file path="/start_script.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1376426245988" ignored="false" />
     <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377221984456" ignored="false" />
     <file path="/fdt_settingsdlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377221976095" ignored="false" />
     <file path="/Python Console" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377623985871" ignored="false" />
     <file path="/fragment.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374019870912" ignored="false" />
-    <file path="/fossildigtools.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377571256739" ignored="false" />
+    <file path="/fossildigtools.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377661056917" ignored="false" />
     <file path="/query.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1374438901527" ignored="false" />
     <file path="/resources.qrc" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377605356268" ignored="false" />
     <file path="/Makefile" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377362433690" ignored="false" />
@@ -56,7 +56,7 @@
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/test_qgspallabeling_tests.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377471576009" ignored="false" />
     <file path="/qgis_local_server.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377492193138" ignored="false" />
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/qgis_local_server_spawn/flup_fcgi_client.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377491929955" ignored="false" />
-    <file path="/features.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377656813480" ignored="false" />
+    <file path="/features.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377661974285" ignored="false" />
     <file path="/csv_test.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377528354385" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,10 +77,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1272" column="50" selection-start="45242" selection-end="45242" vertical-scroll-proportion="0.37272727">
+            <state line="1104" column="71" selection-start="39080" selection-end="39093" vertical-scroll-proportion="-10.103448">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fossildigtools.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fossildigtools.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="104" column="0" selection-start="3901" selection-end="3901" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -89,16 +98,16 @@
       <file leaf-file-name="fdt_pindlg.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="142" column="8" selection-start="5308" selection-end="6422" vertical-scroll-proportion="0.0">
+            <state line="64" column="8" selection-start="2629" selection-end="2763" vertical-scroll-proportion="-14.862069">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="features.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="features.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="213" column="52" selection-start="7531" selection-end="7531" vertical-scroll-proportion="0.0">
+            <state line="156" column="29" selection-start="5785" selection-end="5785" vertical-scroll-proportion="0.7647727">
               <folding />
             </state>
           </provider>
@@ -134,10 +143,10 @@
         <option value="$USER_HOME$/Dropbox-Personal/Dropbox/QGIS/fossildigtools/DonleyTrics/scratch/csv_test.py" />
         <option value="$USER_HOME$/Dropbox-Personal/Dropbox/QGIS/fossildigtools/DonleyTrics/forms/features.py" />
         <option value="$PROJECT_DIR$/project-components/forms/Ui_identify_dlg.py" />
-        <option value="$PROJECT_DIR$/fossildigtools.py" />
         <option value="$PROJECT_DIR$/project-components/forms/resources.qrc" />
-        <option value="$PROJECT_DIR$/project-components/forms/features.py" />
         <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
+        <option value="$PROJECT_DIR$/fossildigtools.py" />
+        <option value="$PROJECT_DIR$/project-components/forms/features.py" />
       </list>
     </option>
   </component>
@@ -624,11 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fossildigtools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="13" selection-start="2800" selection-end="2800" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/__builtin__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="397" column="4" selection-start="11816" selection-end="11816" vertical-scroll-proportion="0.33268294">
@@ -655,13 +659,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="8" selection-start="5308" selection-end="6422" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/qgis/core.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22086" column="20" selection-start="878965" selection-end="878965" vertical-scroll-proportion="0.1015625">
@@ -669,16 +666,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
+    <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="213" column="52" selection-start="7531" selection-end="7531" vertical-scroll-proportion="0.0">
+        <state line="1104" column="71" selection-start="39080" selection-end="39093" vertical-scroll-proportion="-10.103448">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
+    <entry file="file://$PROJECT_DIR$/fossildigtools.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1272" column="50" selection-start="45242" selection-end="45242" vertical-scroll-proportion="0.37272727">
+        <state line="104" column="0" selection-start="3901" selection-end="3901" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fdt_pindlg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="8" selection-start="2629" selection-end="2763" vertical-scroll-proportion="-14.862069">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="29" selection-start="5785" selection-end="5785" vertical-scroll-proportion="0.7647727">
           <folding />
         </state>
       </provider>
