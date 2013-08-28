@@ -128,6 +128,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.featformopensetting = \
             "/qgis/digitizing/disable_enter_attribute_values_dialog"
         self.toggle_feature_form_icon(self.feat_form_setting())
+        # refresh may be caused by applying app options dialog
         self.canvas.mapCanvasRefreshed.connect(self.update_feature_form_icon)
 
     def pydev(self):

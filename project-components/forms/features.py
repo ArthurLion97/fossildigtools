@@ -2,12 +2,10 @@
 import os
 import sys
 import csv
-# import inspect
 from datetime import datetime
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from sip import *
 from qgis.core import *
 import qgis.utils as utils
 from pyspatialite import dbapi2 as db
