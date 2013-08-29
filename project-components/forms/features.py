@@ -376,8 +376,8 @@ class CustomForm(QObject):
             return
         # print 'setCurrentOrigin entered'
         orgf = self.fdtwidget.current_origin_feat()
-        orgname = orgf['name']
-        self.origNameLEdit.setText(orgname)
+        self.origLEdit.setText(str(orgf['pkuid']))
+        self.origNameLEdit.setText(str(orgf['name']))
 
     def populateGridComboBox(self):
         curtxt = self.gridCmbBx.currentText()
