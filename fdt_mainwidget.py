@@ -85,7 +85,7 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         self.tb.setFocusPolicy(Qt.NoFocus)
         self.tb.setContextMenuPolicy(Qt.DefaultContextMenu)
         self.tb.setLayoutDirection(Qt.LeftToRight)
-        self.tb.setIconSize(QSize(20, 20))
+        self.tb.setIconSize(QSize(24, 24))
         self.toolBarFrameLayout.addWidget(self.tb)
 
         self.setup_toolbar()
