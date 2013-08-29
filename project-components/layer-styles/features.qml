@@ -1,11 +1,15 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
 <qgis version="1.9.0-Master" minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
-  <renderer-v2 symbollevels="0" type="singleSymbol">
+  <renderer-v2 symbollevels="0" type="RuleRenderer">
+    <rules>
+      <rule filter=" &quot;identify&quot;    !=  'Block'" symbol="0" label="Bone"/>
+      <rule filter=" &quot;identify&quot;   =  'Block'" symbol="1" label="Block"/>
+    </rules>
     <symbols>
-      <symbol alpha="1" type="fill" name="0">
+      <symbol alpha="0.690196" type="fill" name="0">
         <layer pass="0" class="SimpleFill" locked="0">
           <prop k="border_width_unit" v="MM"/>
-          <prop k="color" v="214,216,87,255"/>
+          <prop k="color" v="189,177,107,255"/>
           <prop k="color_border" v="0,0,0,255"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
@@ -14,9 +18,19 @@
           <prop k="width_border" v="0.26"/>
         </layer>
       </symbol>
+      <symbol alpha="0.4" type="fill" name="1">
+        <layer pass="0" class="SimpleFill" locked="0">
+          <prop k="border_width_unit" v="MM"/>
+          <prop k="color" v="255,240,180,255"/>
+          <prop k="color_border" v="0,0,0,255"/>
+          <prop k="offset" v="0,0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="style" v="solid"/>
+          <prop k="style_border" v="solid"/>
+          <prop k="width_border" v="0.5"/>
+        </layer>
+      </symbol>
     </symbols>
-    <rotation field=""/>
-    <sizescale field="" scalemethod="area"/>
   </renderer-v2>
   <customproperties>
     <property key="labeling" value="pal"/>
@@ -40,7 +54,7 @@
     <property key="labeling/dist" value="0"/>
     <property key="labeling/distInMapUnits" value="false"/>
     <property key="labeling/enabled" value="true"/>
-    <property key="labeling/fieldName" value="number"/>
+    <property key="labeling/fieldName" value="z_order"/>
     <property key="labeling/fontBold" value="false"/>
     <property key="labeling/fontCapitals" value="0"/>
     <property key="labeling/fontFamily" value="Lucida Grande"/>
@@ -162,6 +176,7 @@
     <selectedonly on=""/>
   </labelattributes>
   <edittypes>
+    <edittype labelontop="0" editable="1" type="0" name="ROWID"/>
     <edittype labelontop="0" editable="1" type="0" name="added"/>
     <edittype labelontop="0" editable="1" unchecked="0" type="7" checked="1" name="associated"/>
     <edittype labelontop="0" editable="1" type="0" name="block_id"/>
@@ -201,7 +216,7 @@
   <annotationform>.</annotationform>
   <editorlayout>uifilelayout</editorlayout>
   <aliases>
-    <alias field="pkuid" index="0" name=""/>
+    <alias field="pkuid" index="1" name=""/>
   </aliases>
   <excludeAttributesWMS/>
   <excludeAttributesWFS/>

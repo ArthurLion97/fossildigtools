@@ -239,7 +239,7 @@ class CustomForm(QObject):
         assert model.rowCount() > 0, 'No rows in genus-ident model'
 
         indx = self.genusCmbBx.findText(GENUSPREF)
-        if curtxt and not self._isNull(curtxt):
+        if not self._isEmptyOrNull(curtxt):
             indx = self.genusCmbBx.findText(curtxt)
         if indx != -1:
             self.genusCmbBx.setCurrentIndex(indx)
@@ -402,7 +402,7 @@ class CustomForm(QObject):
         now = now.replace(microsecond=0)
         stamp = now.isoformat(' ')
 
-        if self._isNull(self.addLEdit.text()):
+        if self._isEmptyOrNull(self.addLEdit.text()):
             self.addLEdit.setText(stamp)
         self.modLEdit.setText(stamp)
 
@@ -423,8 +423,8 @@ class CustomForm(QObject):
         self.numLockBtn.setIcon(icon)
         self.numLEdit.setEnabled(chkd)
 
-    def _isNull(self, txt):
-        return txt.lower().strip() == 'null'
+    def _isEmptyOrNull(self, txt):
+        return not txt or txt.lower().strip() == 'null'
 
     def _getControl(self, name, control_type=QWidget):
         """
