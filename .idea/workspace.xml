@@ -13,7 +13,7 @@
     <file path="/Dummy.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377705153702" ignored="false" />
     <file path="/a.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377131609601" ignored="false" />
     <file path="/a.xml" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373926347581" ignored="false" />
-    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377663930037" ignored="false" />
+    <file path="/fdt_mainwidget.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377751331450" ignored="false" />
     <file path="/make.sh" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1373989914665" ignored="false" />
     <file path="/start_script.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1376426245988" ignored="false" />
     <file path="/fdt_pindlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377221984456" ignored="false" />
@@ -25,13 +25,13 @@
     <file path="/resources.qrc" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377605356268" ignored="false" />
     <file path="/Makefile" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377362433690" ignored="false" />
     <file path="/fdt_geomagdlg.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377229142568" ignored="false" />
-    <file path="/freehandediting.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375149855703" ignored="false" />
-    <file path="$PROJECT_DIR$/../freehandEditing/freehandediting.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375389989346" ignored="false" />
-    <file path="$PROJECT_DIR$/../freehandEditing/freehandeditingtool.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375396095276" ignored="false" />
-    <file path="$PROJECT_DIR$/../freehandEditing/metadata.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375396619085" ignored="false" />
-    <file path="/metadata.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375396619085" ignored="false" />
-    <file path="/freehandeditingtool.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375396086308" ignored="false" />
-    <file path="/sketch.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377723183556" ignored="false" />
+    <file path="/freehandediting.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377746880925" ignored="false" />
+    <file path="$PROJECT_DIR$/../freehandEditing/freehandediting.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377747587692" ignored="false" />
+    <file path="$PROJECT_DIR$/../freehandEditing/freehandeditingtool.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377750000238" ignored="false" />
+    <file path="$PROJECT_DIR$/../freehandEditing/metadata.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377750277254" ignored="false" />
+    <file path="/metadata.txt" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377750239631" ignored="false" />
+    <file path="/freehandeditingtool.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377747024426" ignored="false" />
+    <file path="/sketch.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377744952824" ignored="false" />
     <file path="/Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/ui/__init__.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375485040456" ignored="false" />
     <file path="/Volumes/Build_Scratch/qgis-github/output/python/plugins/db_manager/ui/ui_DlgCreateTable.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375485040456" ignored="false" />
     <file path="/dlg_create_table.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1375509253127" ignored="false" />
@@ -52,7 +52,7 @@
     <file path="/a.dummy" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377722702158" ignored="false" />
     <file path="/fdt_utils.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377228806979" ignored="false" />
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/utilities.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377471576009" ignored="false" />
-    <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/qgis_local_server.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377492239191" ignored="false" />
+    <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/qgis_local_server.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377751168887" ignored="false" />
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/test_qgspallabeling_tests.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377471576009" ignored="false" />
     <file path="/qgis_local_server.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377492193138" ignored="false" />
     <file path="$PROJECT_DIR$/../../github.com/Quantum-GIS/tests/src/python/qgis_local_server_spawn/flup_fcgi_client.py" changelist="9ebe4c01-3712-4255-8951-2984b107c88b" time="1377491929955" ignored="false" />
@@ -77,10 +77,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="fdt_mainwidget.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1514" column="49" selection-start="53367" selection-end="53367" vertical-scroll-proportion="0.20307444">
+            <state line="1521" column="73" selection-start="53606" selection-end="53619" vertical-scroll-proportion="-12.620689">
               <folding>
                 <element signature="e#1117#1127#0" expanded="true" />
               </folding>
@@ -109,17 +109,19 @@
       <file leaf-file-name="features.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="395" column="43" selection-start="13898" selection-end="13911" vertical-scroll-proportion="-21.344828">
+            <state line="159" column="31" selection-start="5874" selection-end="5874" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_sqlite.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/pysqlite2/_sqlite.py">
+      <file leaf-file-name="sketch.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/project-components/forms/sketch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="84" selection-start="1497" selection-end="1504" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="27" column="38" selection-start="815" selection-end="815" vertical-scroll-proportion="0.4909091">
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,7 +144,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/fdt_pindlg.py" />
         <option value="$PROJECT_DIR$/deploy.sh" />
         <option value="$PROJECT_DIR$/fdt_geomagdlg.py" />
         <option value="$PROJECT_DIR$/fdt_utils.py" />
@@ -154,10 +155,11 @@
         <option value="$PROJECT_DIR$/project-components/forms/Ui_identify_dlg.py" />
         <option value="$PROJECT_DIR$/project-components/forms/resources.qrc" />
         <option value="$PROJECT_DIR$/fossildigtools.py" />
-        <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
         <option value="$USER_HOME$/Dropbox-Personal/Dropbox/QGIS/fossildigtools/TestProject/forms/features.py" />
         <option value="$USER_HOME$/Dropbox-Personal/Dropbox/QGIS/fossildigtools/TestProject/forms/sketch.py" />
         <option value="$PROJECT_DIR$/project-components/forms/features.py" />
+        <option value="$PROJECT_DIR$/fdt_mainwidget.py" />
+        <option value="$PROJECT_DIR$/project-components/forms/sketch.py" />
       </list>
     </option>
   </component>
@@ -517,13 +519,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="4" y="22" width="2556" height="1418" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32784313" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17811501" sideWeight="0.72552043" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20087859" sideWeight="0.72552043" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20087859" sideWeight="0.72552043" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32698414" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25908828" sideWeight="0.50039905" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923368" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -667,13 +669,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/pysqlite2/_sqlite.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="84" selection-start="1497" selection-end="1504" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/qgis/core.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10536" column="8" selection-start="410703" selection-end="410703" vertical-scroll-proportion="199.1451">
@@ -681,18 +676,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm20/python_stubs/-2125986627/pysqlite2/_sqlite.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="395" column="43" selection-start="13898" selection-end="13911" vertical-scroll-proportion="-21.344828">
+        <state line="73" column="84" selection-start="1497" selection-end="1504" vertical-scroll-proportion="0.33280632">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fdt_mainwidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1514" column="49" selection-start="53367" selection-end="53367" vertical-scroll-proportion="0.20307444">
+        <state line="1521" column="73" selection-start="53606" selection-end="53619" vertical-scroll-proportion="-12.620689">
           <folding>
             <element signature="e#1117#1127#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project-components/forms/features.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="159" column="31" selection-start="5874" selection-end="5874" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project-components/forms/sketch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="38" selection-start="815" selection-end="815" vertical-scroll-proportion="0.4909091">
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
