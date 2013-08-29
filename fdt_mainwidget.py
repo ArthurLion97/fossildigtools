@@ -591,6 +591,11 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
             gridlyr.editingStopped.connect(self.load_origin_major_grids)
             gridlyr.updatedFields.connect(self.check_plugin_ready)
 
+        featlyr = self.feature_layer()
+        if featlyr:
+            featlyr.featureAdded["QgsFeatureId"].connect(
+                self.check_form_setting)
+
         self.layerconections = True
 
     def remove_layer_connections(self):
@@ -616,6 +621,14 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
                 pass
             try:
                 gridlyr.updatedFields.disconnect(self.check_plugin_ready)
+            except TypeError:  # connection didn't exist
+                pass
+
+        featlyr = self.feature_layer()
+        if featlyr:
+            try:
+                featlyr.featureAdded["QgsFeatureId"].disconnect(
+                    self.check_form_setting)
             except TypeError:  # connection didn't exist
                 pass
 
@@ -1124,6 +1137,23 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         chkd = self.featFormAct.isChecked()
         if suppress != chkd:
             self.toggle_feature_form_icon(suppress)
+
+    @pyqtSlot("QgsFeatureId")
+    def check_form_setting(self, fid):
+        # check for feature layer
+        if self.feat_form_setting():  # form suppressed
+            featlyr = self.feature_layer()
+            if featlyr:
+                eb = featlyr.editBuffer()
+                """:type: qgis.core.QgsVectorLayerEditBuffer"""
+                eb.deleteFeature(fid)
+
+            self.toggle_feature_form_setting(False)
+
+            self.msg_bar(self.tr("Feature form opening has been supressed."
+                                 " Last invalid feature removed and "
+                                 "suppression reversed"),
+                         QgsMessageBar.WARNING)
 
     @pyqtSlot(bool)
     def toggle_feature_form_setting(self, chkd):
