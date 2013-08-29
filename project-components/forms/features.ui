@@ -928,6 +928,40 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>genus</tabstop>
+  <tabstop>identify</tabstop>
+  <tabstop>left_right</tabstop>
+  <tabstop>fragment</tabstop>
+  <tabstop>with_bone</tabstop>
+  <tabstop>ontogeny</tabstop>
+  <tabstop>block_id</tabstop>
+  <tabstop>originName</tabstop>
+  <tabstop>grid</tabstop>
+  <tabstop>associated</tabstop>
+  <tabstop>percent</tabstop>
+  <tabstop>counts</tabstop>
+  <tabstop>preservation</tabstop>
+  <tabstop>length</tabstop>
+  <tabstop>width</tabstop>
+  <tabstop>depth</tabstop>
+  <tabstop>units</tabstop>
+  <tabstop>notes</tabstop>
+  <tabstop>packaging</tabstop>
+  <tabstop>number</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>numLockBtn</tabstop>
+  <tabstop>withBoneBtn</tabstop>
+  <tabstop>scrollArea_2</tabstop>
+  <tabstop>origin</tabstop>
+  <tabstop>identBtn</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>scrollArea_3</tabstop>
+  <tabstop>modified</tabstop>
+  <tabstop>added</tabstop>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>z_order</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>

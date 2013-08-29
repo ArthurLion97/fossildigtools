@@ -188,6 +188,9 @@ class CustomForm(QObject):
         self.identBtn.setIcon(QIcon(':/fdt/icons/bone.svg'))
         self.wBoneBtn.setIcon(QIcon(':/fdt/icons/bone.svg'))
 
+        # set focus
+        self.genusCmbBx.setFocus()
+
     def uniqueAllValsSorted(self, field):
         """
         :type field: str
