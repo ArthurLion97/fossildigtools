@@ -1518,6 +1518,10 @@ class FdtMainWidget(QWidget, Ui_MainWidget):
         :type field: str
         :returns: set of str values
         """
+        if sys.platform[:3].lower() == 'win':
+            # TODO: remove when Windows doesn't crash on eb.addedFeatures()
+            return
+
         if not layer.isEditable():
             return
         indx = layer.fieldNameIndex(field)

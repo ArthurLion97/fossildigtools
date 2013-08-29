@@ -71,8 +71,8 @@ class CustomForm(QObject):
         """:type : PyQt4.QtGui.QLineEdit"""
         self.numLockBtn = self._getControl("numLockBtn")
         """:type : PyQt4.QtGui.QToolButton"""
-        self.pkLEdit = self._getControl("pkuid")
-        """:type : PyQt4.QtGui.QLineEdit"""
+        # self.pkLEdit = self._getControl("pkuid")
+        # """:type : PyQt4.QtGui.QLineEdit"""
         self.blockIdCmbBx = self._getControl("block_id")
         """:type : PyQt4.QtGui.QComboBox"""
         self.genusCmbBx = self._getControl("genus")
@@ -157,7 +157,8 @@ class CustomForm(QObject):
             type=QByteArray))
 
     def setupGui(self):
-        self.nextPrimaryKey()
+        # self.nextPrimaryKey()
+        self.nextFeatureNumber()
         self.populateGeneralUniqueComboBoxes()
         self.populateGenusComboBox()
         # must come after populateGenusComboBox
@@ -172,7 +173,7 @@ class CustomForm(QObject):
 
         self.numLEdit.setEnabled(False)
         self.origNameLEdit.setEnabled(False)
-        self.pkLEdit.setVisible(False)
+        # self.pkLEdit.setVisible(False)
         self.origLEdit.setVisible(False)
 
         self.addLEdit.setEnabled(False)
@@ -327,35 +328,45 @@ class CustomForm(QObject):
         item.setData('separator', role=Qt.AccessibleDescriptionRole)
         model.appendRow(item)
 
-    def nextPrimaryKey(self):
+    def nextFeatureNumber(self):
         # don't increment existing number
-        if self.pkLEdit.text():
+        if not self._isEmptyOrNull(self.numLEdit.text()):
             return
-            # pre-populate pkuid with next incremented primary key
-        dp = self.layer.dataProvider()
-        ds = QgsDataSourceURI(dp.dataSourceUri())
 
-        # connect to layer's parent database
-        conn = db.connect(ds.database())
-        cur = conn.cursor()
+        maxnum = 0
 
-        sql = 'SELECT "seq" FROM "sqlite_sequence"' \
-              'WHERE name = "{0}"'.format(ds.table())
-        rs = cur.execute(sql)
-        pkuid = 0
-        if list(rs):
-            pkuid = list(rs)[0][0]
-        # print "pkuid: {0}".format(pkuid)
+        # get maximum of committed features
+        indx = self.layer.fieldNameIndex('number')
+        mx = self.layer.maximumValue(indx)
+        if mx is not None:
+            maxnum = mx
 
-        eb = self.layer.editBuffer()
-        addedf = len(eb.addedFeatures()) if self.layer.isEditable() else 0
-        # print "addedf: {0}".format(addedf)
+        # dp = self.layer.dataProvider()
+        # ds = QgsDataSourceURI(dp.dataSourceUri())
+        #
+        # # connect to layer's parent database
+        # conn = db.connect(ds.database())
+        # cur = conn.cursor()
+        #
+        # sql = 'SELECT MAX(number) FROM "{0}"'.format(ds.table())
+        # rs = cur.execute(sql)
+        # rslist = list(rs)
+        #
+        # if rslist:
+        #     mx = rslist[0][0]
+        #     print "mx: {0}".format(mx)
+        #     if isinstance(mx, int):
+        #         maxnum = mx
 
-        nextId = (pkuid + addedf + 1)
-        self.pkLEdit.setText(str(nextId))
-        # print "pkuid + addedf + 1: {0}".format(nextId)
+        fadd = self.layer.pendingFeatureCount() - self.layer.featureCount()
+        # req = QgsFeatureRequest().setFlags(QgsFeatureRequest.NoGeometry)
+        # fit = self.layer.getFeatures(req)
+        # fcnt = len(list(fit))
 
+        nextId = (maxnum + fadd + 1)
         self.numLEdit.setText(str(nextId))
+        print "nextId = (maxnum + fadd)=({0} + {1}) + 1 = {2}".format(
+            maxnum, fadd, nextId)
 
     def setCurrentOrigin(self):
         if self.fdtwidget is None:
