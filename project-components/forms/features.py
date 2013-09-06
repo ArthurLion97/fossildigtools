@@ -341,7 +341,7 @@ class CustomForm(QObject):
         # get maximum of committed features
         indx = self.layer.fieldNameIndex('number')
         mx = self.layer.maximumValue(indx)
-        if mx is not None:
+        if mx:
             maxnum = mx
 
         # dp = self.layer.dataProvider()
